@@ -1,6 +1,7 @@
 package com.wxhx.gate.plat.bean.out;
 
 /**
+ * 通用返回信息
  * @author geliang
  *
  */

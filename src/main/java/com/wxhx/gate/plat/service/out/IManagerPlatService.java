@@ -1,14 +1,37 @@
 package com.wxhx.gate.plat.service.out;
 
+import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
-import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
+import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
+import com.wxhx.gate.plat.controller.vo.RegisterInfoVO;
 
 /**
+ * 精英平台
  * @author geliang
  *
  */
 public interface IManagerPlatService {
 
-	RegisterResponse register(RegisterInfoVo registerVo);
+	/**
+	 * 报道
+	 * @param registerVo
+	 * @return
+	 */
+	RegisterResponse register(RegisterInfoVO registerVo);
+	
+	/**
+	 * 获取预约信息
+	 * @param examineeInfoVO
+	 * @return
+	 */
+	ExaminationInfo getAppointmentInfo(ExamineeInfoVO examineeInfoVO);
+	
+	
+	/**
+	 * 获取排考信息
+	 * @param examineeInfoVO
+	 * @return
+	 */
+	ExaminationInfo getSortInfo(ExamineeInfoVO examineeInfoVO);
 	
 }
