@@ -1,7 +1,6 @@
 package com.wxhx.gate.plat.bean.out;
 
 /**
- * 调用精英平台的报到信息返回
  * @author geliang
  *
  */

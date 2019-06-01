@@ -4,7 +4,6 @@ import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 
 /**
- * 调用考试平台接口
  * @author geliang
  *
  */

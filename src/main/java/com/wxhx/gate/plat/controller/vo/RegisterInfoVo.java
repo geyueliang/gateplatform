@@ -1,7 +1,6 @@
 package com.wxhx.gate.plat.controller.vo;
 
 /**
- * ×¢²áĞÅÏ¢
  * @author geliang
  *
  */

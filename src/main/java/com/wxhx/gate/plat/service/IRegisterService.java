@@ -5,7 +5,6 @@ import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 
 /**
- * ×¢²á½Ó¿Ú
  * @author geliang
  *
  */

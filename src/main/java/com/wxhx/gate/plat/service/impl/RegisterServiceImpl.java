@@ -17,11 +17,6 @@ public class RegisterServiceImpl implements IRegisterService {
 	
 
 	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
-		//调用外部接口 返回 RegisterResponse
-		//如果registerRespons中的code正确
-		//在调用其他接口获取预约信息和考生信息
-		//oracle入口操作
-		//调用人脸机平台
 		return null;
 	}
 
