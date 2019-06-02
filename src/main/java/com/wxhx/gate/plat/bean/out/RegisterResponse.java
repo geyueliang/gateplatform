@@ -15,13 +15,13 @@ import com.wxhx.basic_client.common.HXCoreUtil;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RegisterResponse {
 	
-	@XmlElement(name="code", required = true)
+	@XmlElement(name="code")
 	private  String code;
 	
-	@XmlElement(name="message", required = true)
+	@XmlElement(name="message")
 	private String message;
 	
-	@XmlElement(name="keystr", required = true)
+	@XmlElement(name="keystr")
 	private String keystr;
 
 	public String getCode() {

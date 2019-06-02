@@ -9,6 +9,11 @@ import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
  */
 public interface IManagerPlatService {
 
+	/**
+	 * 报道注册接口
+	 * @param registerVo
+	 * @return
+	 */
 	RegisterResponse register(RegisterInfoVo registerVo);
 	
 }
