@@ -34,4 +34,18 @@ public interface IManagerPlatService {
 	 */
 	ExaminationInfo getSortInfo(ExamineeInfoVO examineeInfoVO);
 	
+	/**
+	 * 获取考生照片
+	 * @param examineeInfoVO
+	 * @return
+	 */
+	ExaminationInfo getZP(ExamineeInfoVO examineeInfoVO);
+	
+	/**
+	 * 写入考生门禁照片
+	 * @param examineeInfoVO
+	 * @return
+	 */
+	RegisterResponse uploadFacePhoto(ExamineeInfoVO examineeInfoVO);
+	
 }

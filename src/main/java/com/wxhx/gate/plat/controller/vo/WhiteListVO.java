@@ -22,7 +22,7 @@ public class WhiteListVO {
 	private int PersonnelSex;	//性别
 	private Date PersonnelEffDate;	//有效期止
 	private int PersonnelEnable;	//启用状态
-	private String PersonnelPhoto;	//人员照片
+	private byte[] PersonnelPhoto;	//人员照片
 	private String PersonnelCardNo;	//卡号
 	private String PersonnelGroupName;	//分组名称
 	private String PersonnelPhone;	//手机号码
@@ -116,10 +116,10 @@ public class WhiteListVO {
 	public void setPersonnelEnable(int personnelEnable) {
 		PersonnelEnable = personnelEnable;
 	}
-	public String getPersonnelPhoto() {
+	public byte[] getPersonnelPhoto() {
 		return PersonnelPhoto;
 	}
-	public void setPersonnelPhoto(String personnelPhoto) {
+	public void setPersonnelPhoto(byte[] personnelPhoto) {
 		PersonnelPhoto = personnelPhoto;
 	}
 	public String getPersonnelCardNo() {

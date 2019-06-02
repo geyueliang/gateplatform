@@ -16,6 +16,12 @@ public class ExamineeInfoVO {
 	private String ksdd;	//考试地点
 	
 	private String kchp;	//考试车牌
+	
+	private String sfzmhm;	//身份证明号码
+	
+	private String mjzp;	//门禁照片
+	
+	private String ksrq;	//考试日期
 
 	public String getKskm() {
 		return kskm;
@@ -55,6 +61,30 @@ public class ExamineeInfoVO {
 
 	public void setKchp(String kchp) {
 		this.kchp = kchp;
+	}
+
+	public String getSfzmhm() {
+		return sfzmhm;
+	}
+
+	public void setSfzmhm(String sfzmhm) {
+		this.sfzmhm = sfzmhm;
+	}
+
+	public String getMjzp() {
+		return mjzp;
+	}
+
+	public void setMjzp(String mjzp) {
+		this.mjzp = mjzp;
+	}
+
+	public String getKsrq() {
+		return ksrq;
+	}
+
+	public void setKsrq(String ksrq) {
+		this.ksrq = ksrq;
 	}
 	
 }

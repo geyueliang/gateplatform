@@ -29,4 +29,14 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		return null;
 	}
 
+	public ExaminationInfo getZP(ExamineeInfoVO examineeInfoVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public RegisterResponse uploadFacePhoto(ExamineeInfoVO examineeInfoVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
