@@ -45,14 +45,5 @@ public class PersonFacePlatUtil {
 		String result = HXCoreUtil.md5(stringA.toString());
 		return result.toUpperCase();
 	}
-	
-	/**
-	 *  获取时间戳
-	 * @return
-	 */
-	public String  getTimeTemp() {
-		String timeFormatStr = "yyyyMMddHHmmssfff";
-		SimpleDateFormat dateFormat = new SimpleDateFormat(timeFormatStr);
-		return dateFormat.format(new Date());
-	}
+
 }
