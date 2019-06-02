@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
+import com.wxhx.basic_client.common.HXHttpClient;
 
 /**
  * @author geliang
