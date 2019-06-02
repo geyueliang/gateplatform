@@ -1,10 +1,8 @@
 package com.wxhx.gate.plat.service;
 
 import com.wxhx.basic_client.web.HXRespons;
-import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
-import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
-import com.wxhx.gate.plat.controller.vo.RegisterInfoVO;
+import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 
 /**
  * 考生报道
@@ -19,6 +17,6 @@ public interface IRegisterService {
 	 * @param registerInfoVo
 	 * @return
 	 */
-	HXRespons<RegisterResponse> register(RegisterInfoVO registerInfoVo);
+	HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo);
 	
 }

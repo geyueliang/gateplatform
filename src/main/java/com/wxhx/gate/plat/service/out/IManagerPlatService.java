@@ -3,7 +3,7 @@ package com.wxhx.gate.plat.service.out;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
-import com.wxhx.gate.plat.controller.vo.RegisterInfoVO;
+import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 
 /**
  * 精英平台
@@ -17,7 +17,7 @@ public interface IManagerPlatService {
 	 * @param registerVo
 	 * @return
 	 */
-	RegisterResponse register(RegisterInfoVO registerVo);
+	RegisterResponse register(RegisterInfoVo registerVo);
 	
 	/**
 	 * 获取预约信息

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
-import com.wxhx.gate.plat.controller.vo.RegisterInfoVO;
+import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 import com.wxhx.gate.plat.service.IRegisterService;
 
 /**
@@ -26,7 +26,7 @@ public class RegisterController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	HXRespons<RegisterResponse> register(RegisterInfoVO registerInfoVo){
+	HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo){
 		return iRegisterService.register(registerInfoVo);
 	}
 	

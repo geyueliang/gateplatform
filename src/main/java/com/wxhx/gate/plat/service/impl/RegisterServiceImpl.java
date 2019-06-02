@@ -7,7 +7,7 @@ import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
-import com.wxhx.gate.plat.controller.vo.RegisterInfoVO;
+import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 import com.wxhx.gate.plat.controller.vo.WhiteListVO;
 import com.wxhx.gate.plat.service.IRegisterService;
 import com.wxhx.gate.plat.service.out.IControlCenterService;
@@ -27,7 +27,7 @@ public class RegisterServiceImpl implements IRegisterService {
 	private IControlCenterService iControlCenterService;
 	
 	
-	public HXRespons<RegisterResponse> register(RegisterInfoVO registerInfoVo) {
+	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
 		//开始报道
 		ExamineeInfoVO examineeInfoVO = new ExamineeInfoVO();
 		
