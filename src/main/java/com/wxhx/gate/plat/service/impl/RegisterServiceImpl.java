@@ -14,6 +14,7 @@ import com.wxhx.gate.plat.service.IRegisterService;
 import com.wxhx.gate.plat.service.out.IControlCenterService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 import com.wxhx.gate.plat.service.out.IManagerPlatService;
+import com.wxhx.gate.plat.util.PersonFaceMachineInfo;
 
 @Service
 public class RegisterServiceImpl implements IRegisterService {
@@ -28,8 +29,7 @@ public class RegisterServiceImpl implements IRegisterService {
 	private IControlCenterService iControlCenterService;	//控制中心
 	
 	private static String kskm = "2";
-	private static String ksdd = "";
-	private static String fhjls = "";
+	private static String fhjls = "";		//返回记录数
 	
 	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
 		HXRespons<RegisterResponse> finalResult = new HXRespons<RegisterResponse>("ERROR","操作失败",null);
@@ -46,7 +46,7 @@ public class RegisterServiceImpl implements IRegisterService {
 			//获取预约信息
 			examineeInfoVO.setKskm(kskm);
 			examineeInfoVO.setSfzmhm(registerInfoVo.getSfzmhm());
-			examineeInfoVO.setKsdd(ksdd);
+			examineeInfoVO.setKsdd(PersonFaceMachineInfo.KSDD);
 			appointmentInfo= iManagerPlatService.getAppointmentInfo(examineeInfoVO);
 			
 			//插入人脸机白名单
@@ -62,7 +62,7 @@ public class RegisterServiceImpl implements IRegisterService {
 			//examineeInfoVO.setKchp(kchp);
 			sortInfo= iManagerPlatService.getSortInfo(examineeInfoVO);
 			int res = iControlCenterService.insertSortInfo(sortInfo);
-			if(res>0&&faceResponse!=null&&appointmentInfo!=null) {
+			if(res > 0 && faceResponse != null && appointmentInfo != null) {
 				finalResult = 	new HXRespons<RegisterResponse>("SUCCESS","操作成功",result);
 			}
 		}

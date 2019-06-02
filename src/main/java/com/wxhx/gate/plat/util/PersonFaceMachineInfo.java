@@ -16,6 +16,9 @@ public class PersonFaceMachineInfo {
 	//设备id
 	public static String DEVICENO = "";
 	
+	//考试地点
+	public static String KSDD = "";
+	
 	
 	/**
 	 *  获取时间戳

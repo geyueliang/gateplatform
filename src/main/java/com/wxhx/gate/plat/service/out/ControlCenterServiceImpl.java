@@ -22,7 +22,6 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 			return 0;
 		}
 		//插入排考信息
-		examineeSortInfoMapper.insert(examinationInfo);
 		return examineeSortInfoMapper.insert(examinationInfo);
 	}
 	
