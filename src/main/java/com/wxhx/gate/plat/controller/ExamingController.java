@@ -6,28 +6,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wxhx.basic_client.web.HXRespons;
-import com.wxhx.gate.plat.bean.out.RegisterResponse;
-import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
-import com.wxhx.gate.plat.service.IRegisterService;
+import com.wxhx.gate.plat.bean.out.FaceResponse;
+import com.wxhx.gate.plat.bean.out.RecordInfo;
+import com.wxhx.gate.plat.service.IExamStartService;
 
 /**
- * 考生报道
- * @author geliang
+ * 开始考试
+ * @author coyi
  *
  */
 @RestController
-@RequestMapping("/register")
-public class RegisterController {
+@RequestMapping("/examStart")
+public class ExamingController {
 	
 	@Autowired
-	private IRegisterService iRegisterService;
+	private IExamStartService iExamStartService;
+	
 	/**
-	 * 报道
+	 * 开始考试
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo){
-		return iRegisterService.register(registerInfoVo);
+	HXRespons<FaceResponse> examStart(RecordInfo recordInfo){
+		return iExamStartService.examing(recordInfo);
 	}
-	
 }

@@ -9,6 +9,7 @@ import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXHttpClient;
 
 /**
+ * 通用返回信息
  * @author geliang
  *
  */

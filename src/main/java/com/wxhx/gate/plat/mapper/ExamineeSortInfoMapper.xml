@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxhx.gate.plat.dao.ExamineeSortInfoMapper">
+  <resultMap id="BaseResultMap" type="com.wxhx.gate.plat.bean.out.ExaminationInfo">
+    <id column="lsh" jdbcType="VARCHAR" property="lsh" />
+    <result column="kskm" jdbcType="VARCHAR" property="kskm" />
+    <result column="zkzmbh" jdbcType="VARCHAR" property="zkzmbh" />
+    <result column="sfzmhm" jdbcType="VARCHAR" property="sfzmhm" />
+    <result column="xm" jdbcType="VARCHAR" property="xm" />
+    <result column="xb" jdbcType="VARCHAR" property="xb" />
+    <result column="zp" jdbcType="VARCHAR" property="zp" />
+    <result column="ywlx" jdbcType="TIMESTAMP" property="ywlx" />
+    <result column="kssxh" jdbcType="VARCHAR" property="kssxh" />
+    <result column="ksyy" jdbcType="TIMESTAMP" property="ksyy" />
+    <result column="kscx" jdbcType="TINYINT" property="kscx" />
+    <result column="dlr" jdbcType="TINYINT" property="dlr" />
+    <result column="yycs" jdbcType="VARCHAR" property="yycs" />
+    <result column="ksy1" jdbcType="VARCHAR" property="ksy1" />
+    <result column="ksy2" jdbcType="VARCHAR" property="ksy2" />
+    <result column="ksxm" jdbcType="VARCHAR" property="ksxm" />
+    <result column="sfyk" jdbcType="VARCHAR" property="sfyk" />
+    <result column="kchp" jdbcType="VARCHAR" property="kchp" />
+    <result column="kcbh" jdbcType="VARCHAR" property="kcbh" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    lsh, kskm, zkzmbh, sfzmhm, xm, xb, zp, ywlx, kssxh, ksyy, kscx, dlr, 
+    yycs, ksy1, ksy2, ksxm, sfyk, kchp, kcbh
+  </sql>
+  
+</mapper>
