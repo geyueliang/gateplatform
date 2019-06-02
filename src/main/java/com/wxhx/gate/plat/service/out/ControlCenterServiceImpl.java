@@ -18,6 +18,9 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 	private ExamineeSortInfoMapper examineeSortInfoMapper;
 
 	public int insertSortInfo(ExaminationInfo examinationInfo) {
+		if(examinationInfo==null) {
+			return 0;
+		}
 		//插入排考信息
 		examineeSortInfoMapper.insert(examinationInfo);
 		return examineeSortInfoMapper.insert(examinationInfo);

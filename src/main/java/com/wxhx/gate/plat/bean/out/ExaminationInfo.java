@@ -12,7 +12,7 @@ public class ExaminationInfo {
 	private String sfzmhm;	//身份证明号码
 	private String xm;	//姓名
 	private String xb;	//性别
-	private byte[] zp;	//照片
+	private String zp;	//照片
 	private String ywlx;	//业务类型
 	private int kssxh;	//考试顺序号
 	private String ksyy;	//考试原因
@@ -133,12 +133,11 @@ public class ExaminationInfo {
 	public void setZkzmbh(String zkzmbh) {
 		this.zkzmbh = zkzmbh;
 	}
-	public byte[] getZp() {
+	public String getZp() {
 		return zp;
 	}
-	public void setZp(byte[] zp) {
+	public void setZp(String zp) {
 		this.zp = zp;
 	}
-	
 	
 }

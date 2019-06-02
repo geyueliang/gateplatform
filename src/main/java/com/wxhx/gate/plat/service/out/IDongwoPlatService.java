@@ -1,8 +1,8 @@
 package com.wxhx.gate.plat.service.out;
 
 import com.wxhx.gate.plat.bean.out.FaceResponse;
-import com.wxhx.gate.plat.controller.vo.NewFaceMacDevVO;
-import com.wxhx.gate.plat.controller.vo.OpenGateVO;
+import com.wxhx.gate.plat.controller.vo.FaceGateVO;
+import com.wxhx.gate.plat.controller.vo.FaceMacDevVO;
 import com.wxhx.gate.plat.controller.vo.WhiteListVO;
 
 /**
@@ -25,7 +25,7 @@ public interface IDongwoPlatService {
 	 * @param newFaceMacDevVO
 	 * @return
 	 */
-	FaceResponse insertDevice(NewFaceMacDevVO newFaceMacDevVO);
+	FaceResponse insertDevice(FaceMacDevVO newFaceMacDevVO);
 	
 	
 	/**
@@ -40,5 +40,5 @@ public interface IDongwoPlatService {
 	 * @param openGateVO
 	 * @return
 	 */
-	FaceResponse openGate(OpenGateVO openGateVO);
+	FaceResponse openGate(FaceMacDevVO faceMacDevVO);
 }

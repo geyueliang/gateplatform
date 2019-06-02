@@ -2,180 +2,174 @@ package com.wxhx.gate.plat.controller.vo;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * 人脸机白名单
  * @author coyi
  *
  */
-public class WhiteListVO {
-	private String appid;	//开发者应用ID
-	private String timestemp;	//时间戳
-	private String sign;	//签名字符串
-	private String data;	//人员参数
-	private String PersonnelName;	//姓名
-	private String PersonnelNo;	//人员编号
-	private String PersonnelIDCard;	//身份证号
-	private int PersonnelStatus = 2;		//审核状态
-	private String PersonnelNation;	//民族
-	private Date PersonnelStartDate;	//有效期起
-	private int PersonnelType = 1;	//人员类型
-	private int PersonnelSex;	//性别
-	private Date PersonnelEffDate;	//有效期止
-	private int PersonnelEnable;	//启用状态
-	private byte[] PersonnelPhoto;	//人员照片
-	private String PersonnelCardNo;	//卡号
-	private String PersonnelGroupName;	//分组名称
-	private String PersonnelPhone;	//手机号码
-	private String PersonnelIDCardAdd;	//身份证地址
-	private Date PersonnelIDCardExp;	//身份证有效期止
-	private Date PersonnelIDCardEff;	//身份证有效期起
-	private String PersonnelIDCardIsSue;	//身份证签发机关
-	private Date PersonnelUpdateTime;	//最后修改时间
-	private Date PersonnelAddTime;	//创建时间
-	public String getAppid() {
-		return appid;
-	}
-	public void setAppid(String appid) {
-		this.appid = appid;
-	}
-	public String getTimestemp() {
-		return timestemp;
-	}
-	public void setTimestemp(String timestemp) {
-		this.timestemp = timestemp;
-	}
-	public String getSign() {
-		return sign;
-	}
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
-	public String getData() {
-		return data;
-	}
-	public void setData(String data) {
-		this.data = data;
-	}
+public class WhiteListVO{
+	@JSONField(name = "Personnel_Name")
+	private String personnelName;	//姓名
+	@JSONField(name = "Personnel_No")
+	private String personnelNo;	//人员编号
+	@JSONField(name = "Personnel_IDCard")
+	private String personnelIDCard;	//身份证号
+	@JSONField(name = "Personnel_Status")
+	private int personnelStatus = 2;		//审核状态
+	@JSONField(name = "Personnel_Nation")
+	private String personnelNation;	//民族
+	@JSONField(name = "Personnel_StartDate")
+	private Date personnelStartDate;	//有效期起
+	@JSONField(name = "Personnel_Type")
+	private int personnelType = 1;	//人员类型
+	@JSONField(name = "Personnel_Sex")
+	private int personnelSex;	//性别
+	@JSONField(name = "Personnel_EffDate")
+	private Date personnelEffDate;	//有效期止
+	@JSONField(name = "Personnel_Enable")
+	private int personnelEnable;	//启用状态
+	@JSONField(name = "Personnel_Photo")
+	private String personnelPhoto;	//人员照片
+	@JSONField(name = "Personnel_CardNo")
+	private String personnelCardNo;	//卡号
+	@JSONField(name = "Personnel_GroupName")
+	private String personnelGroupName;	//分组名称
+	@JSONField(name = "Personnel_Phone")
+	private String personnelPhone;	//手机号码
+	@JSONField(name = "Personnel_IDCardAdd")
+	private String personnelIDCardAdd;	//身份证地址
+	@JSONField(name = "Personnel_IDCardExp")
+	private Date personnelIDCardExp;	//身份证有效期止
+	@JSONField(name = "Personnel_IDCardEff")
+	private Date personnelIDCardEff;	//身份证有效期起
+	@JSONField(name = "Personnel_IDCardIsSue")
+	private String personnelIDCardIsSue;	//身份证签发机关
+	@JSONField(name = "Personnel_UpdateTime")
+	private Date personnelUpdateTime;	//最后修改时间
+	@JSONField(name = "Personnel_AddTime")
+	private Date personnelAddTime;	//创建时间
+	
 	public String getPersonnelName() {
-		return PersonnelName;
+		return personnelName;
 	}
 	public void setPersonnelName(String personnelName) {
-		PersonnelName = personnelName;
+		this.personnelName = personnelName;
 	}
 	public String getPersonnelNo() {
-		return PersonnelNo;
+		return personnelNo;
 	}
 	public void setPersonnelNo(String personnelNo) {
-		PersonnelNo = personnelNo;
+		this.personnelNo = personnelNo;
 	}
 	public String getPersonnelIDCard() {
-		return PersonnelIDCard;
+		return personnelIDCard;
 	}
 	public void setPersonnelIDCard(String personnelIDCard) {
-		PersonnelIDCard = personnelIDCard;
+		this.personnelIDCard = personnelIDCard;
 	}
 	public int getPersonnelStatus() {
-		return PersonnelStatus;
+		return personnelStatus;
 	}
 	public void setPersonnelStatus(int personnelStatus) {
-		PersonnelStatus = personnelStatus;
+		this.personnelStatus = personnelStatus;
 	}
 	public String getPersonnelNation() {
-		return PersonnelNation;
+		return personnelNation;
 	}
 	public void setPersonnelNation(String personnelNation) {
-		PersonnelNation = personnelNation;
+		this.personnelNation = personnelNation;
 	}
 	public Date getPersonnelStartDate() {
-		return PersonnelStartDate;
+		return personnelStartDate;
 	}
 	public void setPersonnelStartDate(Date personnelStartDate) {
-		PersonnelStartDate = personnelStartDate;
+		this.personnelStartDate = personnelStartDate;
 	}
 	public int getPersonnelType() {
-		return PersonnelType;
+		return personnelType;
 	}
 	public void setPersonnelType(int personnelType) {
-		PersonnelType = personnelType;
+		this.personnelType = personnelType;
 	}
 	public int getPersonnelSex() {
-		return PersonnelSex;
+		return personnelSex;
 	}
 	public void setPersonnelSex(int personnelSex) {
-		PersonnelSex = personnelSex;
+		this.personnelSex = personnelSex;
 	}
 	public Date getPersonnelEffDate() {
-		return PersonnelEffDate;
+		return personnelEffDate;
 	}
 	public void setPersonnelEffDate(Date personnelEffDate) {
-		PersonnelEffDate = personnelEffDate;
+		this.personnelEffDate = personnelEffDate;
 	}
 	public int getPersonnelEnable() {
-		return PersonnelEnable;
+		return personnelEnable;
 	}
 	public void setPersonnelEnable(int personnelEnable) {
-		PersonnelEnable = personnelEnable;
+		this.personnelEnable = personnelEnable;
 	}
-	public byte[] getPersonnelPhoto() {
-		return PersonnelPhoto;
+	public String getPersonnelPhoto() {
+		return personnelPhoto;
 	}
-	public void setPersonnelPhoto(byte[] personnelPhoto) {
-		PersonnelPhoto = personnelPhoto;
+	public void setPersonnelPhoto(String personnelPhoto) {
+		this.personnelPhoto = personnelPhoto;
 	}
 	public String getPersonnelCardNo() {
-		return PersonnelCardNo;
+		return personnelCardNo;
 	}
 	public void setPersonnelCardNo(String personnelCardNo) {
-		PersonnelCardNo = personnelCardNo;
+		this.personnelCardNo = personnelCardNo;
 	}
 	public String getPersonnelGroupName() {
-		return PersonnelGroupName;
+		return personnelGroupName;
 	}
 	public void setPersonnelGroupName(String personnelGroupName) {
-		PersonnelGroupName = personnelGroupName;
+		this.personnelGroupName = personnelGroupName;
 	}
 	public String getPersonnelPhone() {
-		return PersonnelPhone;
+		return personnelPhone;
 	}
 	public void setPersonnelPhone(String personnelPhone) {
-		PersonnelPhone = personnelPhone;
+		this.personnelPhone = personnelPhone;
 	}
 	public String getPersonnelIDCardAdd() {
-		return PersonnelIDCardAdd;
+		return personnelIDCardAdd;
 	}
 	public void setPersonnelIDCardAdd(String personnelIDCardAdd) {
-		PersonnelIDCardAdd = personnelIDCardAdd;
+		this.personnelIDCardAdd = personnelIDCardAdd;
 	}
 	public Date getPersonnelIDCardExp() {
-		return PersonnelIDCardExp;
+		return personnelIDCardExp;
 	}
 	public void setPersonnelIDCardExp(Date personnelIDCardExp) {
-		PersonnelIDCardExp = personnelIDCardExp;
+		this.personnelIDCardExp = personnelIDCardExp;
 	}
 	public Date getPersonnelIDCardEff() {
-		return PersonnelIDCardEff;
+		return personnelIDCardEff;
 	}
 	public void setPersonnelIDCardEff(Date personnelIDCardEff) {
-		PersonnelIDCardEff = personnelIDCardEff;
+		this.personnelIDCardEff = personnelIDCardEff;
 	}
 	public String getPersonnelIDCardIsSue() {
-		return PersonnelIDCardIsSue;
+		return personnelIDCardIsSue;
 	}
 	public void setPersonnelIDCardIsSue(String personnelIDCardIsSue) {
-		PersonnelIDCardIsSue = personnelIDCardIsSue;
+		this.personnelIDCardIsSue = personnelIDCardIsSue;
 	}
 	public Date getPersonnelUpdateTime() {
-		return PersonnelUpdateTime;
+		return personnelUpdateTime;
 	}
 	public void setPersonnelUpdateTime(Date personnelUpdateTime) {
-		PersonnelUpdateTime = personnelUpdateTime;
+		this.personnelUpdateTime = personnelUpdateTime;
 	}
 	public Date getPersonnelAddTime() {
-		return PersonnelAddTime;
+		return personnelAddTime;
 	}
 	public void setPersonnelAddTime(Date personnelAddTime) {
-		PersonnelAddTime = personnelAddTime;
+		this.personnelAddTime = personnelAddTime;
 	}
-	
 	
 }
