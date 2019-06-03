@@ -1,30 +1,76 @@
 package com.wxhx.gate.plat.bean.out;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * 考生信息
  * @author coyi
  *
  */
+@XmlRootElement(name="head")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ExaminationInfo {
+	@XmlElement(name="lsh")
 	private String lsh;	//流水号
+	
+	@XmlElement(name="kskm")
 	private String kskm;	//考试科目
+	
+	@XmlElement(name="zkzmbh")
 	private String zkzmbh;	//准考证明编号
+	
+	@XmlElement(name="sfzmhm")
 	private String sfzmhm;	//身份证明号码
+	
+	@XmlElement(name="xm")
 	private String xm;	//姓名
+	
+	@XmlElement(name="xb")
 	private String xb;	//性别
-	private byte[] zp;	//照片
+	
+	@XmlElement(name="zp")
+	private String zp;	//照片
+	
+	@XmlElement(name="ywlx")
 	private String ywlx;	//业务类型
+	
+	@XmlElement(name="kssxh")
 	private int kssxh;	//考试顺序号
+	
+	@XmlElement(name="ksyy")
 	private String ksyy;	//考试原因
+	
+	@XmlElement(name="kscx")
 	private String kscx;	//考试车型
+	
+	@XmlElement(name="dlr")
 	private String dlr;	//代理人（驾校）
+	
+	@XmlElement(name="yycs")
 	private int yycs;	//预约次数
+	
+	@XmlElement(name="ksy1")
 	private String ksy1;	//考试员1
+	
+	@XmlElement(name="ksy2")
 	private String ksy2;	//考试员2
+	
+	@XmlElement(name="ksxm")
 	private String ksxm;	//考试项目
+	
+	@XmlElement(name="sfyk")
 	private String sfyk;	//是否夜考
+	
+	@XmlElement(name="kchp")
 	private String kchp;	//考车号牌
+	
+	@XmlElement(name="kcbh")
 	private String kcbh;	//考车编号
+	
+	
 	public String getLsh() {
 		return lsh;
 	}
@@ -133,12 +179,11 @@ public class ExaminationInfo {
 	public void setZkzmbh(String zkzmbh) {
 		this.zkzmbh = zkzmbh;
 	}
-	public byte[] getZp() {
+	public String getZp() {
 		return zp;
 	}
-	public void setZp(byte[] zp) {
+	public void setZp(String zp) {
 		this.zp = zp;
 	}
-	
 	
 }
