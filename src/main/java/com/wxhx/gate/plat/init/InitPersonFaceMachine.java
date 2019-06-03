@@ -38,11 +38,9 @@ public class InitPersonFaceMachine {
 	public void init() {
 		//设定全局变量
 		PersonFaceMachineInfo.APPID = appId;	//开发者应用ID
-		//查询设备信息
-		/*FaceMacDevVO faceMacDevVO = new FaceMacDevVO();
-		faceMacDevVO.setDeviceAppID(appId);
-		faceMacDevVO.setDeviceNo(deviceno);
-		FaceResponse faceResponse = iDongwoPlatService.selectDevice(faceMacDevVO);
+		/**
+		 * 
+		
 		if(!("1".equals(faceResponse.getResultcode()))) {
 			//新增设备
 			faceMacDevVO.setDeviceType(1);
@@ -77,9 +75,9 @@ public class InitPersonFaceMachine {
 			iDongwoPlatService.insertDevice(faceMacDevVO);
 			PersonFaceMachineInfo.DEVICENO = deviceno;	//设备编号
 			PersonFaceMachineInfo.KSDD = ksdd;	//考试地点
-		
+			
 		}
-*/	
+		 */
 	}
 	
 }
