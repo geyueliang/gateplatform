@@ -9,8 +9,12 @@
 
 	<properties>
 		<axis2.version>1.6.2</axis2.version>
+		<!-- 文件拷贝时的编码 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- 编译时的编码 -->
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 	</properties>
-
 
 	<dependencies>
 		<dependency>
@@ -27,35 +31,62 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-core -->
 		<dependency>
-    <groupId>org.apache.cxf</groupId>
-    <artifactId>cxf-rt-frontend-jaxws</artifactId>
-    <version>3.1.10</version>
-</dependency>
-<dependency>
-    <groupId>org.apache.cxf</groupId>
-    <artifactId>cxf-rt-transports-http</artifactId>
-    <version>3.1.10</version>
-</dependency>
-</dependencies>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>3.1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>3.1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.guoyukun.jdbc</groupId>
+			<artifactId>oracle-ojdbc6</artifactId>
+			<version>11.2.0.3.0</version>
+		</dependency>
+	</dependencies>
 
+
+
+	<!-- <build> <plugins> <plugin> <groupId>org.springframework.boot</groupId> 
+		<artifactId>spring-boot-maven-plugin</artifactId> </plugin> <plugin> <groupId>org.springframework.boot</groupId> 
+		<artifactId>spring-boot-maven-plugin</artifactId> <configuration> <mainClass>com.wxhx.basic_client.BasicClientApplication</mainClass> 
+		</configuration> <executions> <execution> <goals> <goal>repackage</goal> 
+		</goals> </execution> </executions> </plugin> </plugins> <finalName>gatePlatform</finalName> 
+		</build> -->
 
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix></classpathPrefix>
+							<mainClass>com.wxhx.basic_client.BasicClientApplication</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<!-- The configuration of the plugin -->
 				<configuration>
-					<mainClass>com.wxhx.basic_client.BasicClientApplication</mainClass>
+					<descriptors>
+						<descriptor>src/main/resources/package.xml</descriptor>
+					</descriptors>
 				</configuration>
 				<executions>
 					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
 						<goals>
-							<goal>repackage</goal>
+							<goal>single</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -63,4 +94,7 @@
 		</plugins>
 		<finalName>gatePlatform</finalName>
 	</build>
+
+
+
 </project>

@@ -18,16 +18,14 @@ public class PersonFaceMachineInfo {
 	
 	//考试地点
 	public static String KSDD = "";
-	
-	
+
 	/**
 	 *  获取时间戳
 	 * @return
 	 */
 	public static String  getTimeTemp() {
-		String timeFormatStr = "yyyyMMddHHmmssfff";
+		String timeFormatStr = "yyyyMMddHHmmssSSS";
 		SimpleDateFormat dateFormat = new SimpleDateFormat(timeFormatStr);
 		return dateFormat.format(new Date());
 	}
-	
 }

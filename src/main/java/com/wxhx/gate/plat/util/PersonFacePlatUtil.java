@@ -45,5 +45,4 @@ public class PersonFacePlatUtil {
 		String result = HXCoreUtil.md5(stringA.toString());
 		return result.toUpperCase();
 	}
-
 }
