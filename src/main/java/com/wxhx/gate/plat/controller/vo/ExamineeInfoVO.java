@@ -1,26 +1,41 @@
 package com.wxhx.gate.plat.controller.vo;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * 考生信息入参
  * @author coyi
  *
  */
+@XmlRootElement(name="QueryCondition")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ExamineeInfoVO {
 	
+	@XmlElement(name="kskm", required = true)
 	private String kskm;	//考试科目
 	
+	@XmlElement(name="kscx", required = true)
 	private String kscx;	//考试车型
 	
+	@XmlElement(name="fhjls", required = true)
 	private String fhjls;	//返回记录数
 	
+	@XmlElement(name="ksdd", required = true)
 	private String ksdd;	//考试地点
 	
+	@XmlElement(name="kchp", required = true)
 	private String kchp;	//考试车牌
 	
+	@XmlElement(name="sfzmhm", required = true)
 	private String sfzmhm;	//身份证明号码
 	
+	@XmlElement(name="mjzp", required = true)
 	private String mjzp;	//门禁照片
 	
+	@XmlElement(name="ksrq", required = true)
 	private String ksrq;	//考试日期
 
 	public String getKskm() {

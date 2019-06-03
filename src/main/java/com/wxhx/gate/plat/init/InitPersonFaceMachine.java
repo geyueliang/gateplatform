@@ -36,6 +36,8 @@ public class InitPersonFaceMachine {
 	 */
 	@PostConstruct
 	public void init() {
+		//设定全局变量
+		PersonFaceMachineInfo.APPID = appId;	//开发者应用ID
 		//查询设备信息
 		FaceMacDevVO faceMacDevVO = new FaceMacDevVO();
 		faceMacDevVO.setDeviceAppID(appId);
@@ -73,9 +75,6 @@ public class InitPersonFaceMachine {
 			faceMacDevVO.setDeviceResatrtTime("05:00:00");
 			faceMacDevVO.setDeviceDelayAlamValue("60");
 			iDongwoPlatService.insertDevice(faceMacDevVO);
-			
-			//设定全局变量
-			PersonFaceMachineInfo.APPID = appId;	//开发者应用ID
 			PersonFaceMachineInfo.DEVICENO = deviceno;	//设备编号
 			PersonFaceMachineInfo.KSDD = ksdd;	//考试地点
 			
