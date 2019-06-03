@@ -2,6 +2,7 @@ package com.wxhx.gate.plat.util;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
@@ -38,8 +39,23 @@ public class HXCallWebServiceUtil {
 		query.setContent(t);
 		StringWriter writer = new StringWriter();
 		marshaller.marshal(query,writer);
-		return URLEncoder.encode(writer.toString(), "utf-8");
+		return writer.toString();
 	}
+	
+	/**
+	 * 中午字符转换
+	 * @param str
+	 * @return
+	 */
+	public static String enCodeStr(String str) {
+		try {
+			return URLEncoder.encode(str, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
 	
 	/**
 	 * 返回xml转换成bean

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author geliang
  *
  */
-@XmlRootElement(name="QueryCondition")
+@XmlRootElement(name="vioViolation")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RegisterInfoVo {
 
