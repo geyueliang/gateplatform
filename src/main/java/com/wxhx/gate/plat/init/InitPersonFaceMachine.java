@@ -43,6 +43,10 @@ public class InitPersonFaceMachine {
 		faceMacDevVO.setDeviceAppID(appId);
 		faceMacDevVO.setDeviceNo(deviceno);
 		FaceResponse faceResponse = iDongwoPlatService.selectDevice(faceMacDevVO);
+		
+		/**
+		 * 
+		
 		if(!("1".equals(faceResponse.getResultcode()))) {
 			//新增设备
 			faceMacDevVO.setDeviceType(1);
@@ -79,6 +83,7 @@ public class InitPersonFaceMachine {
 			PersonFaceMachineInfo.KSDD = ksdd;	//考试地点
 			
 		}
+		 */
 	}
 	
 }

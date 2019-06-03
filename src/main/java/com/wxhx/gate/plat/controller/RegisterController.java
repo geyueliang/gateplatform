@@ -1,7 +1,10 @@
 package com.wxhx.gate.plat.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +34,9 @@ public class RegisterController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	HXRespons<RegisterResponse> register(String sfzhm){
+	HXRespons<RegisterResponse> register(@RequestBody Map<String,Object> reqMap){
 		RegisterInfoVo registerInfoVo = new RegisterInfoVo();
-		registerInfoVo.setSfzmhm(sfzhm);
+		registerInfoVo.setSfzmhm(reqMap.get("carNo")+"");
 		registerInfoVo.setKskm("2");
 		registerInfoVo.setKsdd(ksdd);
 		return iRegisterService.register(registerInfoVo);
