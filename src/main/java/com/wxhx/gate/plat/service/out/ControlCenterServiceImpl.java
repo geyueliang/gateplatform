@@ -62,13 +62,13 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		//设置预约日期
 		target.setYyrq(new Date());
 		//设置预考日期
-		target.setYyrq(new Date());
+		target.setYkrq(new Date());
 		//考试车型
 		target.setKscx(source.getKscx());
 		//考试地点
 		target.setKsdd(ksdd);
 		//考试次数
-		target.setKscc(source.getYycs());
+		target.setKscc(source.getYycs()+"");
 		//经办人
 		target.setJbr("互联网");
 		//管理部门
@@ -79,7 +79,7 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		target.setKsy1(source.getKsy1());
 		target.setKsy2(source.getKsy2());
 		//当天考试测试
-		target.setBcyykscs(0);
+		target.setBcyykscs(0 + "");
 		//考试项目
 		target.setKsxm(source.getKsxm());
 		//是否夜考

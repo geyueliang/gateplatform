@@ -25,7 +25,7 @@ public class Ksyyxx {
 
     private String ksdd;
 
-    private int kscc;
+    private String kscc;
 
     private String jbr;
 
@@ -37,7 +37,7 @@ public class Ksyyxx {
 
     private String ksy2;
 
-    private int bcyykscs;
+    private String bcyykscs;
 
     private String ksxm;
 
@@ -139,11 +139,11 @@ public class Ksyyxx {
         this.ksdd = ksdd == null ? null : ksdd.trim();
     }
 
-    public int getKscc() {
+    public String getKscc() {
         return kscc;
     }
 
-    public void setKscc(int kscc) {
+    public void setKscc(String kscc) {
         this.kscc = kscc;
     }
 
@@ -187,11 +187,11 @@ public class Ksyyxx {
         this.ksy2 = ksy2 == null ? null : ksy2.trim();
     }
 
-    public int getBcyykscs() {
+    public String getBcyykscs() {
         return bcyykscs;
     }
 
-    public void setBcyykscs(int bcyykscs) {
+    public void setBcyykscs(String bcyykscs) {
         this.bcyykscs = bcyykscs;
     }
 
