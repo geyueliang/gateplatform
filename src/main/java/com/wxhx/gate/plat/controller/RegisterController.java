@@ -39,7 +39,8 @@ public class RegisterController {
 		registerInfoVo.setSfzmhm(reqMap.get("carNo")+"");
 		registerInfoVo.setKskm("2");
 		registerInfoVo.setKsdd(ksdd);
-		return iRegisterService.register(registerInfoVo);
+		//return iRegisterService.register(registerInfoVo);
+		return new HXRespons<RegisterResponse>("SUCCESS","操作成功！",null);
 	}
 	
 }
