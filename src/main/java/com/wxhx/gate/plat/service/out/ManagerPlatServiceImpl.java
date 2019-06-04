@@ -2,7 +2,6 @@ package com.wxhx.gate.plat.service.out;
 
 import org.springframework.stereotype.Service;
 
-import com.wxhx.basic_client.common.HXHttpClient;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
@@ -17,11 +16,6 @@ import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 @Service
 public class ManagerPlatServiceImpl implements IManagerPlatService{
 
-	private static String XTLB = "17";	//系统类别
-	
-	private static String jkxlh = "";	//接口序列号
-	
-	private static String url = "";		//访问地址
 	
 	/**
 	 * 注册写入
@@ -31,7 +25,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(registerVo);
 			String jkid = "17E05"; //接口序列号
-			String responsStr = HXCallWebServiceUtil.writeWebService(XTLB, jkxlh, jkid, writeXml, url);
+			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			result = HXCallWebServiceUtil.xmlToBean(responsStr, RegisterResponse.class);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -47,7 +41,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoVO);
 			String jkid = "17E13";	//获取预约信息接口序列号
-			String responsStr = HXCallWebServiceUtil.writeWebService(XTLB, jkxlh, jkid, writeXml, url);
+			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			ExaminationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,7 +59,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoVO);
 			String jkid = "17E11";	//获取排考信息接口序列号
-			String responsStr = HXCallWebServiceUtil.writeWebService(XTLB, jkxlh, jkid, writeXml, url);
+			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			ExaminationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -82,7 +76,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoVO);
 			String jkid = "17E04";	//获取考生照片接口序列号
-			String responsStr = HXCallWebServiceUtil.writeWebService(XTLB, jkxlh, jkid, writeXml, url);
+			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			ExaminationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,7 +92,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoVO);
 			String jkid = "17E25";	//获取考生照片接口序列号
-			String responsStr = HXCallWebServiceUtil.writeWebService(XTLB, jkxlh, jkid, writeXml, url);
+			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			result = HXCallWebServiceUtil.xmlToBean(responsStr, RegisterResponse.class);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -14,6 +14,7 @@ import javax.xml.namespace.QName;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 
+import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.service.bean.WebServiceBean;
 
 /**
@@ -127,25 +128,33 @@ public class HXCallWebServiceUtil {
 		return result;
 	}
 	
+
 	/**
-	 * 
+	 * 根据接口id 和 内容调用查询内容
+	 * @param jkid
+	 * @param queryXml
+	 * @return
+	 * @throws Exception 
+	 */
+	public static String queryWebService(String jkid,String queryXml) throws Exception {
+		String xtlb = jkid.substring(0, 2);
+		String jkxlh = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.JKXLH);
+		String url = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.JKXLH)+"?wsdl";
+		return queryWebService(xtlb,jkxlh,jkid,queryXml,url);
+	}
 	
-		public static void main(String[] args) throws Exception {
-		/*
-		 * QqOnlineWebService onlineWebService = new QqOnlineWebService();
-		 * QqOnlineWebServiceSoap soap = onlineWebService.getQqOnlineWebServiceSoap();
-		 * System.out.println(soap.qqCheckOnline("1249440309"));
-		 
-        JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-//        Client client = dcf.createClient("http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx?wsdl0");
-        QName service = new QName("http://WebXml.com.cn/", "qqOnlineWebService");
-        QName port = new QName("http://WebXml.com.cn/","qqOnlineWebServiceSoap");
-        Client client = dcf.createClient("http://www.webxml.com.cn/webservices/qqOnlineWebService.asmx?wsdl", service, port);
-        QName opration = new QName("http://WebXml.com.cn/", "qqCheckOnline");
-        Object[] res = client.invoke(opration, "1249440309");
-        System.out.println(res[0]);
-		
-	}*/
-		
-	 
+	/***
+	 * 重载接口调用写入方法 
+	 * @param jkid
+	 * @param writeXml
+	 * @return
+	 * @throws Exception
+	 */
+	public static String writeWebService(String jkid,String writeXml)
+			throws Exception {
+		String xtlb = jkid.substring(0, 2);
+		String jkxlh = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.JKXLH);
+		String url = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.JKXLH)+"?wsdl";
+		return writeWebService(xtlb,jkxlh,jkid,writeXml,url);
+	}
 }
