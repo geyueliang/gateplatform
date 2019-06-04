@@ -3,10 +3,10 @@ package com.wxhx.gate.plat.service.out;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
+import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.dao.KsyyxxMapper;
 import com.wxhx.gate.plat.dao.entity.Ksyyxx;
 
@@ -21,12 +21,6 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 	@Autowired
 	private KsyyxxMapper ksyyxxMapper;
 	
-	@Value("${wxhx.kcxi.ddxx.ksdd:520300208}")
-	private String ksdd;
-	
-	@Value("${wxhx.kcxi.ddxx.glbm}")
-	private String glbm;
-
 	public int insertSortInfo(ExaminationInfo examinationInfo) {
 		if(examinationInfo==null) {
 			return 0;
@@ -66,13 +60,13 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		//考试车型
 		target.setKscx(source.getKscx());
 		//考试地点
-		target.setKsdd(ksdd);
+		target.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		//考试次数
 		target.setKscc(source.getYycs()+"");
 		//经办人
 		target.setJbr("互联网");
 		//管理部门
-		target.setGlbm(glbm);
+		target.setGlbm(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.XZGLBM));
 		//代理人
 		target.setDlr(source.getDlr());
 		//考试员

@@ -13,7 +13,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
-                        connectionURL="jdbc:oracle:thin:@192.168.125.115:1521:orcl" userId="shhx"
+                        connectionURL="jdbc:oracle:thin:@192.168.1.100:1521:orcl" userId="shhx"
                         password="sh2350"/>
 
         <javaModelGenerator targetPackage="com.wxhx.gate.plat.dao.entity"
@@ -37,7 +37,7 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
 
-        <table tableName="KSYYXX"
+        <table tableName="ENV_VAR"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

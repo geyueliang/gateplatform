@@ -38,6 +38,11 @@ public class InitPersonFaceMachine {
 	public void init() {
 		//设定全局变量
 		PersonFaceMachineInfo.APPID = appId;	//开发者应用ID
+		//查询设备信息
+		FaceMacDevVO faceMacDevVO = new FaceMacDevVO();
+		faceMacDevVO.setDeviceAppID(appId);
+		faceMacDevVO.setDeviceNo(deviceno);
+		FaceResponse faceResponse = iDongwoPlatService.selectDevice(faceMacDevVO);
 		/**
 		 * 
 		
