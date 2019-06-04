@@ -6,23 +6,14 @@ package com.wxhx.gate.plat.controller.vo;
  *
  */
 public class NewDeviceVO extends DongWoVO{
-	private	String deviceno;	//设备编号
-	private FaceMacDevVO data;
-	
-	public String getDeviceno() {
-		return deviceno;
+	private	String url;	//识别记录上传地址
+
+	public String getUrl() {
+		return url;
 	}
 
-	public void setDeviceno(String deviceno) {
-		this.deviceno = deviceno;
-	}
-
-	public FaceMacDevVO getData() {
-		return data;
-	}
-
-	public void setData(FaceMacDevVO data) {
-		this.data = data;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

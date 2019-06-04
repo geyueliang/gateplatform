@@ -68,7 +68,7 @@ public class FaceMacDevVO{
 	private int deviceOpenAdvert;	//是否启用广告显示
 	@JSONField(name = "Device_AutoRecord")
 	private int deviceAutoRecord;	//识别记录自动上传
-	@JSONField(name = "Device_AutoRecordUrl")
+	@JSONField(name = "url")
 	private String deviceAutoRecordUrl;	//识别记录上传地址
 	@JSONField(name = "Device_IsLiving")
 	private int deviceIsLiving;	//活体识别

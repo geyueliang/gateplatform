@@ -48,5 +48,5 @@ public interface IDongwoPlatService {
 	 * @param newFaceMacDevVO
 	 * @return
 	 */
-	FaceResponse selectDevice(FaceMacDevVO newFaceMacDevVO);
+	//FaceResponse selectDevice(FaceMacDevVO newFaceMacDevVO);
 }

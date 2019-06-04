@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>汇遵驾校</title>
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<style>
+.fakeimg {
+	height: 200px;
+	background: #aaa;
+}
+h3{
+	background-color:#6495ed;
+  }
+ 
+</style>
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="row clearfix">
+				<div class="col-md-12 column">
+					<h3>
+						汇遵科目二考场
+					</h3>
+				</div>
+				</div>
+				<div>
+					<img src="./fonts/cinqueterre.jpg"
+						class="img-responsive img-circle" alt="Cinque Terre" width="304"
+						height="236">
+				</div>
+				<h4>手工报道</h4>
+				
+				<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="请输入证件号码："/>
+						</div> <button type="submit" class="btn btn-default">提交</button>
+				</form>
+				<hr class="hidden-sm hidden-md hidden-lg">
+			</div>
+		</div>
+	</div>
+
+	<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Brand</a>
+		</div>
+	</nav>
+
+	<!-- JavaScript 放置在文档最后面可以使页面加载速度更快 -->
+	<!-- 可选: 包含 jQuery 库 -->
+	<script src="./js/jquery.min.js"></script>
+	<!-- 可选: 合并了 Bootstrap JavaScript 插件 -->
+	<script src="./js/bootstrap.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$(".btn").click(function() {
+				var obj = new Object();
+				obj.carNo = $(".form-control").val();
+				$.ajax({
+					type : "post",
+					contentType : "application/json; charset=utf-8",
+					url : "/gateplat/register",
+					dataType : "json",
+					data : JSON.stringify(obj),
+					success : function(message) {
+						if (message.resCode == "SUCCESS") {
+							alert(message.resMsg);
+						}
+					},
+					error : function(message) {
+						alert(message.resMsg);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

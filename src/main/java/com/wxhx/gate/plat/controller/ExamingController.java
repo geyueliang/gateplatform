@@ -1,6 +1,7 @@
 package com.wxhx.gate.plat.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,7 @@ public class ExamingController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	HXRespons<FaceResponse> examStart(RecordInfo recordInfo){
+	HXRespons<FaceResponse> examStart(@RequestBody RecordInfo recordInfo){
 		return iExamStartService.examing(recordInfo);
 	}
 }

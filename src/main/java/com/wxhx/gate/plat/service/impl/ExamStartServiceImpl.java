@@ -67,7 +67,7 @@ public class ExamStartServiceImpl implements IExamStartService{
 		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
 		
 		//删除白名单信息
-		whiteListVO.setPersonnelNo(recordInfo.getIdNum());
+		whiteListVO.setPersonnelIDCard(recordInfo.getIdNum());
 		FaceResponse delWhitelistResponse = iDongwoPlatService.deleteWhiteList(whiteListVO);
 		
 		if(photoResponse != null && delWhitelistResponse != null) {

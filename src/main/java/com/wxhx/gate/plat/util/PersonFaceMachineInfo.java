@@ -18,6 +18,9 @@ public class PersonFaceMachineInfo {
 	
 	//考试地点
 	public static String KSDD = "";
+	
+	//东沃地址	
+	public static String url = "";
 
 	/**
 	 *  获取时间戳

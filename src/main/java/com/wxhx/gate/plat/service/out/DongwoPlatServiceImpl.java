@@ -30,8 +30,6 @@ public class DongwoPlatServiceImpl implements IDongwoPlatService{
 	@Autowired
 	private	PersonFacePlatUtil personFacePlatUtil; 
 	
-	private static String url = "";
-	
 	/**
 	 * 上传白名单信息
 	 */
@@ -41,9 +39,9 @@ public class DongwoPlatServiceImpl implements IDongwoPlatService{
 		newExaminee.setTimestemp(PersonFaceMachineInfo.getTimeTemp());
 		newExaminee.setSign(personFacePlatUtil.getSign(whiteListVO));
 		newExaminee.setData(whiteListVO);
-		String jsonParam = HXCoreUtil.getJsonString(whiteListVO);
+		String jsonParam = HXCoreUtil.getJsonString(newExaminee);
 		//上传
-		String responsejson = HXCoreUtil.getJsonString(HXHttpClient.httpPost(url, jsonParam));
+		String responsejson = HXCoreUtil.getJsonString(HXHttpClient.httpPost(PersonFaceMachineInfo.url+"/addCard", jsonParam));
 		
 		FaceResponse result =HXCoreUtil.jsonToObj(responsejson,FaceResponse.class) ;
 		return result;
@@ -51,17 +49,14 @@ public class DongwoPlatServiceImpl implements IDongwoPlatService{
 	
 	/**
 	 * 新增设备
+	 * update:修改上传地址
 	 */
 	public FaceResponse insertDevice(FaceMacDevVO newFaceMacDevVO) {
 		NewDeviceVO newDeviceVO = new NewDeviceVO();
-		newDeviceVO.setAppid(PersonFaceMachineInfo.APPID);
-		newDeviceVO.setDeviceno(PersonFaceMachineInfo.DEVICENO);
-		newDeviceVO.setTimestemp(PersonFaceMachineInfo.getTimeTemp());
-		newDeviceVO.setSign(personFacePlatUtil.getSign(newFaceMacDevVO));
-		newDeviceVO.setData(newFaceMacDevVO);
+		newDeviceVO.setUrl(newFaceMacDevVO.getDeviceAutoRecordUrl());
 		String jsonParam = HXCoreUtil.getJsonString(newDeviceVO);
 		//上传
-		String responsejson = HXCoreUtil.getJsonString(HXHttpClient.httpPost(url, jsonParam));
+		String responsejson = HXCoreUtil.getJsonString(HXHttpClient.httpPost(PersonFaceMachineInfo.url+"/setUploadUrl", jsonParam));
 		
 		FaceResponse result =HXCoreUtil.jsonToObj(responsejson,FaceResponse.class) ;
 		return result;
@@ -75,10 +70,10 @@ public class DongwoPlatServiceImpl implements IDongwoPlatService{
 		deleteExamineeVO.setAppid(PersonFaceMachineInfo.APPID);
 		deleteExamineeVO.setTimestemp(PersonFaceMachineInfo.getTimeTemp());
 		deleteExamineeVO.setSign(personFacePlatUtil.getSign(whiteListVO));
-		deleteExamineeVO.setPersonnelno(whiteListVO.getPersonnelNo());//人员编号
+		deleteExamineeVO.setIdnum(whiteListVO.getPersonnelIDCard());//人员编号
 		String jsonParam = HXCoreUtil.getJsonString(deleteExamineeVO);
 		//上传
-		String responsejson = HXCoreUtil.getJsonString(HXHttpClient.httpPost(url, jsonParam));
+		String responsejson = HXCoreUtil.getJsonString(HXHttpClient.httpPost(PersonFaceMachineInfo.url+"/deleteCard", jsonParam));
 		
 		FaceResponse result =HXCoreUtil.jsonToObj(responsejson,FaceResponse.class) ;
 		return result;
@@ -94,7 +89,7 @@ public class DongwoPlatServiceImpl implements IDongwoPlatService{
 		faceGateVO.setSign(personFacePlatUtil.getSign(faceMacDevVO));
 		faceGateVO.setData(faceMacDevVO);
 		String jsonParam = HXCoreUtil.getJsonString(faceGateVO);
-		String responsejson = HXCoreUtil.getJsonString(HXHttpClient.httpPost(url, jsonParam));
+		String responsejson = HXCoreUtil.getJsonString(HXHttpClient.httpPost(PersonFaceMachineInfo.url+"/openDoor", jsonParam));
 		FaceResponse result =HXCoreUtil.jsonToObj(responsejson,FaceResponse.class) ;
 		return result;
 	}
@@ -102,19 +97,19 @@ public class DongwoPlatServiceImpl implements IDongwoPlatService{
 	/**
 	 * 查询设备
 	 */
-	public FaceResponse selectDevice(FaceMacDevVO newFaceMacDevVO) {
-		NewDeviceVO newDeviceVO = new NewDeviceVO();
-		newDeviceVO.setAppid(PersonFaceMachineInfo.APPID);
-		newDeviceVO.setTimestemp(PersonFaceMachineInfo.getTimeTemp());
-		newDeviceVO.setSign(personFacePlatUtil.getSign(newFaceMacDevVO));
-		newDeviceVO.setData(newFaceMacDevVO);
-		String jsonParam = HXCoreUtil.getJsonString(newDeviceVO);
-		//上传
-		String responsejson = HXCoreUtil.getJsonString(HXHttpClient.httpPost(url, jsonParam));
-		
-		FaceResponse result =HXCoreUtil.jsonToObj(responsejson,FaceResponse.class) ;
-		return result;
-	}
+	/*
+	 * public FaceResponse selectDevice(FaceMacDevVO newFaceMacDevVO) { NewDeviceVO
+	 * newDeviceVO = new NewDeviceVO();
+	 * newDeviceVO.setAppid(PersonFaceMachineInfo.APPID);
+	 * newDeviceVO.setTimestemp(PersonFaceMachineInfo.getTimeTemp());
+	 * newDeviceVO.setSign(personFacePlatUtil.getSign(newFaceMacDevVO));
+	 * newDeviceVO.setData(newFaceMacDevVO); String jsonParam =
+	 * HXCoreUtil.getJsonString(newDeviceVO); //上传 String responsejson =
+	 * HXCoreUtil.getJsonString(HXHttpClient.httpPost(url, jsonParam));
+	 * 
+	 * FaceResponse result =HXCoreUtil.jsonToObj(responsejson,FaceResponse.class) ;
+	 * return result; }
+	 */
 	
 	
 	

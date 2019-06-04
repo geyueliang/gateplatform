@@ -6,18 +6,18 @@ package com.wxhx.gate.plat.bean.out;
  *
  */
 public class FaceResponse {
-	private String resultcode;	//返回状态 1：成功，其他失败
+	private int code;	//返回状态 1：成功，其他失败
 	private String msg;	//提示信息	
 	private String appid;	//开发者应用ID
 	private String deviceno;	//设备编号
 	private String sign;	//签名字符串
 	private String timestemp;	//时间戳
 	private String data;	//返回数据中data的参数
-	public String getResultcode() {
-		return resultcode;
+	public int getCode() {
+		return code;
 	}
-	public void setResultcode(String resultcode) {
-		this.resultcode = resultcode;
+	public void setCode(int code) {
+		this.code = code;
 	}
 	public String getMsg() {
 		return msg;

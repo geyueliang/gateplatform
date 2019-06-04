@@ -31,6 +31,12 @@ public class InitPersonFaceMachine {
 	@Value("${wxhx.kcxi.ddxx.ksdd:520300208}")
 	private String ksdd;
 	
+	@Value("${wxhx.data.local.url:http://192.168.1.100:18080")
+	private String localUrl;
+	
+	@Value("${wxhx.data.dongwo.url:http://192.168.1.100:18080")
+	private String dongwoUrl;
+	
 	/**
 	 * 初始化人脸机相关信息
 	 */
@@ -38,11 +44,12 @@ public class InitPersonFaceMachine {
 	public void init() {
 		//设定全局变量
 		PersonFaceMachineInfo.APPID = appId;	//开发者应用ID
-		//查询设备信息
+		PersonFaceMachineInfo.url = dongwoUrl;	//东沃全局地址
+		
+		//修改人脸机识别记录上传地址
 		FaceMacDevVO faceMacDevVO = new FaceMacDevVO();
-		faceMacDevVO.setDeviceAppID(appId);
-		faceMacDevVO.setDeviceNo(deviceno);
-		FaceResponse faceResponse = iDongwoPlatService.selectDevice(faceMacDevVO);
+		faceMacDevVO.setDeviceAutoRecordUrl(localUrl);
+//		FaceResponse faceResponse = iDongwoPlatService.insertDevice(faceMacDevVO);
 		/**
 		 * 
 		

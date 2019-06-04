@@ -6,14 +6,13 @@ package com.wxhx.gate.plat.controller.vo;
  *
  */
 public class DeleteExamineeVO extends DongWoVO{
-	private String personnelno;
+	private String idnum;
 
-	public String getPersonnelno() {
-		return personnelno;
+	public String getIdnum() {
+		return idnum;
 	}
 
-	public void setPersonnelno(String personnelno) {
-		this.personnelno = personnelno;
+	public void setIdnum(String idnum) {
+		this.idnum = idnum;
 	}
-	
 }

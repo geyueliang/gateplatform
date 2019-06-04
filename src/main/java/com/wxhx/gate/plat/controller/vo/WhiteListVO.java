@@ -10,27 +10,27 @@ import com.alibaba.fastjson.annotation.JSONField;
  *
  */
 public class WhiteListVO{
-	@JSONField(name = "Personnel_Name")
+	@JSONField(name = "name")
 	private String personnelName;	//姓名
 	@JSONField(name = "Personnel_No")
 	private String personnelNo;	//人员编号
-	@JSONField(name = "Personnel_IDCard")
+	@JSONField(name = "idnum")
 	private String personnelIDCard;	//身份证号
 	@JSONField(name = "Personnel_Status")
 	private int personnelStatus = 2;		//审核状态
-	@JSONField(name = "Personnel_Nation")
+	@JSONField(name = "nation")
 	private String personnelNation;	//民族
 	@JSONField(name = "Personnel_StartDate")
 	private Date personnelStartDate;	//有效期起
 	@JSONField(name = "Personnel_Type")
 	private int personnelType = 1;	//人员类型
-	@JSONField(name = "Personnel_Sex")
+	@JSONField(name = "gender")
 	private int personnelSex;	//性别
 	@JSONField(name = "Personnel_EffDate")
 	private Date personnelEffDate;	//有效期止
 	@JSONField(name = "Personnel_Enable")
 	private int personnelEnable;	//启用状态
-	@JSONField(name = "Personnel_Photo")
+	@JSONField(name = "photo")
 	private String personnelPhoto;	//人员照片
 	@JSONField(name = "Personnel_CardNo")
 	private String personnelCardNo;	//卡号
@@ -38,11 +38,11 @@ public class WhiteListVO{
 	private String personnelGroupName;	//分组名称
 	@JSONField(name = "Personnel_Phone")
 	private String personnelPhone;	//手机号码
-	@JSONField(name = "Personnel_IDCardAdd")
+	@JSONField(name = "address")
 	private String personnelIDCardAdd;	//身份证地址
-	@JSONField(name = "Personnel_IDCardExp")
+	@JSONField(name = "valid_end")
 	private Date personnelIDCardExp;	//身份证有效期止
-	@JSONField(name = "Personnel_IDCardEff")
+	@JSONField(name = "valid_start")
 	private Date personnelIDCardEff;	//身份证有效期起
 	@JSONField(name = "Personnel_IDCardIsSue")
 	private String personnelIDCardIsSue;	//身份证签发机关
