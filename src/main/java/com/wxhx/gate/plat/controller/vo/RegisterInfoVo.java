@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author geliang
  *
  */
-@XmlRootElement(name="vioViolation")
+@XmlRootElement(name="drvexam")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RegisterInfoVo {
 

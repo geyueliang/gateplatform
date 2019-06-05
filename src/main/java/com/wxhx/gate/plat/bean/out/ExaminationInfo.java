@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
+
 /**
  * 考生信息
  * @author coyi
@@ -184,6 +186,10 @@ public class ExaminationInfo {
 	}
 	public void setZp(String zp) {
 		this.zp = zp;
+	}
+	@Override
+	public String toString() {
+		return HXCoreUtil.getJsonString(this);
 	}
 	
 }

@@ -32,6 +32,20 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		return ksyyxxMapper.insertSelective(ksyyxx);
 	}
 	
+	public ExaminationInfo getExaminationInfo(ExaminationInfo examinationInfo) {
+		if(examinationInfo==null) {
+			return null;
+		}
+		//将下载下来的预约信息转换成对应的预约信息
+		Ksyyxx ksyyxx = new Ksyyxx();
+		copyInfo(examinationInfo,ksyyxx);
+		Ksyyxx result = ksyyxxMapper.selectOne(ksyyxx);
+		ExaminationInfo ksyyInfo = new ExaminationInfo();
+		ksyyInfo.setLsh(result.getLsh());
+		ksyyInfo.setKchp(result.getKchp());
+		return ksyyInfo;
+	}
+	
 	
 	/**
 	 * 将从平台下载的预约信息下载到数据库中
@@ -82,4 +96,5 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		target.setCtlbit1(source.getKcbh());
 		
 	}
+
 }

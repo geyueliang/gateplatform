@@ -4,18 +4,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.web.HXRespons;
+import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.FaceResponse;
 import com.wxhx.gate.plat.bean.out.RecordInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
+import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.FaceMacDevVO;
 import com.wxhx.gate.plat.controller.vo.WhiteListVO;
 import com.wxhx.gate.plat.service.IExamStartService;
+import com.wxhx.gate.plat.service.out.IControlCenterService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 import com.wxhx.gate.plat.service.out.IManagerPlatService;
 import com.wxhx.gate.plat.util.PersonFaceMachineInfo;
@@ -33,6 +35,9 @@ public class ExamStartServiceImpl implements IExamStartService{
 	
 	@Autowired
 	private IManagerPlatService iManagerPlatService;
+	
+	@Autowired
+	private IControlCenterService iControlCenterService;	//控制中心
 	
 	private static String kskm = "2";
 	
@@ -54,6 +59,7 @@ public class ExamStartServiceImpl implements IExamStartService{
 			}
 			return finalResult;
 		}
+		
 		//比对成功，上传采集照片
 		examineeInfoVO.setKsdd(PersonFaceMachineInfo.KSDD);
 		examineeInfoVO.setKskm(kskm);
@@ -66,11 +72,23 @@ public class ExamStartServiceImpl implements IExamStartService{
 		}
 		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
 		
+		
+		//查询预约信息
+		ExaminationInfo examinationInfo = new ExaminationInfo();
+		examinationInfo.setSfzmhm(recordInfo.getIdNum());
+		ExaminationInfo ksyyxx = iControlCenterService.getExaminationInfo(examinationInfo);
+		
+		//写入视频认证
+		examineeInfoVO.setLsh(ksyyxx.getLsh());
+		examineeInfoVO.setKchp(ksyyxx.getKchp());
+		examineeInfoVO.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));  //考试系统编号
+		RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
+		
 		//删除白名单信息
 		whiteListVO.setPersonnelIDCard(recordInfo.getIdNum());
 		FaceResponse delWhitelistResponse = iDongwoPlatService.deleteWhiteList(whiteListVO);
 		
-		if(photoResponse != null && delWhitelistResponse != null) {
+		if("1".equals(photoResponse.getCode()) && "1".equals(writeVideoResponse.getCode()) && delWhitelistResponse.getCode() == 0) {
 			//开闸
 			FaceMacDevVO faceMacDevVO = new FaceMacDevVO();
 			faceMacDevVO.setDeviceAppID(PersonFaceMachineInfo.APPID);

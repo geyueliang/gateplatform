@@ -1,13 +1,17 @@
 package com.wxhx.gate.plat.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.FaceResponse;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
-import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
+import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 import com.wxhx.gate.plat.controller.vo.WhiteListVO;
 import com.wxhx.gate.plat.service.IRegisterService;
@@ -28,8 +32,7 @@ public class RegisterServiceImpl implements IRegisterService {
 	@Autowired
 	private IControlCenterService iControlCenterService;	//控制中心
 	
-	private static String kskm = "2";
-	private static String fhjls = "";		//返回记录数
+	private static String fhjls = "1";		//返回记录数
 	
 	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
 		HXRespons<RegisterResponse> finalResult = new HXRespons<RegisterResponse>("ERROR","操作失败",null);
@@ -41,26 +44,27 @@ public class RegisterServiceImpl implements IRegisterService {
 		RegisterResponse result = iManagerPlatService.register(registerInfoVo);
 		//如果报道成功则获取排考信息，预约信息
 		if("1".equals(result.getCode())) {
-			ExamineeInfoVO examineeInfoVO = new ExamineeInfoVO();
+			ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
 			
 			//获取预约信息
-			examineeInfoVO.setKskm(kskm);
-			examineeInfoVO.setSfzmhm(registerInfoVo.getSfzmhm());
-			examineeInfoVO.setKsdd(PersonFaceMachineInfo.KSDD);
-			appointmentInfo= iManagerPlatService.getAppointmentInfo(examineeInfoVO);
+			examineeInfoQueryVO.setKskm(registerInfoVo.getKskm());
+			examineeInfoQueryVO.setSfzmhm(registerInfoVo.getSfzmhm());
+			examineeInfoQueryVO.setKsdd(registerInfoVo.getKsdd());
+			appointmentInfo= iManagerPlatService.getAppointmentInfo(examineeInfoQueryVO);
 			
 			//插入人脸机白名单
 			whiteListVO.setPersonnelName(appointmentInfo.getXm());
-			whiteListVO.setPersonnelNo(appointmentInfo.getSfzmhm());
 			whiteListVO.setPersonnelIDCard(appointmentInfo.getSfzmhm());
 			whiteListVO.setPersonnelPhoto(appointmentInfo.getZp());
+			whiteListVO.setPersonnelIDCardEff(HXCoreUtil.getNowDataStr(new Date(),"yyyy.MM.dd"));  //起
+			whiteListVO.setPersonnelIDCardExp(HXCoreUtil.getNowDataStr(new Date(),"yyyy.MM.dd"));  //止
 			faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
 			
-			//获取排考信息
-			//examineeInfoVO.setKscx(kscx);
-			examineeInfoVO.setFhjls(fhjls);
-			//examineeInfoVO.setKchp(kchp);
-			sortInfo= iManagerPlatService.getSortInfo(examineeInfoVO);
+			//获取排考信息插入oracle
+			examineeInfoQueryVO.setFhjls(fhjls);
+			sortInfo= iManagerPlatService.getSortInfo(examineeInfoQueryVO);
+			
+			//插入本地Oracle数据库
 			int res = iControlCenterService.insertSortInfo(sortInfo);
 			if(res > 0 && faceResponse != null && appointmentInfo != null) {
 				finalResult = 	new HXRespons<RegisterResponse>("SUCCESS","操作成功",result);

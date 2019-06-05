@@ -13,6 +13,7 @@ import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 import com.wxhx.gate.plat.service.IRegisterService;
+import com.wxhx.gate.plat.util.PersonFaceMachineInfo;
 
 /**
  * 考生报道
@@ -23,11 +24,10 @@ import com.wxhx.gate.plat.service.IRegisterService;
 @RequestMapping("/register")
 public class RegisterController {
 	
-	@Value("${wxhx.kcxi.ddxx.ksdd:520300208}")
-	private String ksdd;
-	
 	@Autowired
 	private IRegisterService iRegisterService;
+	
+	private static String kskm = "2";
 	/**
 	    *报道
 	 *  @param sfzhm 身份证号码
@@ -37,8 +37,8 @@ public class RegisterController {
 	HXRespons<RegisterResponse> register(@RequestBody Map<String,Object> reqMap){
 		RegisterInfoVo registerInfoVo = new RegisterInfoVo();
 		registerInfoVo.setSfzmhm(reqMap.get("carNo")+"");
-		registerInfoVo.setKskm("2");
-		registerInfoVo.setKsdd(ksdd);
+		registerInfoVo.setKskm(kskm);
+		registerInfoVo.setKsdd(PersonFaceMachineInfo.KSDD);
 		return iRegisterService.register(registerInfoVo);
 	}
 	

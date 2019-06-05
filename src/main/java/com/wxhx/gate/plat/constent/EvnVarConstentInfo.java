@@ -21,6 +21,8 @@ public class EvnVarConstentInfo {
 	
 	public static String XZFZJG = "xzfzjg";	//发证机关
 	
+	public static String KSXTBH = "ksxtbh";	//考试系统编号
+	
 	
 	private static Map<String, String> systemInfoMap;
 	

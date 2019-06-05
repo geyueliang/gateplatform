@@ -41,9 +41,9 @@ public class WhiteListVO{
 	@JSONField(name = "address")
 	private String personnelIDCardAdd;	//身份证地址
 	@JSONField(name = "valid_end")
-	private Date personnelIDCardExp;	//身份证有效期止
+	private String personnelIDCardExp;	//身份证有效期止
 	@JSONField(name = "valid_start")
-	private Date personnelIDCardEff;	//身份证有效期起
+	private String personnelIDCardEff;	//身份证有效期起
 	@JSONField(name = "Personnel_IDCardIsSue")
 	private String personnelIDCardIsSue;	//身份证签发机关
 	@JSONField(name = "Personnel_UpdateTime")
@@ -141,16 +141,16 @@ public class WhiteListVO{
 	public void setPersonnelIDCardAdd(String personnelIDCardAdd) {
 		this.personnelIDCardAdd = personnelIDCardAdd;
 	}
-	public Date getPersonnelIDCardExp() {
+	public String getPersonnelIDCardExp() {
 		return personnelIDCardExp;
 	}
-	public void setPersonnelIDCardExp(Date personnelIDCardExp) {
+	public void setPersonnelIDCardExp(String personnelIDCardExp) {
 		this.personnelIDCardExp = personnelIDCardExp;
 	}
-	public Date getPersonnelIDCardEff() {
+	public String getPersonnelIDCardEff() {
 		return personnelIDCardEff;
 	}
-	public void setPersonnelIDCardEff(Date personnelIDCardEff) {
+	public void setPersonnelIDCardEff(String personnelIDCardEff) {
 		this.personnelIDCardEff = personnelIDCardEff;
 	}
 	public String getPersonnelIDCardIsSue() {

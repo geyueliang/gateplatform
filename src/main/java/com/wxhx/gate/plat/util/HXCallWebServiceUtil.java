@@ -139,7 +139,7 @@ public class HXCallWebServiceUtil {
 	public static String queryWebService(String jkid,String queryXml) throws Exception {
 		String xtlb = jkid.substring(0, 2);
 		String jkxlh = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.JKXLH);
-		String url = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.JKXLH)+"?wsdl";
+		String url = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.WEBSERVICEURL)+"?wsdl";
 		return queryWebService(xtlb,jkxlh,jkid,queryXml,url);
 	}
 	
@@ -154,7 +154,7 @@ public class HXCallWebServiceUtil {
 			throws Exception {
 		String xtlb = jkid.substring(0, 2);
 		String jkxlh = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.JKXLH);
-		String url = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.JKXLH)+"?wsdl";
+		String url = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.WEBSERVICEURL)+"?wsdl";
 		return writeWebService(xtlb,jkxlh,jkid,writeXml,url);
 	}
 }

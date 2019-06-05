@@ -1,7 +1,10 @@
 package com.wxhx.gate.plat.service.out;
 
+import java.util.List;
+
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
+import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 
@@ -24,7 +27,7 @@ public interface IManagerPlatService {
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	ExaminationInfo getAppointmentInfo(ExamineeInfoVO examineeInfoVO);
+	ExaminationInfo getAppointmentInfo(ExamineeInfoQueryVO examineeInfoQueryVO);
 	
 	
 	/**
@@ -32,14 +35,14 @@ public interface IManagerPlatService {
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	ExaminationInfo getSortInfo(ExamineeInfoVO examineeInfoVO);
+	ExaminationInfo getSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO);
 	
 	/**
 	 * 获取考生照片
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	ExaminationInfo getZP(ExamineeInfoVO examineeInfoVO);
+	ExaminationInfo getZP(ExamineeInfoQueryVO examineeInfoQueryVO);
 	
 	/**
 	 * 写入考生门禁照片
@@ -48,4 +51,11 @@ public interface IManagerPlatService {
 	 */
 	RegisterResponse uploadFacePhoto(ExamineeInfoVO examineeInfoVO);
 	
+	
+	/**
+	 *  写入视频认证
+	 * @param examineeInfoVO
+	 * @return
+	 */
+	RegisterResponse writeVideoAttestation(ExamineeInfoVO examineeInfoVO);
 }

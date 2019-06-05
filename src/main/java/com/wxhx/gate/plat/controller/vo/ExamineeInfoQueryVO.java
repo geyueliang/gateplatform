@@ -10,11 +10,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author coyi
  *
  */
-@XmlRootElement(name="drvexam")
+@XmlRootElement(name="QueryCondition")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ExamineeInfoVO {
-	@XmlElement(name="lsh", required = true)
-	private String lsh;	//流水号
+public class ExamineeInfoQueryVO {
 	
 	@XmlElement(name="kskm", required = true)
 	private String kskm;	//考试科目
@@ -39,17 +37,6 @@ public class ExamineeInfoVO {
 	
 	@XmlElement(name="ksrq", required = true)
 	private String ksrq;	//考试日期
-	
-	@XmlElement(name="ksxtbh", required = true)
-	private String ksxtbh;	//考试系统编号
-
-	public String getLsh() {
-		return lsh;
-	}
-
-	public void setLsh(String lsh) {
-		this.lsh = lsh;
-	}
 
 	public String getKskm() {
 		return kskm;
@@ -113,14 +100,6 @@ public class ExamineeInfoVO {
 
 	public void setKsrq(String ksrq) {
 		this.ksrq = ksrq;
-	}
-
-	public String getKsxtbh() {
-		return ksxtbh;
-	}
-
-	public void setKsxtbh(String ksxtbh) {
-		this.ksxtbh = ksxtbh;
 	}
 	
 }

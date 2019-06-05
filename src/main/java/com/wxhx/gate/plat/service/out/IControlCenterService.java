@@ -15,4 +15,9 @@ public interface IControlCenterService {
 	 * @return
 	 */
 	int insertSortInfo(ExaminationInfo examinationInfo);
+	
+	/**
+	 * 获取考生预约信息
+	 */
+	ExaminationInfo getExaminationInfo(ExaminationInfo examinationInfo);
 }
