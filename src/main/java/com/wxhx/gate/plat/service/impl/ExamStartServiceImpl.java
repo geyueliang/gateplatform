@@ -70,7 +70,7 @@ public class ExamStartServiceImpl implements IExamStartService{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
+		RegisterResponse photoResponse = (RegisterResponse) iManagerPlatService.uploadFacePhoto(examineeInfoVO).getBodyContent().getContent();
 		
 		
 		//查询预约信息
@@ -82,8 +82,8 @@ public class ExamStartServiceImpl implements IExamStartService{
 		examineeInfoVO.setLsh(ksyyxx.getLsh());
 		examineeInfoVO.setKchp(ksyyxx.getKchp());
 		examineeInfoVO.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));  //考试系统编号
-		RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
-		
+//		RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
+		RegisterResponse writeVideoResponse = null;
 		//删除白名单信息
 		whiteListVO.setPersonnelIDCard(recordInfo.getIdNum());
 		FaceResponse delWhitelistResponse = iDongwoPlatService.deleteWhiteList(whiteListVO);

@@ -41,16 +41,14 @@ public class RegisterServiceImpl implements IRegisterService {
 		ExaminationInfo sortInfo = null;
 		WhiteListVO whiteListVO = new WhiteListVO();
 		
-		RegisterResponse result = iManagerPlatService.register(registerInfoVo);
+		RegisterResponse result = (RegisterResponse) iManagerPlatService.register(registerInfoVo).getBodyContent().getContent();
 		//如果报道成功则获取排考信息，预约信息
 		if("1".equals(result.getCode())) {
 			ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
 			
 			//获取预约信息
-			examineeInfoQueryVO.setKskm(registerInfoVo.getKskm());
 			examineeInfoQueryVO.setSfzmhm(registerInfoVo.getSfzmhm());
-			examineeInfoQueryVO.setKsdd(registerInfoVo.getKsdd());
-			appointmentInfo= iManagerPlatService.getAppointmentInfo(examineeInfoQueryVO);
+			appointmentInfo= (ExaminationInfo) iManagerPlatService.getAppointmentInfo(examineeInfoQueryVO).getBodyContent().getContent();
 			
 			//插入人脸机白名单
 			whiteListVO.setPersonnelName(appointmentInfo.getXm());
@@ -60,11 +58,12 @@ public class RegisterServiceImpl implements IRegisterService {
 			whiteListVO.setPersonnelIDCardExp(HXCoreUtil.getNowDataStr(new Date(),"yyyy.MM.dd"));  //止
 			faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
 			
-			//获取排考信息插入oracle
-			examineeInfoQueryVO.setFhjls(fhjls);
-			sortInfo= iManagerPlatService.getSortInfo(examineeInfoQueryVO);
 			
-			//插入本地Oracle数据库
+			//获取排考信息
+			//examineeInfoVO.setKscx(kscx);
+			examineeInfoQueryVO.setFhjls(fhjls);
+			//examineeInfoVO.setKchp(kchp);
+			sortInfo= (ExaminationInfo) iManagerPlatService.getSortInfo(examineeInfoQueryVO).getBodyContent().getContent();
 			int res = iControlCenterService.insertSortInfo(sortInfo);
 			if(res > 0 && faceResponse != null && appointmentInfo != null) {
 				finalResult = 	new HXRespons<RegisterResponse>("SUCCESS","操作成功",result);

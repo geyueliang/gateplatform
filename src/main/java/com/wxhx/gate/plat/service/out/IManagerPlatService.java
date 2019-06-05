@@ -7,6 +7,7 @@ import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
+import com.wxhx.gate.plat.service.bean.WebServiceResult;
 
 /**
  * 精英平台
@@ -20,14 +21,14 @@ public interface IManagerPlatService {
 	 * @param registerVo
 	 * @return
 	 */
-	RegisterResponse register(RegisterInfoVo registerVo);
+	WebServiceResult<RegisterResponse> register(RegisterInfoVo registerVo);
 	
 	/**
 	 * 获取预约信息
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	ExaminationInfo getAppointmentInfo(ExamineeInfoQueryVO examineeInfoQueryVO);
+	WebServiceResult<ExaminationInfo> getAppointmentInfo(ExamineeInfoQueryVO examineeInfoQueryVO);
 	
 	
 	/**
@@ -35,21 +36,21 @@ public interface IManagerPlatService {
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	ExaminationInfo getSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO);
+	WebServiceResult<ExaminationInfo> getSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO);
 	
 	/**
 	 * 获取考生照片
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	ExaminationInfo getZP(ExamineeInfoQueryVO examineeInfoQueryVO);
+	WebServiceResult<ExaminationInfo> getZP(ExamineeInfoQueryVO examineeInfoQueryVO);
 	
 	/**
 	 * 写入考生门禁照片
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	RegisterResponse uploadFacePhoto(ExamineeInfoVO examineeInfoVO);
+	WebServiceResult<RegisterResponse> uploadFacePhoto(ExamineeInfoVO examineeInfoVO);
 	
 	
 	/**
@@ -57,5 +58,5 @@ public interface IManagerPlatService {
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	RegisterResponse writeVideoAttestation(ExamineeInfoVO examineeInfoVO);
+	WebServiceResult<RegisterResponse> writeVideoAttestation(ExamineeInfoVO examineeInfoVO);
 }
