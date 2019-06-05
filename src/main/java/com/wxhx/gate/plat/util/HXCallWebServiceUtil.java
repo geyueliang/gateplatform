@@ -13,7 +13,6 @@ import javax.xml.namespace.QName;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
-import org.apache.poi.ss.formula.functions.T;
 
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.service.bean.WebServerBody;
@@ -77,6 +76,28 @@ public class HXCallWebServiceUtil {
 		xmlStr = URLDecoder.decode(xmlStr, "utf-8");
 		WebServiceResult webServiceBean = (WebServiceResult) unmarshaller.unmarshal(new StringReader(xmlStr)); 
         return webServiceBean; 
+	}
+	
+	
+	/**
+	 * 返回xml转换成bean
+	 * @param <T>
+	 * @param <T>
+	 * @param xmlStr
+	 * @param type
+	 * @return
+	 * @throws Exception
+	 */
+	public static <T> T xmlToBean(String xmlStr,Class type,boolean isWriteReturn) throws Exception {
+		System.out.println("原始字符串：" + xmlStr);
+		JAXBContext context = JAXBContext.newInstance(WebServiceResult.class,type);
+		if(isWriteReturn) {
+			context = JAXBContext.newInstance(WebServiceBean.class,type);
+		}
+		Unmarshaller unmarshaller = context.createUnmarshaller(); 
+		xmlStr = URLDecoder.decode(xmlStr, "utf-8");
+		WebServiceBean webServiceBean = (WebServiceBean) unmarshaller.unmarshal(new StringReader(xmlStr));
+		return (T) webServiceBean.getContent();
 	}
 	
 	
