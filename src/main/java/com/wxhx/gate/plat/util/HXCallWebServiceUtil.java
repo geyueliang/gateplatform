@@ -13,9 +13,13 @@ import javax.xml.namespace.QName;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
+import org.apache.poi.ss.formula.functions.T;
 
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
+import com.wxhx.gate.plat.service.bean.WebServerBody;
 import com.wxhx.gate.plat.service.bean.WebServiceBean;
+import com.wxhx.gate.plat.service.bean.WebServiceResult;
+import com.wxhx.gate.plat.service.bean.WebServiceResultHead;
 
 /**
  * 调用webservice 工具类
@@ -66,12 +70,12 @@ public class HXCallWebServiceUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static <T> T xmlToBean(String xmlStr,Class<T> type) throws Exception {
-		JAXBContext context = JAXBContext.newInstance(WebServiceBean.class,type);
+	public static  WebServiceResult xmlToBean(String xmlStr,Class type) throws Exception {
+		JAXBContext context = JAXBContext.newInstance(WebServiceResult.class,type);
 		Unmarshaller unmarshaller = context.createUnmarshaller(); 
 		xmlStr = URLDecoder.decode(xmlStr, "utf-8");
-		WebServiceBean<T> webServiceBean = (WebServiceBean<T>) unmarshaller.unmarshal(new StringReader(xmlStr)); 
-        return (T) webServiceBean.getContent(); 
+		WebServiceResult webServiceBean = (WebServiceResult) unmarshaller.unmarshal(new StringReader(xmlStr)); 
+        return webServiceBean; 
 	}
 	
 	

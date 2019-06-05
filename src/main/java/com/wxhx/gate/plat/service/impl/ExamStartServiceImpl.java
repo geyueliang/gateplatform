@@ -64,7 +64,7 @@ public class ExamStartServiceImpl implements IExamStartService{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
+		RegisterResponse photoResponse = (RegisterResponse) iManagerPlatService.uploadFacePhoto(examineeInfoVO).getBodyContent().getContent();
 		
 		//删除白名单信息
 		whiteListVO.setPersonnelIDCard(recordInfo.getIdNum());
