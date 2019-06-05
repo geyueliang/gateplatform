@@ -71,6 +71,7 @@ public class HXCallWebServiceUtil {
 	 * @throws Exception
 	 */
 	public static  WebServiceResult xmlToBean(String xmlStr,Class type) throws Exception {
+		System.out.println("原始字符串：" + xmlStr);
 		JAXBContext context = JAXBContext.newInstance(WebServiceResult.class,type);
 		Unmarshaller unmarshaller = context.createUnmarshaller(); 
 		xmlStr = URLDecoder.decode(xmlStr, "utf-8");

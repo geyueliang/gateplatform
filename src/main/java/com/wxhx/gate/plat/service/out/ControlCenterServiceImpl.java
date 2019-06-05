@@ -43,6 +43,7 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		ExaminationInfo ksyyInfo = new ExaminationInfo();
 		ksyyInfo.setLsh(result.getLsh());
 		ksyyInfo.setKchp(result.getKchp());
+		ksyyInfo.setKchp(result.getCtlbit1());
 		return ksyyInfo;
 	}
 	

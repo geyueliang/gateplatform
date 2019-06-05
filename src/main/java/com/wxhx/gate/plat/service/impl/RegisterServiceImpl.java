@@ -39,6 +39,7 @@ public class RegisterServiceImpl implements IRegisterService {
 		ExaminationInfo  appointmentInfo = null;
 		FaceResponse faceResponse = null;
 		ExaminationInfo sortInfo = null;
+		ExaminationInfo zpInfo = null;
 		WhiteListVO whiteListVO = new WhiteListVO();
 		
 		RegisterResponse result = (RegisterResponse) iManagerPlatService.register(registerInfoVo).getBodyContent().getContent();
@@ -50,6 +51,9 @@ public class RegisterServiceImpl implements IRegisterService {
 			examineeInfoQueryVO.setSfzmhm(registerInfoVo.getSfzmhm());
 			appointmentInfo= (ExaminationInfo) iManagerPlatService.getAppointmentInfo(examineeInfoQueryVO).getBodyContent().getContent();
 			
+			//获取考生照片
+			zpInfo= (ExaminationInfo) iManagerPlatService.getZP(examineeInfoQueryVO).getBodyContent().getContent();
+			
 			//插入人脸机白名单
 			whiteListVO.setPersonnelName(appointmentInfo.getXm());
 			whiteListVO.setPersonnelIDCard(appointmentInfo.getSfzmhm());
@@ -60,9 +64,7 @@ public class RegisterServiceImpl implements IRegisterService {
 			
 			
 			//获取排考信息
-			//examineeInfoVO.setKscx(kscx);
 			examineeInfoQueryVO.setFhjls(fhjls);
-			//examineeInfoVO.setKchp(kchp);
 			sortInfo= (ExaminationInfo) iManagerPlatService.getSortInfo(examineeInfoQueryVO).getBodyContent().getContent();
 			int res = iControlCenterService.insertSortInfo(sortInfo);
 			if(res > 0 && faceResponse != null && appointmentInfo != null) {

@@ -17,6 +17,7 @@ import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.FaceMacDevVO;
 import com.wxhx.gate.plat.controller.vo.WhiteListVO;
 import com.wxhx.gate.plat.service.IExamStartService;
+import com.wxhx.gate.plat.service.bean.WebServiceResult;
 import com.wxhx.gate.plat.service.out.IControlCenterService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 import com.wxhx.gate.plat.service.out.IManagerPlatService;
@@ -82,13 +83,12 @@ public class ExamStartServiceImpl implements IExamStartService{
 		examineeInfoVO.setLsh(ksyyxx.getLsh());
 		examineeInfoVO.setKchp(ksyyxx.getKchp());
 		examineeInfoVO.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));  //考试系统编号
-//		RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
-		RegisterResponse writeVideoResponse = null;
+		WebServiceResult<RegisterResponse> writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
 		//删除白名单信息
 		whiteListVO.setPersonnelIDCard(recordInfo.getIdNum());
 		FaceResponse delWhitelistResponse = iDongwoPlatService.deleteWhiteList(whiteListVO);
 		
-		if("1".equals(photoResponse.getCode()) && "1".equals(writeVideoResponse.getCode()) && delWhitelistResponse.getCode() == 0) {
+		if("1".equals(photoResponse.getCode()) && "1".equals(writeVideoResponse.getHead().getCode()) && delWhitelistResponse.getCode() == 0) {
 			//开闸
 			FaceMacDevVO faceMacDevVO = new FaceMacDevVO();
 			faceMacDevVO.setDeviceAppID(PersonFaceMachineInfo.APPID);
