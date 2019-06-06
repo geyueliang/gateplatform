@@ -21,7 +21,7 @@ public interface IManagerPlatService {
 	 * @param registerVo
 	 * @return
 	 */
-	WebServiceResult<RegisterResponse> register(RegisterInfoVo registerVo);
+	RegisterResponse register(RegisterInfoVo registerVo);
 	
 	/**
 	 * 获取预约信息
@@ -50,7 +50,7 @@ public interface IManagerPlatService {
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	WebServiceResult<RegisterResponse> uploadFacePhoto(ExamineeInfoVO examineeInfoVO);
+	RegisterResponse uploadFacePhoto(ExamineeInfoVO examineeInfoVO);
 	
 	
 	/**
@@ -58,5 +58,5 @@ public interface IManagerPlatService {
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	WebServiceResult<RegisterResponse> writeVideoAttestation(ExamineeInfoVO examineeInfoVO);
+	RegisterResponse writeVideoAttestation(ExamineeInfoVO examineeInfoVO);
 }

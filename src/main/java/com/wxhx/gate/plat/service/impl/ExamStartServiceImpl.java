@@ -71,8 +71,10 @@ public class ExamStartServiceImpl implements IExamStartService{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		RegisterResponse photoResponse = (RegisterResponse) iManagerPlatService.uploadFacePhoto(examineeInfoVO).getBodyContent().getContent();
+		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
 		
+		//更新门禁照片
+		int updateRes = iControlCenterService.updatePhotoInfo(recordInfo);
 		
 		//查询预约信息
 		ExaminationInfo examinationInfo = new ExaminationInfo();
@@ -83,12 +85,13 @@ public class ExamStartServiceImpl implements IExamStartService{
 		examineeInfoVO.setLsh(ksyyxx.getLsh());
 		examineeInfoVO.setKchp(ksyyxx.getKchp());
 		examineeInfoVO.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));  //考试系统编号
-		WebServiceResult<RegisterResponse> writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
+		RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
+		
 		//删除白名单信息
 		whiteListVO.setPersonnelIDCard(recordInfo.getIdNum());
 		FaceResponse delWhitelistResponse = iDongwoPlatService.deleteWhiteList(whiteListVO);
 		
-		if("1".equals(photoResponse.getCode()) && "1".equals(writeVideoResponse.getHead().getCode()) && delWhitelistResponse.getCode() == 0) {
+		if("1".equals(photoResponse.getCode()) && updateRes == 1 && "1".equals(writeVideoResponse.getCode()) && delWhitelistResponse.getCode() == 0) {
 			//开闸
 			FaceMacDevVO faceMacDevVO = new FaceMacDevVO();
 			faceMacDevVO.setDeviceAppID(PersonFaceMachineInfo.APPID);

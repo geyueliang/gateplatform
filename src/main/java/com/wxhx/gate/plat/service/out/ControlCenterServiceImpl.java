@@ -5,10 +5,16 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
+import com.wxhx.gate.plat.bean.out.RecordInfo;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.dao.KsyyxxMapper;
+import com.wxhx.gate.plat.dao.KszpMapper;
 import com.wxhx.gate.plat.dao.entity.Ksyyxx;
+import com.wxhx.gate.plat.dao.entity.Kszp;
+
+import oracle.sql.DATE;
 
 /**
  * 
@@ -20,6 +26,9 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 	
 	@Autowired
 	private KsyyxxMapper ksyyxxMapper;
+	
+	@Autowired
+	private KszpMapper kszpMapper;
 	
 	public int insertSortInfo(ExaminationInfo examinationInfo) {
 		if(examinationInfo==null) {
@@ -42,9 +51,50 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		Ksyyxx result = ksyyxxMapper.selectOne(ksyyxx);
 		ExaminationInfo ksyyInfo = new ExaminationInfo();
 		ksyyInfo.setLsh(result.getLsh());
-		ksyyInfo.setKchp(result.getKchp());
 		ksyyInfo.setKchp(result.getCtlbit1());
 		return ksyyInfo;
+	}
+	
+	/**
+	 * 插入证件照片
+	 */
+	public int insertPhotoInfo(ExaminationInfo examinationInfo) {
+		int result = 0;
+		if(examinationInfo==null) {
+			return result;
+		}
+		Kszp kszp = new Kszp();
+		kszp.setRid(getRandomCharts());
+		kszp.setLsh(examinationInfo.getLsh());
+		kszp.setBckscs("0");
+		kszp.setZplx("XZ");
+		kszp.setSfzmhm(examinationInfo.getSfzmhm());
+		kszp.setZp(examinationInfo.getZp());
+		kszp.setGxsj(new Date());
+		//插入报名照片
+		int zjRes = kszpMapper.insertSelective(kszp);
+		if(zjRes == 1) {
+			//插入采集照片
+			kszp.setZplx("BD");
+			result = kszpMapper.insertSelective(kszp);
+			return result;
+		}
+		return result;
+	}
+	
+	/**
+	 * 更新采集照片
+	 */
+	public int updatePhotoInfo(RecordInfo recordInfo) {
+		if(recordInfo==null) {
+			return 0;
+		}
+		Kszp kszp = new Kszp();
+		kszp.setRid(getRandomCharts());
+		kszp.setSfzmhm(recordInfo.getIdNum());
+		kszp.setZp(recordInfo.getScenePhoto());
+		kszp.setZplx("BD");
+		return kszpMapper.updatePhoto(kszp);
 	}
 	
 	
@@ -96,6 +146,23 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		//考试车辆编号
 		target.setCtlbit1(source.getKcbh());
 		
+	}
+	
+	public String getRandomCharts() {
+		char[] letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+	            'K', 'L', 'M', 'N', 'O', 'P','Q', 'R', 'S', 'T', 'U', 'V',
+	            'W', 'X', 'Y', 'Z','0','1','2','3','4','5','6','7','8','9'};
+		
+	    StringBuffer chs = new StringBuffer();
+	    chs.append(HXCoreUtil.getNowDataStr(new Date(),"yyyyMMddHHmmss"));
+	    
+	    for (int i = 0; i < 6; i++) {
+	        int index;
+	        index = (int) (Math.random() * (letters.length));
+	        chs = chs.append(letters[index]);
+	    }
+	    
+	    return chs.toString();
 	}
 
 }

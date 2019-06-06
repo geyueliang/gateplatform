@@ -1,6 +1,7 @@
 package com.wxhx.gate.plat.service.out;
 
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
+import com.wxhx.gate.plat.bean.out.RecordInfo;
 
 /**
  * 
@@ -20,4 +21,19 @@ public interface IControlCenterService {
 	 * 获取考生预约信息
 	 */
 	ExaminationInfo getExaminationInfo(ExaminationInfo examinationInfo);
+	
+	
+	/**
+	 * 插入证件照片
+	 * @param examinationInfo
+	 * @return
+	 */
+	int insertPhotoInfo(ExaminationInfo examinationInfo);
+	
+	/**
+	 * 更新采集照片
+	 * @param examinationInfo
+	 * @return
+	 */
+	int updatePhotoInfo(RecordInfo recordInfo);
 }
