@@ -55,11 +55,11 @@ public class RegisterServiceImpl implements IRegisterService {
 			zpInfo= (ExaminationInfo) iManagerPlatService.getZP(examineeInfoQueryVO).getBodyContent().getContent();
 			
 			//插入人脸机白名单
-			whiteListVO.setPersonnelName(appointmentInfo.getXm());
-			whiteListVO.setPersonnelIDCard(appointmentInfo.getSfzmhm());
-			whiteListVO.setPersonnelPhoto(appointmentInfo.getZp());
-			whiteListVO.setPersonnelIDCardEff(HXCoreUtil.getNowDataStr(new Date(),"yyyy.MM.dd"));  //起
-			whiteListVO.setPersonnelIDCardExp(HXCoreUtil.getNowDataStr(new Date(),"yyyy.MM.dd"));  //止
+//			whiteListVO.setPersonnelName(appointmentInfo.getXm());
+//			whiteListVO.setPersonnelIDCard(appointmentInfo.getSfzmhm());
+//			whiteListVO.setPersonnelPhoto(appointmentInfo.getZp());
+//			whiteListVO.setPersonnelIDCardEff(HXCoreUtil.getNowDataStr(new Date(),"yyyy.MM.dd"));  //起
+//			whiteListVO.setPersonnelIDCardExp(HXCoreUtil.getNowDataStr(new Date(),"yyyy.MM.dd"));  //止
 			faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
 			
 			

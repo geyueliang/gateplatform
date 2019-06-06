@@ -23,6 +23,9 @@ public class EvnVarConstentInfo {
 	
 	public static String KSXTBH = "ksxtbh";	//考试系统编号
 	
+	public static String FACEMACHE_URL = "faceUrl";	//人脸机url地址
+
+	
 	
 	private static Map<String, String> systemInfoMap;
 	

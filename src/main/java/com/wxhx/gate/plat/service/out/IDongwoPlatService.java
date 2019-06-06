@@ -1,8 +1,8 @@
 package com.wxhx.gate.plat.service.out;
 
 import com.wxhx.gate.plat.bean.out.FaceResponse;
+import com.wxhx.gate.plat.controller.vo.FaceInfoDelVo;
 import com.wxhx.gate.plat.controller.vo.FaceMacDevVO;
-import com.wxhx.gate.plat.controller.vo.NewDeviceVO;
 import com.wxhx.gate.plat.controller.vo.WhiteListVO;
 
 /**
@@ -20,12 +20,6 @@ public interface IDongwoPlatService {
 	FaceResponse insertWhiteList(WhiteListVO whiteListVO);
 	
 	
-	/**
-	 * 新增设备
-	 * @param newFaceMacDevVO
-	 * @return
-	 */
-	FaceResponse insertDevice(FaceMacDevVO newFaceMacDevVO);
 	
 	
 	/**
@@ -33,20 +27,21 @@ public interface IDongwoPlatService {
 	 * @param newFaceMacDevVO
 	 * @return
 	 */
-	FaceResponse deleteWhiteList(WhiteListVO whiteListVO);
+	FaceResponse deleteWhiteList(FaceInfoDelVo faceInfoDelVo);
 	
 	/**
 	 * 一键开闸
 	 * @param openGateVO
 	 * @return
 	 */
-	FaceResponse openGate(FaceMacDevVO faceMacDevVO);
+	FaceResponse openGate();
 	
 	
 	/**
-	 * 查询设备
-	 * @param newFaceMacDevVO
+	 * 
+	 * 修改人脸机上传地址
+	 * @param iploadUrl
 	 * @return
 	 */
-	//FaceResponse selectDevice(FaceMacDevVO newFaceMacDevVO);
+	FaceResponse updateUploadUrl(String iploadUrl);
 }
