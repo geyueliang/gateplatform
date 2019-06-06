@@ -1,5 +1,7 @@
 package com.wxhx.gate.plat.bean.out;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
+
 /**
  *人脸机识别记录
  * @author coyi
@@ -131,6 +133,10 @@ public class RecordInfo {
 	}
 	public void setUserPhoto(String userPhoto) {
 		this.userPhoto = userPhoto;
+	}
+	@Override
+	public String toString() {
+		return HXCoreUtil.getJsonString(this);
 	}
 	
 }

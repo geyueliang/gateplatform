@@ -15,10 +15,8 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
-import com.wxhx.gate.plat.service.bean.WebServerBody;
 import com.wxhx.gate.plat.service.bean.WebServiceBean;
 import com.wxhx.gate.plat.service.bean.WebServiceResult;
-import com.wxhx.gate.plat.service.bean.WebServiceResultHead;
 
 /**
  * 调用webservice 工具类
@@ -70,10 +68,23 @@ public class HXCallWebServiceUtil {
 	 * @throws Exception
 	 */
 	public static  WebServiceResult xmlToBean(String xmlStr,Class type) throws Exception {
-		System.out.println("原始字符串：" + xmlStr);
+//		System.out.println("原始字符串：" + xmlStr);
 		JAXBContext context = JAXBContext.newInstance(WebServiceResult.class,type);
 		Unmarshaller unmarshaller = context.createUnmarshaller(); 
-		xmlStr = URLDecoder.decode(xmlStr, "utf-8");
+		//照片不用解码
+		if(xmlStr.contains("<zp>")&&xmlStr.contains("</zp>")) {
+			int zpStart = xmlStr.indexOf("<zp>");
+			int zpEnd = xmlStr.indexOf("</zp>");
+			String firstStr = xmlStr.substring(0,zpStart);
+			String endStr = xmlStr.substring(zpEnd+5,xmlStr.length());
+			String zpBase64Str = xmlStr.substring(zpStart+4,zpEnd);
+			System.out.println(zpBase64Str);
+			xmlStr = URLDecoder.decode(firstStr, "utf-8")+"<zp>"+zpBase64Str+"</zp>"+URLDecoder.decode(endStr, "utf-8");
+//			xmlStr.indexOf("<zp>")
+		}
+		else {
+			xmlStr = URLDecoder.decode(xmlStr, "utf-8");
+		}
 		WebServiceResult webServiceBean = (WebServiceResult) unmarshaller.unmarshal(new StringReader(xmlStr)); 
         return webServiceBean; 
 	}
@@ -89,13 +100,25 @@ public class HXCallWebServiceUtil {
 	 * @throws Exception
 	 */
 	public static <T> T xmlToBean(String xmlStr,Class type,boolean isWriteReturn) throws Exception {
-		System.out.println("原始字符串：" + xmlStr);
+//		System.out.println("原始字符串：" + xmlStr);
 		JAXBContext context = JAXBContext.newInstance(WebServiceResult.class,type);
 		if(isWriteReturn) {
 			context = JAXBContext.newInstance(WebServiceBean.class,type);
 		}
 		Unmarshaller unmarshaller = context.createUnmarshaller(); 
-		xmlStr = URLDecoder.decode(xmlStr, "utf-8");
+		//照片不用解码
+		if(xmlStr.contains("<zp>")&&xmlStr.contains("</zp>")) {
+			int zpStart = xmlStr.indexOf("<zp>");
+			int zpEnd = xmlStr.indexOf("</zp>");
+			String firstStr = xmlStr.substring(0,zpStart);
+			String endStr = xmlStr.substring(zpEnd+5,xmlStr.length());
+			String zpBase64Str = xmlStr.substring(zpStart+4,zpEnd);
+			xmlStr = URLDecoder.decode(firstStr, "utf-8")+"<zp>"+zpBase64Str+"</zp>"+URLDecoder.decode(endStr, "utf-8");
+//			xmlStr.indexOf("<zp>")
+		}
+		else {
+			xmlStr = URLDecoder.decode(xmlStr, "utf-8");
+		}
 		WebServiceBean webServiceBean = (WebServiceBean) unmarshaller.unmarshal(new StringReader(xmlStr));
 		return (T) webServiceBean.getContent();
 	}
