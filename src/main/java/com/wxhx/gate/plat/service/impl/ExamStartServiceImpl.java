@@ -47,7 +47,6 @@ public class ExamStartServiceImpl implements IExamStartService{
 	public HXRespons<FaceResponse> examing(RecordInfo recordInfo) {
 		HXRespons<FaceResponse> finalResult = new HXRespons<FaceResponse>("ERROR","操作失败",null);
 		
-		WhiteListVO whiteListVO = new WhiteListVO();
 		ExamineeInfoVO examineeInfoVO = new ExamineeInfoVO();
 		
 		//判断比对结果
@@ -87,7 +86,7 @@ public class ExamStartServiceImpl implements IExamStartService{
 		examineeInfoVO.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));  //考试系统编号
 		RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
 		
-		if("1".equals(photoResponse.getCode()) && "1".equals(writeVideoResponse.getCode())) {
+		if("1".equals(photoResponse.getCode()) && updateRes == 1 && "1".equals(writeVideoResponse.getCode())) {
 			finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",null);
 		}
 		
