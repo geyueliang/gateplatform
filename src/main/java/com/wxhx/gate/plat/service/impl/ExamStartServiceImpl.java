@@ -87,21 +87,8 @@ public class ExamStartServiceImpl implements IExamStartService{
 		examineeInfoVO.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));  //考试系统编号
 		RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
 		
-		//删除白名单信息
-//		whiteListVO.setPersonnelIDCard(recordInfo.getIdNum());
-//		FaceResponse delWhitelistResponse = iDongwoPlatService.deleteWhiteList(whiteListVO);
-		FaceResponse delWhitelistResponse = null;
-		if("1".equals(photoResponse.getCode()) && "1".equals(writeVideoResponse.getCode()) && delWhitelistResponse.getCode() == 0) {
-			//开闸
-			FaceMacDevVO faceMacDevVO = new FaceMacDevVO();
-			faceMacDevVO.setDeviceAppID(PersonFaceMachineInfo.APPID);
-			faceMacDevVO.setDeviceNo(PersonFaceMachineInfo.DEVICENO);
-//			FaceResponse openGateResponse = iDongwoPlatService.openGate(faceMacDevVO);
-			FaceResponse openGateResponse = null;
-
-			if(openGateResponse != null) {
-				finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",openGateResponse);
-			}
+		if("1".equals(photoResponse.getCode()) && "1".equals(writeVideoResponse.getCode())) {
+			finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",null);
 		}
 		
 		return finalResult;

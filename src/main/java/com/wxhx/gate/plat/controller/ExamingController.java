@@ -1,6 +1,8 @@
 package com.wxhx.gate.plat.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
+import com.wxhx.basic_client.config.thread.HXThreadManager;
 import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.FaceResponse;
 import com.wxhx.gate.plat.bean.out.RecordInfo;
+import com.wxhx.gate.plat.controller.vo.FaceInfoDelVo;
 import com.wxhx.gate.plat.service.IExamStartService;
+import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 
 /**
  * 开始考试
@@ -27,17 +32,51 @@ public class ExamingController {
 	@Autowired
 	private IExamStartService iExamStartService;
 	
+	@Autowired
+	private HXThreadManager hxThreadManager;
+	
+	@Autowired
+	private IDongwoPlatService iDongwoPlatService;
+	
 	/**
 	 * 开始考试
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String examStart(@RequestBody RecordInfo recordInfo){
-		System.out.println(recordInfo);
-		HXRespons<FaceResponse> examResult = iExamStartService.examing(recordInfo);
+		final String idNum = recordInfo.getIdNum();
+//		HXCoreUtil.createImageFromBase64(recordInfo.getScenePhoto(), "D://11.jpg");
 		Map<String, Object> res = new HashMap<String, Object>();
-		res.put("code", examResult.getResCode());
-		res.put("msg", examResult.getResMsg());
+		//开始处
+		HXRespons<FaceResponse> result= iExamStartService.examing(recordInfo);
+		
+		if(HXCoreUtil.isEquals("SUCCESS", result.getResCode())) {
+			res.put("code", 0);
+			res.put("msg", "success");
+			hxThreadManager.execThread(new Runnable() {
+				public void run() {
+					try {
+						Thread.sleep(2*1000);
+						iDongwoPlatService.openGate();
+						
+						//删除白名单信息
+						List<String> idNumList = new ArrayList<String>();
+						idNumList.add(idNum);
+						FaceInfoDelVo faceInfoDelVo = new FaceInfoDelVo();
+						faceInfoDelVo.setIdnum(idNumList);
+						iDongwoPlatService.deleteWhiteList(faceInfoDelVo);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		else {
+			res.put("code",1);
+			res.put("msg", "error");
+		}
 		return HXCoreUtil.getJsonString(res);
+		
 	}
 }
