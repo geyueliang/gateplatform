@@ -14,6 +14,8 @@ import com.wxhx.basic_client.config.thread.HXThreadManager;
 import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.FaceResponse;
 import com.wxhx.gate.plat.bean.out.RecordInfo;
+import com.wxhx.gate.plat.bean.out.RegisterResponse;
+import com.wxhx.gate.plat.init.WhiteListInit;
 import com.wxhx.gate.plat.service.IExamStartService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 
@@ -41,9 +43,24 @@ public class ExamingController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String examStart(@RequestBody RecordInfo recordInfo){
-//		HXCoreUtil.createImageFromBase64(recordInfo.getScenePhoto(), "D://11.jpg");
 		Map<String, Object> res = new HashMap<String, Object>();
-		//开始处
+		if(WhiteListInit.WHITE_LIST.contains(recordInfo.getIdNum())) {
+			res.put("code", 1);
+			res.put("msg", "管理员开门");
+			hxThreadManager.execThread(new Runnable() {
+				public void run() {
+					try {
+						Thread.sleep(2*1000);
+						iDongwoPlatService.openGate();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			return HXCoreUtil.getJsonString(res);
+		}
+//		HXCoreUtil.createImageFromBase64(recordInfo.getScenePhoto(), "D://11.jpg");
 		HXRespons<FaceResponse> result= iExamStartService.examing(recordInfo);
 		if(HXCoreUtil.isEquals("SUCCESS", result.getResCode())) {
 			res.put("code", 0);
