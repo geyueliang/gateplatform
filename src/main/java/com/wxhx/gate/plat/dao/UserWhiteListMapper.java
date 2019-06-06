@@ -12,6 +12,6 @@ public interface UserWhiteListMapper extends Mapper<UserWhiteList>{
 	 * 查询可用管理员名单
 	 * @return
 	 */
-	List<UserWhiteList> selectEnableList();
+	List<String> selectEnableList();
 	
 }

@@ -29,11 +29,9 @@ public class WhiteListInit {
 	 */
 	@PostConstruct
 	public void init() {
-		List<UserWhiteList> whiteList = userWhiteListMapper.selectEnableList();
-		if (whiteList != null && whiteList.size() > 0) {
-			for (UserWhiteList userWhite : whiteList) {
-				WHITE_LIST.add(userWhite.getCarId());
-			}
+		List<String> idNums = userWhiteListMapper.selectEnableList();
+		if (idNums != null && idNums.size() > 0) {
+			WHITE_LIST = idNums;
 		}
 	}
 }
