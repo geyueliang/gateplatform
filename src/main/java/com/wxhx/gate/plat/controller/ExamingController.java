@@ -17,6 +17,7 @@ import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.FaceResponse;
 import com.wxhx.gate.plat.bean.out.RecordInfo;
 import com.wxhx.gate.plat.controller.vo.FaceInfoDelVo;
+import com.wxhx.gate.plat.init.WhiteListInit;
 import com.wxhx.gate.plat.service.IExamStartService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 
@@ -47,7 +48,23 @@ public class ExamingController {
 		final String idNum = recordInfo.getIdNum();
 //		HXCoreUtil.createImageFromBase64(recordInfo.getScenePhoto(), "D://11.jpg");
 		Map<String, Object> res = new HashMap<String, Object>();
-		//开始处
+		if(WhiteListInit.WHITE_LIST.contains(recordInfo.getIdNum())) {
+			res.put("code", 1);
+			res.put("msg", "管理员开门");
+			hxThreadManager.execThread(new Runnable() {
+				public void run() {
+					try {
+						Thread.sleep(2*1000);
+						iDongwoPlatService.openGate();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			return HXCoreUtil.getJsonString(res);
+		}
+//		HXCoreUtil.createImageFromBase64(recordInfo.getScenePhoto(), "D://11.jpg");
 		HXRespons<FaceResponse> result= iExamStartService.examing(recordInfo);
 		
 		if(HXCoreUtil.isEquals("SUCCESS", result.getResCode())) {
@@ -56,7 +73,7 @@ public class ExamingController {
 			hxThreadManager.execThread(new Runnable() {
 				public void run() {
 					try {
-						Thread.sleep(2*1000);
+						Thread.sleep(1*1000);
 						iDongwoPlatService.openGate();
 						
 						//删除白名单信息
@@ -66,7 +83,6 @@ public class ExamingController {
 						faceInfoDelVo.setIdnum(idNumList);
 						iDongwoPlatService.deleteWhiteList(faceInfoDelVo);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

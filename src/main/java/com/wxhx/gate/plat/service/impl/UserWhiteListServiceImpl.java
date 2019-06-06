@@ -10,6 +10,7 @@ import com.wxhx.gate.plat.bean.out.FaceResponse;
 import com.wxhx.gate.plat.controller.vo.WhiteListVO;
 import com.wxhx.gate.plat.dao.UserWhiteListMapper;
 import com.wxhx.gate.plat.dao.entity.UserWhiteList;
+import com.wxhx.gate.plat.init.WhiteListInit;
 import com.wxhx.gate.plat.service.IUserWhiteListService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 import com.wxhx.gate.plat.util.GatePlatUtil;
@@ -37,6 +38,7 @@ public class UserWhiteListServiceImpl implements IUserWhiteListService{
 		whiteListVO.setValidEnd("2099.12.31");
 		FaceResponse res = iDongwoPlatService.insertWhiteList(whiteListVO);
 		if(i>0&&res.getCode()==0) {
+			WhiteListInit.WHITE_LIST.add(userWhite.getCarId());
 			result = true;
 		}
 		return result;
