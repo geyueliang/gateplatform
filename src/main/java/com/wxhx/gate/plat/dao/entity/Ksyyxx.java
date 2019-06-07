@@ -50,8 +50,6 @@ public class Ksyyxx {
     private String ctlbit3;
 
     private Date mjsj;
-    
-    private String kchp;
 
     public String getLsh() {
         return lsh;
@@ -244,12 +242,4 @@ public class Ksyyxx {
     public void setMjsj(Date mjsj) {
         this.mjsj = mjsj;
     }
-
-	public String getKchp() {
-		return kchp;
-	}
-
-	public void setKchp(String kchp) {
-		this.kchp = kchp;
-	}
 }

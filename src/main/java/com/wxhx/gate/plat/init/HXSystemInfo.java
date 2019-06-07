@@ -41,13 +41,12 @@ public class HXSystemInfo {
 		if(envVars!=null&&envVars.size()>0) {
 			for(EnvVar envVar:envVars) {
 				cacheMap.put(envVar.getEnvName(), envVar.getEnvValue());
-				//设定人脸机返回信息地址
-				if(HXCoreUtil.isEquals(envVar.getEnvName(),"localUrl")) {
-					iDongwoPlatService.updateUploadUrl(envVar.getEnvValue());
-				}
 			}
 		}
 		EvnVarConstentInfo.setSystemInfoMap(cacheMap);
+		
+		//设定人脸机返回信息地址
+		iDongwoPlatService.updateUploadUrl(EvnVarConstentInfo.LOCAL_URL);
 	}
 	
 }

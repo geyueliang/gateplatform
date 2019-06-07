@@ -48,11 +48,15 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		//将下载下来的预约信息转换成对应的预约信息
 		Ksyyxx ksyyxx = new Ksyyxx();
 		copyInfo(examinationInfo,ksyyxx);
-		Ksyyxx result = ksyyxxMapper.selectOne(ksyyxx);
-		ExaminationInfo ksyyInfo = new ExaminationInfo();
-		ksyyInfo.setLsh(result.getLsh());
-		ksyyInfo.setKchp(result.getCtlbit1());
-		return ksyyInfo;
+		Ksyyxx result = ksyyxxMapper.selectByIdNum(ksyyxx.getSfzmhm());
+		
+		if(result != null) {
+			ExaminationInfo ksyyInfo = new ExaminationInfo();
+			ksyyInfo.setLsh(result.getLsh());
+			ksyyInfo.setKchp(result.getCtlbit1());
+			return ksyyInfo;
+		}
+		return null;
 	}
 	
 	/**
