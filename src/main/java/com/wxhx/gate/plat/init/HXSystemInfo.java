@@ -47,11 +47,11 @@ public class HXSystemInfo {
 				if (HXCoreUtil.isEquals(envVar.getEnvName(), "localUrl")) {
 					localUrl = envVar.getEnvValue();
 				}
-				EvnVarConstentInfo.setSystemInfoMap(cacheMap);
-				if (!HXCoreUtil.isEmpty(localUrl)) {
-					iDongwoPlatService.updateUploadUrl(localUrl);
-				}
 			}
+		}
+		EvnVarConstentInfo.setSystemInfoMap(cacheMap);
+		if (!HXCoreUtil.isEmpty(localUrl)) {
+			iDongwoPlatService.updateUploadUrl(localUrl);
 		}
 	}
 }
