@@ -17,6 +17,7 @@ import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 
 /**
  * 系統初始化工作
+ * 
  * @author geliang
  *
  */
@@ -25,28 +26,32 @@ public class HXSystemInfo {
 
 	@Autowired
 	private EnvVarMapper envVarMapper;
-	
+
 	@Autowired
 	private IDongwoPlatService iDongwoPlatService;
-	
+
 	/**
 	 * 系統初始化相关工作
 	 */
 	@PostConstruct
 	private void systemInit() {
-		//查询所有的环境信息
+		// 查询所有的环境信息
 		List<EnvVar> envVars = envVarMapper.selectAll();
-		//将数据库信息放入缓存中
+		// 将数据库信息放入缓存中
 		Map<String, String> cacheMap = new HashMap<String, String>();
-		if(envVars!=null&&envVars.size()>0) {
-			for(EnvVar envVar:envVars) {
+		String localUrl = "";
+		if (envVars != null && envVars.size() > 0) {
+			for (EnvVar envVar : envVars) {
 				cacheMap.put(envVar.getEnvName(), envVar.getEnvValue());
+				// 设定人脸机返回信息地址
+				if (HXCoreUtil.isEquals(envVar.getEnvName(), "localUrl")) {
+					localUrl = envVar.getEnvValue();
+				}
+				EvnVarConstentInfo.setSystemInfoMap(cacheMap);
+				if (!HXCoreUtil.isEmpty(localUrl)) {
+					iDongwoPlatService.updateUploadUrl(localUrl);
+				}
 			}
 		}
-		EvnVarConstentInfo.setSystemInfoMap(cacheMap);
-		
-		//设定人脸机返回信息地址
-		iDongwoPlatService.updateUploadUrl(EvnVarConstentInfo.LOCAL_URL);
 	}
-	
 }
