@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.web.HXRespons;
@@ -35,6 +36,7 @@ public class RegisterServiceImpl implements IRegisterService {
 	
 	private static String fhjls = "100";		//返回记录数
 	
+	@Transactional(rollbackFor = Exception.class)
 	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
 		HXRespons<RegisterResponse> finalResult = new HXRespons<RegisterResponse>("ERROR","操作失败",null);
 		ExaminationInfo  appointmentInfo = null;
@@ -43,9 +45,9 @@ public class RegisterServiceImpl implements IRegisterService {
 		ExaminationInfo zpInfo = null;
 		WhiteListVO whiteListVO = new WhiteListVO();
 		
-//		RegisterResponse result = iManagerPlatService.register(registerInfoVo);
-		RegisterResponse result = new RegisterResponse();
-		result.setCode("1");
+		RegisterResponse result = iManagerPlatService.register(registerInfoVo);
+//		RegisterResponse result = new RegisterResponse();
+//		result.setCode("1");
 		//如果报道成功则获取排考信息，预约信息
 		if("1".equals(result.getCode())) {
 			ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
@@ -82,7 +84,7 @@ public class RegisterServiceImpl implements IRegisterService {
 			appointmentInfo.setZp(zpInfo.getZp());
 			int photoRes = iControlCenterService.insertPhotoInfo(appointmentInfo);
 			
-			if (res > 0 && photoRes > 0 &&  faceResponse.getCode() == 1 &&  appointmentInfo != null) {
+			if (res > 0 && photoRes > 0 &&  faceResponse.getCode() == 0 &&  appointmentInfo != null) {
 				finalResult = 	new HXRespons<RegisterResponse>("SUCCESS","操作成功",result);
 			}
 		}

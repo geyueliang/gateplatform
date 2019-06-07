@@ -13,10 +13,10 @@ import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.constent.CommonTestConstent;
+import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 import com.wxhx.gate.plat.init.WhiteListInit;
 import com.wxhx.gate.plat.service.IRegisterService;
-import com.wxhx.gate.plat.util.PersonFaceMachineInfo;
 
 /**
  * 考生报道
@@ -59,7 +59,7 @@ public class RegisterController {
 		RegisterInfoVo registerInfoVo = new RegisterInfoVo();
 		registerInfoVo.setSfzmhm(carNo);
 		registerInfoVo.setKskm(kskm);
-		registerInfoVo.setKsdd(PersonFaceMachineInfo.KSDD);
+		registerInfoVo.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		return iRegisterService.register(registerInfoVo);
 	}
 	

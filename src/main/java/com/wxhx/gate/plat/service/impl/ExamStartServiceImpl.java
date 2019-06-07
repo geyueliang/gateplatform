@@ -53,15 +53,15 @@ public class ExamStartServiceImpl implements IExamStartService{
 		int cardResultStatus = recordInfo.getCardResultStatus();	//人证比对
 		int faceResultStatus = recordInfo.getFaceResultStatus();	//白名单比对
 		
-		if(cardResultStatus != 1) {
-			if(faceResultStatus != 1) {
+		if(cardResultStatus != 0) {
+			if(faceResultStatus != 0) {
 				return finalResult;
 			}
 			return finalResult;
 		}
 		
 		//比对成功，上传采集照片
-		examineeInfoVO.setKsdd(PersonFaceMachineInfo.KSDD);
+		examineeInfoVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		examineeInfoVO.setKskm(kskm);
 		examineeInfoVO.setSfzmhm(recordInfo.getIdNum());
 		examineeInfoVO.setMjzp(recordInfo.getScenePhoto());

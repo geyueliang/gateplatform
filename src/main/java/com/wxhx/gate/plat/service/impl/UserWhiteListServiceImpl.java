@@ -33,7 +33,7 @@ public class UserWhiteListServiceImpl implements IUserWhiteListService{
 		WhiteListVO whiteListVO = new WhiteListVO();
 		whiteListVO.setIdnum(userWhite.getCarId());
 		whiteListVO.setName(userWhite.getUserName());
-		whiteListVO.setPhoto("data:image/jpeg;base64,"+userWhite.getUserPhoto());
+		whiteListVO.setPhoto(userWhite.getUserPhoto());
 		whiteListVO.setValidStart(GatePlatUtil.getFormatDate("yyyy.MM.dd", new Date()));
 		whiteListVO.setValidEnd("2099.12.31");
 		FaceResponse res = iDongwoPlatService.insertWhiteList(whiteListVO);
