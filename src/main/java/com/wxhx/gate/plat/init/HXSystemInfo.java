@@ -38,16 +38,20 @@ public class HXSystemInfo {
 		List<EnvVar> envVars = envVarMapper.selectAll();
 		//将数据库信息放入缓存中
 		Map<String, String> cacheMap = new HashMap<String, String>();
+		String localUrl = "";
 		if(envVars!=null&&envVars.size()>0) {
 			for(EnvVar envVar:envVars) {
 				cacheMap.put(envVar.getEnvName(), envVar.getEnvValue());
 				//设定人脸机返回信息地址
 				if(HXCoreUtil.isEquals(envVar.getEnvName(),"localUrl")) {
-					iDongwoPlatService.updateUploadUrl(envVar.getEnvValue());
+					localUrl = envVar.getEnvValue();
 				}
 			}
 		}
 		EvnVarConstentInfo.setSystemInfoMap(cacheMap);
+		if(!HXCoreUtil.isEmpty(localUrl)) {
+			iDongwoPlatService.updateUploadUrl(localUrl);
+		}
 	}
 	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,8 @@ import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.FaceResponse;
 import com.wxhx.gate.plat.bean.out.RecordInfo;
 import com.wxhx.gate.plat.controller.vo.FaceInfoDelVo;
+import com.wxhx.gate.plat.bean.out.RegisterResponse;
+import com.wxhx.gate.plat.constent.CommonTestConstent;
 import com.wxhx.gate.plat.init.WhiteListInit;
 import com.wxhx.gate.plat.service.IExamStartService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
@@ -39,6 +42,9 @@ public class ExamingController {
 	@Autowired
 	private IDongwoPlatService iDongwoPlatService;
 	
+	@Value("${wxhx.gate.test:false}")
+	private boolean isTest;
+	
 	/**
 	 * 开始考试
 	 * @return
@@ -47,6 +53,12 @@ public class ExamingController {
 	public String examStart(@RequestBody RecordInfo recordInfo){
 		final String idNum = recordInfo.getIdNum();
 //		HXCoreUtil.createImageFromBase64(recordInfo.getScenePhoto(), "D://11.jpg");
+		//如果是测试环境根据将身份证编号换成测试编号
+		if(isTest) {
+			if(!HXCoreUtil.isEmpty(CommonTestConstent.replaceMap.get(recordInfo.getIdNum())+"")){
+				recordInfo.setIdNum(CommonTestConstent.replaceMap.get(recordInfo.getIdNum())+"");
+			} 
+		}
 		Map<String, Object> res = new HashMap<String, Object>();
 		if(WhiteListInit.WHITE_LIST.contains(recordInfo.getIdNum())) {
 			res.put("code", 1);
