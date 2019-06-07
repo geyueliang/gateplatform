@@ -22,6 +22,7 @@ public class DongwoPlatServiceImpl implements IDongwoPlatService{
 
 	public FaceResponse insertWhiteList(WhiteListVO whiteListVO) {
 		String addUrl = EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.FACEMACHE_URL)+"addCard";
+		whiteListVO.setPhoto("data:image/jpeg;base64,"+whiteListVO.getPhoto());
 		JSONObject jsonObject = HXHttpClient.httpPost(addUrl, getJsonParam(whiteListVO));
 		return HXCoreUtil.jsonToObj(jsonObject.toJSONString(), FaceResponse.class);
 	}

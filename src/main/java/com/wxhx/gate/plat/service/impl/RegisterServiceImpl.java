@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.web.HXRespons;
@@ -35,6 +36,7 @@ public class RegisterServiceImpl implements IRegisterService {
 	
 	private static String fhjls = "100";		//返回记录数
 	
+	@Transactional(rollbackFor = Exception.class)
 	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
 		HXRespons<RegisterResponse> finalResult = new HXRespons<RegisterResponse>("ERROR","操作失败",null);
 		ExaminationInfo  appointmentInfo = null;
