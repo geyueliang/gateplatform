@@ -14,14 +14,9 @@ import com.wxhx.gate.plat.bean.out.RecordInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
-import com.wxhx.gate.plat.controller.vo.FaceMacDevVO;
-import com.wxhx.gate.plat.controller.vo.WhiteListVO;
 import com.wxhx.gate.plat.service.IExamStartService;
-import com.wxhx.gate.plat.service.bean.WebServiceResult;
 import com.wxhx.gate.plat.service.out.IControlCenterService;
-import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 import com.wxhx.gate.plat.service.out.IManagerPlatService;
-import com.wxhx.gate.plat.util.PersonFaceMachineInfo;
 
 /**
  * 
@@ -31,8 +26,6 @@ import com.wxhx.gate.plat.util.PersonFaceMachineInfo;
 @Service
 public class ExamStartServiceImpl implements IExamStartService{
 
-	@Autowired
-	private IDongwoPlatService iDongwoPlatService;
 	
 	@Autowired
 	private IManagerPlatService iManagerPlatService;
@@ -71,24 +64,28 @@ public class ExamStartServiceImpl implements IExamStartService{
 			e.printStackTrace();
 		}
 		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
-		
-		//更新门禁照片
-		int updateRes = iControlCenterService.updatePhotoInfo(recordInfo);
-		
-		//查询预约信息
-		ExaminationInfo examinationInfo = new ExaminationInfo();
-		examinationInfo.setSfzmhm(recordInfo.getIdNum());
-		ExaminationInfo ksyyxx = iControlCenterService.getExaminationInfo(examinationInfo);
-		
-		//写入视频认证
-		examineeInfoVO.setLsh(ksyyxx.getLsh());
-		examineeInfoVO.setKchp(ksyyxx.getKchp());
-		examineeInfoVO.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));  //考试系统编号
-		RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
-		
-		if("1".equals(photoResponse.getCode()) && updateRes == 1 && "1".equals(writeVideoResponse.getCode())) {
-			finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",null);
+		if(photoResponse != null) {
+			//更新门禁照片
+			int updateRes = iControlCenterService.updatePhotoInfo(recordInfo);
+			
+			//查询预约信息
+			ExaminationInfo examinationInfo = new ExaminationInfo();
+			examinationInfo.setSfzmhm(recordInfo.getIdNum());
+			ExaminationInfo ksyyxx = iControlCenterService.getExaminationInfo(examinationInfo);
+			if(ksyyxx != null) {
+				//写入视频认证
+				examineeInfoVO.setLsh(ksyyxx.getLsh());
+				examineeInfoVO.setKchp(ksyyxx.getKchp());
+				examineeInfoVO.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));  //考试系统编号
+				RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
+				if(writeVideoResponse != null) {
+					if("1".equals(photoResponse.getCode()) && updateRes == 1 && "1".equals(writeVideoResponse.getCode())) {
+						finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",null);
+					}
+				}
+			}
 		}
+		
 		
 		return finalResult;
 	}

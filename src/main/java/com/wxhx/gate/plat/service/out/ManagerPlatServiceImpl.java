@@ -1,7 +1,5 @@
 package com.wxhx.gate.plat.service.out;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
@@ -42,16 +40,16 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 获取预约信息
 	 */
 	public WebServiceResult<ExaminationInfo> getAppointmentInfo(ExamineeInfoQueryVO examineeInfoQueryVO) {
-		WebServiceResult<ExaminationInfo> ExaminationInfo = null;
+		WebServiceResult<ExaminationInfo> examinationInfo = null;
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
 			String jkid = "17E13";	//获取预约信息接口序列号
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
-			ExaminationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
+			examinationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return ExaminationInfo;
+		return examinationInfo;
 	}
 
 	/**
@@ -77,16 +75,16 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 *  获取考生照片
 	 */
 	public WebServiceResult<ExaminationInfo> getZP(ExamineeInfoQueryVO examineeInfoQueryVO) {
-		WebServiceResult<ExaminationInfo> ExaminationInfo = null;
+		WebServiceResult<ExaminationInfo> examinationInfo = null;
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
 			String jkid = "17E04";	//获取考生照片接口序列号
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
-			ExaminationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
+			examinationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return ExaminationInfo;
+		return examinationInfo;
 	}
 
 	/**

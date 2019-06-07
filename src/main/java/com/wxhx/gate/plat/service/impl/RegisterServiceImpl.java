@@ -1,6 +1,5 @@
 package com.wxhx.gate.plat.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import com.wxhx.gate.plat.service.IRegisterService;
 import com.wxhx.gate.plat.service.out.IControlCenterService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 import com.wxhx.gate.plat.service.out.IManagerPlatService;
-import com.wxhx.gate.plat.util.PersonFaceMachineInfo;
 
 @Service
 public class RegisterServiceImpl implements IRegisterService {

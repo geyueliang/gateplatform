@@ -14,8 +14,6 @@ import com.wxhx.gate.plat.dao.KszpMapper;
 import com.wxhx.gate.plat.dao.entity.Ksyyxx;
 import com.wxhx.gate.plat.dao.entity.Kszp;
 
-import oracle.sql.DATE;
-
 /**
  * 
  * @author coyi
