@@ -25,6 +25,8 @@ import com.wxhx.gate.plat.dao.entity.Ksyyxx;
 import com.wxhx.gate.plat.dao.entity.Kszp;
 import com.wxhx.gate.plat.init.InitKSKFDM;
 import com.wxhx.gate.plat.service.IExamProcessService;
+import com.wxhx.gate.plat.service.bean.WebServiceResult;
+import com.wxhx.gate.plat.service.bean.WebServiceResultHead;
 import com.wxhx.gate.plat.util.GatePlatUtil;
 import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 
@@ -115,7 +117,17 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		default:
 			break;
 		}
-		
+		//解析返回对象
+		WebServiceResult serviceResult =  HXCallWebServiceUtil.xmlToBean(result, WebServiceResult.class);
+		if(serviceResult!=null&&serviceResult.getHead()!=null) {
+			result = HXCoreUtil.getJsonString(serviceResult.getHead());
+		}
+		else {
+			WebServiceResultHead head = new WebServiceResultHead();
+			head.setCode("0");
+			head.setMessage("error");
+			result = HXCoreUtil.getJsonString(serviceResult.getHead());
+		}
 		return result;
 	}
 	

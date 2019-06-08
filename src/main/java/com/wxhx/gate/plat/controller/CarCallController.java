@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wxhx.gate.plat.controller.vo.CarCallInfoVo;
+import com.wxhx.gate.plat.service.IExamProcessService;
 
 /**
  *  提供给考车调用的web服务
@@ -15,9 +17,22 @@ import com.wxhx.gate.plat.controller.vo.CarCallInfoVo;
 @RestController
 public class CarCallController {
 
-	@RequestMapping(path = "/carCall",method = RequestMethod.POST)
+	private IExamProcessService iExamProcessService;
+	
+	@RequestMapping(path = "/examProcess",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
+//	@RequestMapping(path = "/examProcess",method = RequestMethod.POST)
+//	@ResponseBody
 	public String carCall(@RequestBody CarCallInfoVo callInfoVo) {
-		return "";
+		String result = "";
+		try {
+			result = iExamProcessService.doProcess(callInfoVo.getContent());
+		} catch (Exception e) {
+			JSONObject json = new JSONObject();
+			json.put("code", "0");
+			json.put("message", "error");
+			result = json.toJSONString();
+		}
+		return result;
 	}
 	
 }

@@ -44,7 +44,7 @@ public class DongwoPlatServiceImpl implements IDongwoPlatService{
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("url", iploadUrl);
 		JSONObject res = HXHttpClient.httpPost(openUrl,jsonObject);
-		return HXCoreUtil.jsonToObj(res.toJSONString(), FaceResponse.class);
+		return HXCoreUtil.jsonToObj(res!=null?res.toJSONString():"", FaceResponse.class);
 	}
 	
 	

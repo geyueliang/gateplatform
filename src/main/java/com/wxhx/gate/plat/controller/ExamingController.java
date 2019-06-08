@@ -48,7 +48,7 @@ public class ExamingController {
 	 * 开始考试
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST,produces="application/json;charset=UTF-8")
 	public String examStart(@RequestBody RecordInfo recordInfo){
 		final String idNum = recordInfo.getIdNum();
 //		HXCoreUtil.createImageFromBase64(recordInfo.getScenePhoto(), "D://11.jpg");

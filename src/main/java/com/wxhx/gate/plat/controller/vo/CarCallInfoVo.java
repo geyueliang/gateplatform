@@ -6,17 +6,7 @@ package com.wxhx.gate.plat.controller.vo;
  */
 public class CarCallInfoVo {
 
-	private String typeid;
-	
 	private String content;
-
-	public String getTypeid() {
-		return typeid;
-	}
-
-	public void setTypeid(String typeid) {
-		this.typeid = typeid;
-	}
 
 	public String getContent() {
 		return content;
