@@ -1,0 +1,23 @@
+package com.wxhx.gate.plat.controller;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.wxhx.gate.plat.controller.vo.CarCallInfoVo;
+
+/**
+ *  提供给考车调用的web服务
+ * @author geliang
+ *
+ */
+@RestController
+public class CarCallController {
+
+	@RequestMapping(path = "/carCall",method = RequestMethod.POST)
+	public String carCall(@RequestBody CarCallInfoVo callInfoVo) {
+		return "";
+	}
+	
+}

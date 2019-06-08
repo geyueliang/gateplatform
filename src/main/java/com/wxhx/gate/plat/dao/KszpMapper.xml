@@ -9,4 +9,8 @@
     where sfzmhm = #{sfzmhm} and zplx = #{zplx}
   </update>
  	
+ 	<select id="getKszpByCarNo" resultType="com.wxhx.gate.plat.dao.entity.Kszp">
+ 		SELECT * from  kszp WHERE  sfzmhm = #{carNo} and ZPLX = #{type} AND  TO_CHAR(GXSJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') AND ROWNUM = 1
+ 	</select>
+ 	
 </mapper>

@@ -1,5 +1,7 @@
 package com.wxhx.gate.plat.util;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,6 +22,20 @@ public class GatePlatUtil {
 	public static String getFormatDate(String format,Date date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
 		return simpleDateFormat.format(date);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getLocalhostIp() {
+		String result = "";
+		try {
+			result =  InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 }

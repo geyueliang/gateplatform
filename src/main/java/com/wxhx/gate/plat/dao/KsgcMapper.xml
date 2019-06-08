@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wxhx.gate.plat.dao.KsgcMapper" >
+
+
+	<select id="getNowKscs" resultType="int">
+		select count(*) FROM
+		(
+		SELECT BCKSCS from KSGC where SFZMHM = #{carNo} AND
+		TO_CHAR(SJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') GROUP BY BCKSCS
+		)
+	</select>
+  
+  
+  
+  
+  	<select id="getKfxm" resultType="com.wxhx.gate.plat.dao.entity.Ksgc">
+  		select * from KSGC where SFZMHM = #{carNo} AND JKBZ  = '17C53' AND BCKSCS = #{kscs}  AND  TO_CHAR(SJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+  	</select>
+  
+</mapper>

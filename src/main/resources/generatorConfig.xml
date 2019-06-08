@@ -13,7 +13,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
-                        connectionURL="jdbc:oracle:thin:@192.168.1.100:1521:orcl" userId="shhx"
+                        connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:orcl" userId="shhx"
                         password="sh2350"/>
 
         <javaModelGenerator targetPackage="com.wxhx.gate.plat.dao.entity"
@@ -22,7 +22,7 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.wxhx.gate.plat.mapper"
+        <sqlMapGenerator targetPackage="com.wxhx.gate.plat.dao"
                          targetProject="D:/Software/eclipse-workspace_out/gateplatform/src/main/java">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
@@ -37,12 +37,10 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
 
-        <table tableName="ENV_VAR"
+        <table tableName="KSGC"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-            <!--<columnRenamingRule searchString="^D_"
-                                replaceString=""/>-->
         </table>
 
     </context>
