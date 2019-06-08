@@ -9,6 +9,7 @@ import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RecordInfo;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
+import com.wxhx.gate.plat.dao.KsclMapper;
 import com.wxhx.gate.plat.dao.KsyyxxMapper;
 import com.wxhx.gate.plat.dao.KszpMapper;
 import com.wxhx.gate.plat.dao.entity.Ksyyxx;
@@ -27,6 +28,9 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 	
 	@Autowired
 	private KszpMapper kszpMapper;
+	
+	@Autowired
+	private KsclMapper ksclMapper;
 	
 	public int insertSortInfo(ExaminationInfo examinationInfo) {
 		if(examinationInfo==null) {
@@ -150,6 +154,10 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		
 	}
 	
+	/**
+	 * 考试照片RID
+	 * @return
+	 */
 	public String getRandomCharts() {
 		char[] letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
 	            'K', 'L', 'M', 'N', 'O', 'P','Q', 'R', 'S', 'T', 'U', 'V',
@@ -166,5 +174,15 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 	    
 	    return chs.toString();
 	}
+	
+	
+	/**
+	 * 根据考车车牌转换编号
+	 * @return
+	 */
+	public String getKchp(String kchp) {
+		return ksclMapper.selectByKchp(kchp);
+	}
+	
 
 }

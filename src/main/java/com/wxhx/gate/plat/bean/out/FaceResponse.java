@@ -7,7 +7,7 @@ package com.wxhx.gate.plat.bean.out;
  */
 public class FaceResponse {
 	
-	private int code;	//返回状态 1：成功，其他失败
+	private int code;	//返回状态 0：成功，其他失败
 	
 	private String msg;	//提示信息	
 
