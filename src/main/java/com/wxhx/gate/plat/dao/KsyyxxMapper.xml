@@ -6,7 +6,7 @@
 	
  	<select id="selectByIdNum" parameterType="java.lang.String" resultType="com.wxhx.gate.plat.dao.entity.Ksyyxx">
 	    select *
-	    from KSYYXX where SFZMHM = #{sfzmhm}
+	    from KSYYXX where SFZMHM = #{sfzmhm} and TO_CHAR(YKRQ,'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd')
  	</select>
  	
 </mapper>
