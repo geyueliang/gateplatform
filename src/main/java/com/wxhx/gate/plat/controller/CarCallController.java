@@ -19,18 +19,16 @@ public class CarCallController {
 
 	private IExamProcessService iExamProcessService;
 	
-	@RequestMapping(path = "/examProcess",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
-//	@RequestMapping(path = "/examProcess",method = RequestMethod.POST)
+//	@RequestMapping(path = "/examProcess",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
+	@RequestMapping(path = "/examProcess",method = RequestMethod.POST)
 //	@ResponseBody
-	public String carCall(@RequestBody CarCallInfoVo callInfoVo) {
-		String result = "";
+	public int carCall(@RequestBody CarCallInfoVo callInfoVo) {
+		int result = 0;
 		try {
-			result = iExamProcessService.doProcess(callInfoVo.getContent());
+			String resJson = iExamProcessService.doProcess(callInfoVo.getContent());
+			result =Integer.parseInt(JSONObject.parseObject(resJson).getString("code"));
 		} catch (Exception e) {
-			JSONObject json = new JSONObject();
-			json.put("code", "0");
-			json.put("message", "error");
-			result = json.toJSONString();
+			result = 0;
 		}
 		return result;
 	}
