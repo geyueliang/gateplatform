@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
+import com.wxhx.basic_client.common.HXLogUtil;
+import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.gate.plat.bean.exam.process.ExamEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamItemEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamMark;
@@ -51,18 +53,21 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String idCheck(IdentityComparison comparison) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(comparison);
 		String jkid = "17C51"; //身份比對
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 
 	public String examMarkHappen(ExamMark examMark) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(examMark);
 		String jkid = "17C53"; //考试扣分
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 
 	public String uploadImage(ProcessImage processImage) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(processImage);
 		String jkid = "17C54"; //图片上传
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 
@@ -77,6 +82,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		else {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examItemEnd);
 			String jkid = "17C55"; //项目结束
+			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
 			result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		}
 		return result;
@@ -85,6 +91,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String examEnd(ExamEnd examEnd) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(examEnd);
 		String jkid = "17C56"; //科目结束
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 
@@ -155,6 +162,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	private String[] decodeInfo(String content) {
 		String[] result = null;
 		try {
+			content = content.substring(1, content.length());
 			String decodeStr = functionMapper.decodeStr(content);
 			if(!HXCoreUtil.isEmpty(decodeStr)) {
 				result = decodeStr.split(",");
@@ -162,7 +170,6 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		} catch (Exception e) {
 			result = null;
 		}
-
 		return result;
 	}
 	
@@ -194,7 +201,9 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 				}
 				//照片
 				Kszp kszp = kszpMapper.getKszpByCarNo(ksyyxx.getSfzmhm(), "BD");
-				identityComparison.setZp(kszp.getZp());
+				if(kszp!=null) {
+					identityComparison.setZp(kszp.getZp());
+				}
 				//开始时间
 				identityComparison.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 				t = (T) identityComparison;

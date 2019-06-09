@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
+import com.wxhx.basic_client.common.HXLogUtil;
+import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.basic_client.config.thread.HXThreadManager;
 import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.FaceResponse;
@@ -50,6 +52,17 @@ public class ExamingController {
 	 */
 	@RequestMapping(method = RequestMethod.POST,produces="application/json;charset=UTF-8")
 	public String examStart(@RequestBody RecordInfo recordInfo){
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"人脸机上传信息成功{0}",recordInfo);
+
+		Map<String, Object> res = new HashMap<String, Object>();
+		/**
+		 * 测试
+		 */
+		if(true) {
+			res.put("code", 0);
+			res.put("msg", "success");
+			return HXCoreUtil.getJsonString(res);
+		}
 		final String idNum = recordInfo.getIdNum();
 //		HXCoreUtil.createImageFromBase64(recordInfo.getScenePhoto(), "D://11.jpg");
 		//如果是测试环境根据将身份证编号换成测试编号
@@ -58,7 +71,6 @@ public class ExamingController {
 				recordInfo.setIdNum(CommonTestConstent.replaceMap.get(recordInfo.getIdNum())+"");
 			} 
 		}
-		Map<String, Object> res = new HashMap<String, Object>();
 		if(WhiteListInit.WHITE_LIST.contains(recordInfo.getIdNum())) {
 			res.put("code", 1);
 			res.put("msg", "管理员开门");
@@ -75,6 +87,7 @@ public class ExamingController {
 			});
 			return HXCoreUtil.getJsonString(res);
 		}
+		
 		HXRespons<FaceResponse> result= iExamStartService.examing(recordInfo);
 		
 		if(HXCoreUtil.isEquals("SUCCESS", result.getResCode())) {
