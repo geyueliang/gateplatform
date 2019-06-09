@@ -94,8 +94,23 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	 */
 	public String doProcess(String content) throws Exception {
 		String result = "";
-		//获取处理参数
-		String[] processArray = this.decodeInfo(content);
+		String[] processArray = null;
+		//包含照片的 不需要解码
+		if(content.contains(",2,")) {
+			processArray = content.split(",");
+		}
+		else {
+			//获取处理参数
+			processArray = this.decodeInfo(content);
+		}
+		if(processArray==null) {
+			WebServiceResultHead head = new WebServiceResultHead();
+			head.setCode("1");
+			head.setMessage("success");
+			result = HXCoreUtil.getJsonString(head);
+			return result;
+		}
+		
 		int typeId = Integer.parseInt(processArray[1]);
 		switch (typeId) {
 		//身份验证
@@ -138,9 +153,17 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	 * @return
 	 */
 	private String[] decodeInfo(String content) {
-		//去除第一位干扰位
-//		content = content.substring(1, content.length());
-		return functionMapper.decodeStr(content).split(",");
+		String[] result = null;
+		try {
+			String decodeStr = functionMapper.decodeStr(content);
+			if(!HXCoreUtil.isEmpty(decodeStr)) {
+				result = decodeStr.split(",");
+			}
+		} catch (Exception e) {
+			result = null;
+		}
+
+		return result;
 	}
 	
 	
