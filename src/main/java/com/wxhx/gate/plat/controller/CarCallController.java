@@ -26,7 +26,7 @@ public class CarCallController {
 //	@RequestMapping(path = "/examProcess",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
 	@RequestMapping(path = "/examProcess",method = RequestMethod.POST)
 //	@ResponseBody
-	public int carCall(@RequestBody CarCallInfoVo callInfoVo) {
+	public int carCall(CarCallInfoVo callInfoVo) {
 		int result = 0;
 		try {
 			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"车载调用接口入参{0}",callInfoVo.getContent());

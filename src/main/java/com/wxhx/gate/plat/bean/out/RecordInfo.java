@@ -22,7 +22,7 @@ public class RecordInfo {
 	private String mac;	//设备MAC地址
 	private int inout;	//进出类型
 	private int openType;	//开门方式
-	private int cardResultStatus;	//认证识别结果（0失败，1成功）
+	private int cardResultStatus;	//认证识别结果
 	private int faceResultStatus;	//白名单识别结果
 	private String scenePhoto;	//现场抓拍图片 （Base64格式）
 	private String userPhoto;	//白名单图片（Base64格式）
