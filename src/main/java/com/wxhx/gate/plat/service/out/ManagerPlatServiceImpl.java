@@ -57,7 +57,6 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 
 	 */
 	public WebServiceResult<ExaminationInfo> getSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO) {
-		// TODO 预约信息和排考信息共享VO，是否有问题
 		WebServiceResult<ExaminationInfo> webServiceResult = null;
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
@@ -120,6 +119,19 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public WebServiceResult<ExaminationInfo> getExaminSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO) {
+		WebServiceResult<ExaminationInfo> webServiceResult = null;
+		try {
+			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
+			String jkid = "17E07";	//获取排考信息接口序列号
+			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
+			webServiceResult = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return webServiceResult;
 	}
 	
 	

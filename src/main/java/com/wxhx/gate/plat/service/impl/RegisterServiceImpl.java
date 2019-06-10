@@ -43,9 +43,9 @@ public class RegisterServiceImpl implements IRegisterService {
 		ExaminationInfo zpInfo = null;
 		WhiteListVO whiteListVO = new WhiteListVO();
 
-		RegisterResponse result = iManagerPlatService.register(registerInfoVo);
-//		RegisterResponse result = new RegisterResponse();
-//		result.setCode("1");
+//		RegisterResponse result = iManagerPlatService.register(registerInfoVo);
+		RegisterResponse result = new RegisterResponse();
+		result.setCode("1");
 		// 如果报道成功则获取排考信息，预约信息
 		if ("1".equals(result.getCode())) {
 			ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();

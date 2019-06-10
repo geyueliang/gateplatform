@@ -38,7 +38,7 @@ public class ExaminationInfo{
 	private String zp;	//照片
 	
 	@XmlElement(name="ywlx")
-	private String ywlx;	//业务类型
+	private String ywlx;	//业务类型**
 	
 	@XmlElement(name="kssxh")
 	private int kssxh;	//考试顺序号
@@ -48,6 +48,12 @@ public class ExaminationInfo{
 	
 	@XmlElement(name="kscx")
 	private String kscx;	//考试车型
+	
+	@XmlElement(name="kscx")
+	private String ksdd;	//考试地点
+	
+	@XmlElement(name="bkcs")
+	private String bkcs;	//报考次数
 	
 	@XmlElement(name="dlr")
 	private String dlr;	//代理人（驾校）
@@ -64,8 +70,32 @@ public class ExaminationInfo{
 	@XmlElement(name="ksxm")
 	private String ksxm;	//考试项目
 	
-	@XmlElement(name="sfyk")
-	private String sfyk;	//是否夜考
+	@XmlElement(name="ykxm")
+	private String ykxm;	//已考项目
+	
+	@XmlElement(name="kssxxh")
+	private String kssxxh;	//考试顺序号
+	
+	@XmlElement(name="ykms")
+	private String ykms;	//夜考模式
+	
+	@XmlElement(name="qjcj")
+	private String qjcj;	//开始成绩
+	
+	@XmlElement(name="kskssj")
+	private String kskssj;	//考试开始时间
+	
+	@XmlElement(name="skysfzmhm")
+	private String skysfzmhm;	//考试员身份证明编码
+	
+	@XmlElement(name="Ksy2sfzmhm")
+	private String Ksy2sfzmhm;	//考试员身份证明编码2
+	
+	@XmlElement(name="dqxm")
+	private String dqxm;	//当前项目
+	
+	@XmlElement(name="mkxm")
+	private String mkxm;	//免考项目
 	
 	@XmlElement(name="kchp")
 	private String kchp;	//考车号牌
@@ -158,12 +188,6 @@ public class ExaminationInfo{
 	public void setKsxm(String ksxm) {
 		this.ksxm = ksxm;
 	}
-	public String getSfyk() {
-		return sfyk;
-	}
-	public void setSfyk(String sfyk) {
-		this.sfyk = sfyk;
-	}
 	public String getKchp() {
 		return kchp;
 	}
@@ -187,6 +211,73 @@ public class ExaminationInfo{
 	}
 	public void setZp(String zp) {
 		this.zp = zp;
+	}
+	
+	public String getKsdd() {
+		return ksdd;
+	}
+	public void setKsdd(String ksdd) {
+		this.ksdd = ksdd;
+	}
+	public String getBkcs() {
+		return bkcs;
+	}
+	public void setBkcs(String bkcs) {
+		this.bkcs = bkcs;
+	}
+	public String getYkxm() {
+		return ykxm;
+	}
+	public void setYkxm(String ykxm) {
+		this.ykxm = ykxm;
+	}
+	public String getKssxxh() {
+		return kssxxh;
+	}
+	public void setKssxxh(String kssxxh) {
+		this.kssxxh = kssxxh;
+	}
+	public String getYkms() {
+		return ykms;
+	}
+	public void setYkms(String ykms) {
+		this.ykms = ykms;
+	}
+	public String getQjcj() {
+		return qjcj;
+	}
+	public void setQjcj(String qjcj) {
+		this.qjcj = qjcj;
+	}
+	public String getKskssj() {
+		return kskssj;
+	}
+	public void setKskssj(String kskssj) {
+		this.kskssj = kskssj;
+	}
+	public String getSkysfzmhm() {
+		return skysfzmhm;
+	}
+	public void setSkysfzmhm(String skysfzmhm) {
+		this.skysfzmhm = skysfzmhm;
+	}
+	public String getKsy2sfzmhm() {
+		return Ksy2sfzmhm;
+	}
+	public void setKsy2sfzmhm(String ksy2sfzmhm) {
+		Ksy2sfzmhm = ksy2sfzmhm;
+	}
+	public String getDqxm() {
+		return dqxm;
+	}
+	public void setDqxm(String dqxm) {
+		this.dqxm = dqxm;
+	}
+	public String getMkxm() {
+		return mkxm;
+	}
+	public void setMkxm(String mkxm) {
+		this.mkxm = mkxm;
 	}
 	@Override
 	public String toString() {

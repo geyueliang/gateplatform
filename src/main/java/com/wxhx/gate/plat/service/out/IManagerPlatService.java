@@ -39,6 +39,13 @@ public interface IManagerPlatService {
 	WebServiceResult<ExaminationInfo> getSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO);
 	
 	/**
+	 * 获取考生考车线路排考信息
+	 * @param examineeInfoQueryVO
+	 * @return
+	 */
+	WebServiceResult<ExaminationInfo> getExaminSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO);
+	
+	/**
 	 * 获取考生照片
 	 * @param examineeInfoVO
 	 * @return
@@ -59,4 +66,7 @@ public interface IManagerPlatService {
 	 * @return
 	 */
 	RegisterResponse writeVideoAttestation(ExamineeInfoVO examineeInfoVO);
+	
+	
+	
 }
