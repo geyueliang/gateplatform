@@ -1,15 +1,14 @@
 package com.wxhx.gate.plat.init;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.gate.plat.bean.exam.process.CarUsedInfo;
 import com.wxhx.gate.plat.dao.KsclMapper;
 import com.wxhx.gate.plat.dao.entity.Kscl;
@@ -51,43 +50,29 @@ public class InitCarInfo {
 	}
 	
 	/**
-	 * 获取当前可用车辆
+	 * 	随机获取可用车辆
 	 * @return
 	 */
 	public static CarUsedInfo getCanUseCar() {
-		CANUSECARS.sort(new Comparator<CarUsedInfo>() {
-			public int compare(CarUsedInfo o1, CarUsedInfo o2) {
-				return o1.getTimes()-o2.getTimes();
-			}
-			
-		});
-		CarUsedInfo canCarUsedInfo = CANUSECARS.get(0);
-//		canCarUsedInfo.setTimes(canCarUsedInfo.getTimes()+1);
-		return canCarUsedInfo;
+		Random random = new Random();
+		int i = random.nextInt(CANUSECARS.size());
+		return CANUSECARS.get(i);
 	}
-	
-	
-	public static boolean updateCarTime(String carId) {
-		boolean result = false;
-		for(CarUsedInfo carUsedInfo:CANUSECARS) {
-			if(HXCoreUtil.isEquals(carId, carUsedInfo.getKchp())) {
-				carUsedInfo.setTimes(carUsedInfo.getTimes()+1);
-				result = true;
-			}
-		}
-		return result;
-	}
-	
-	
+
 	/**
 	 * 尝试获取当前可用车辆
 	 * @param tryTime 尝试次数
 	 * @return
 	 */
-	public static CarUsedInfo getTryCanUseCar(int tryTime) {
-		if(tryTime<CANUSECARS.size()) {
-			return CANUSECARS.get(tryTime-1);
+	public static CarUsedInfo getTryCanUseCar(List<String> carIds) {
+		List<CarUsedInfo> cars = new ArrayList<CarUsedInfo>();
+		for(CarUsedInfo car:CANUSECARS) {
+			if(!carIds.contains(car.getKchp())) {
+				cars.add(car);
+			}
 		}
-		return null;
+		Random random = new Random();
+		int i = random.nextInt(cars.size());
+		return cars.get(i);
 	}
 }
