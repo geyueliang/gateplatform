@@ -32,10 +32,11 @@ public class SystemCheckServiceImpl implements ISystemCheckService{
 	 */
 	public HXRespons<CheckResponse> startCheck(List<Kscl> kscls) {
 		HXRespons<CheckResponse> finalResult = new HXRespons<CheckResponse>("ERROR", "操作失败", null);
-			for(Kscl kscl : kscls) {
+		//循环检测每辆车	
+		for(Kscl kscl : kscls) {
 				ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
 				examineeInfoQueryVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
-				examineeInfoQueryVO.setKscx(kscl.getKscx());
+				examineeInfoQueryVO.setCx(kscl.getKscx());
 				examineeInfoQueryVO.setKskm("2");
 				
 				WebServiceResult<SystemCheckInfo> checkItemsRoot = iManagerPlatService.getSystemTests(examineeInfoQueryVO);
@@ -63,9 +64,10 @@ public class SystemCheckServiceImpl implements ISystemCheckService{
 					WebServiceResult<CheckResponse> webResult = iManagerPlatService.writeCheckResult(checkresultVO);
 					if(webResult.getHead()!=null && HXCoreUtil.isEquals(webResult.getHead().getCode(), "1")) {
 						finalResult = new HXRespons<CheckResponse>("SUCCESS", "操作成功", null);
+						System.out.println("======================>" + checkCar.getKchp()+":"+finalResult.getResMsg());
 					}else {
 						finalResult = new HXRespons<CheckResponse>("ERROR", kscl.getKcbh()+":写入检测失败", null);
-						return finalResult;
+						System.out.println("======================>" + checkCar.getKchp()+":"+finalResult.getResMsg());
 					}
 				}
 				else {

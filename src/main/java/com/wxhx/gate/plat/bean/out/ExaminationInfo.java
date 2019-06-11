@@ -102,6 +102,9 @@ public class ExaminationInfo{
 	
 	@XmlElement(name="kcbh")
 	private String kcbh;	//考车编号
+
+	@XmlElement(name="lxxh")
+	private String lxxh;	//考车编号
 	
 	
 	public String getLsh() {
@@ -278,6 +281,12 @@ public class ExaminationInfo{
 	}
 	public void setMkxm(String mkxm) {
 		this.mkxm = mkxm;
+	}
+	public String getLxxh() {
+		return lxxh;
+	}
+	public void setLxxh(String lxxh) {
+		this.lxxh = lxxh;
 	}
 	@Override
 	public String toString() {

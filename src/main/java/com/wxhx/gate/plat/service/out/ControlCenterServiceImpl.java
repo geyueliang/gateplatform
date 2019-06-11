@@ -153,6 +153,8 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		target.setCtlbit1(source.getKcbh());
 		//考试顺序号
 		target.setCtlbit3(source.getKssxh()+"");
+		//考试顺序号
+		target.setLxxh(source.getKssxh()+"");
 		
 	}
 	

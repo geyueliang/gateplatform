@@ -21,6 +21,8 @@ public class RegisterInfoVo {
 	
 	@XmlElement(name="ksdd", required = true)
 	private String ksdd;
+	
+	private String name;
 
 	public String getKskm() {
 		return kskm;
@@ -44,6 +46,14 @@ public class RegisterInfoVo {
 
 	public void setKsdd(String ksdd) {
 		this.ksdd = ksdd;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

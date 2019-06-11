@@ -144,6 +144,11 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 			webServiceResult = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
 			if(webServiceResult.getBodyContent()!=null&&webServiceResult.getBodyContent().getContent()!=null&&webServiceResult.getBodyContent().getContent().size()>0) {
+				
+				ExaminationInfo ex =  (ExaminationInfo)webServiceResult.getBodyContent().getContent().get(0);
+				ex.setKchp(carUsedInfo.getKchp());
+				ex.setKcbh(carUsedInfo.getKcbh());
+				ex.setLxxh(carUsedInfo.getKslx());
 				//成功 设置预约测试
 				return webServiceResult;
 			}
@@ -160,6 +165,10 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 					String tryResponsStr = HXCallWebServiceUtil.queryWebService(jkid, tryWriteXml);
 					webServiceResult = HXCallWebServiceUtil.xmlToBean(tryResponsStr, ExaminationInfo.class);
 					if(webServiceResult.getBodyContent()!=null&&webServiceResult.getBodyContent().getContent()!=null&&webServiceResult.getBodyContent().getContent().size()>0) {
+						ExaminationInfo ex =  (ExaminationInfo)webServiceResult.getBodyContent().getContent().get(0);
+						ex.setKchp(carUsedInfo.getKchp());
+						ex.setKcbh(carUsedInfo.getKcbh());
+						
 						//成功 设置预约测试
 						return webServiceResult;
 					}
@@ -179,7 +188,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		WebServiceResult<SystemCheckInfo> webServiceResult = null;
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
-			String jkid = "17E01";	//获取排考信息接口序列号
+			String jkid = "17E01";	//
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 			webServiceResult = HXCallWebServiceUtil.xmlToBean(responsStr, SystemCheckInfo.class);
 		} catch (Exception e) {

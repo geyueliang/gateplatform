@@ -1,10 +1,15 @@
 package com.wxhx.gate.plat.dao.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
+
+@Table(name = "KSCL")
 public class Kscl {
     private String kcbh;
 
     private String kchp;
 
+    @Column( name = "KCZT")
     private int kczt;
 
     private Short sptd;
