@@ -49,7 +49,7 @@ public class ExaminationInfo{
 	@XmlElement(name="kscx")
 	private String kscx;	//考试车型
 	
-	@XmlElement(name="kscx")
+	@XmlElement(name="ksdd")
 	private String ksdd;	//考试地点
 	
 	@XmlElement(name="bkcs")
