@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.wxhx.basic_client.common.HXLogUtil;
+import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.dao.KsclMapper;
 import com.wxhx.gate.plat.dao.entity.Kscl;
+import com.wxhx.gate.plat.service.IKsyyxxService;
 import com.wxhx.gate.plat.service.bean.WebServiceResult;
 import com.wxhx.gate.plat.service.out.IManagerPlatService;
 
@@ -27,6 +30,9 @@ public class UpdateReserveInfoTimer {
 	
 	@Autowired
 	private IManagerPlatService iManagerPlatServer;
+	
+	@Autowired
+	private IKsyyxxService iKsyyxxServer;
 	
 	@Scheduled(fixedRateString = "${wxhx.gate.plate.update.reserveInfo.rate}",initialDelayString = "${wxhx.gate.plate.update.delay.timme}")
 	public void updateInfo() {
@@ -53,7 +59,9 @@ public class UpdateReserveInfoTimer {
 				List<ExaminationInfo> sortExams = webServiceRes.getBodyContent().getContent();
 				//更新预约信息表中的数据
 				for(ExaminationInfo examSortInfo:sortExams) {
-					
+					if(iKsyyxxServer.updateKsyyxx(examSortInfo)) {
+						HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"更新预约信息成功",examSortInfo);
+					}
 				}
 			}
 			

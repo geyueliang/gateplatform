@@ -1,14 +1,10 @@
 package com.wxhx.gate.plat.service.out;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
 import com.wxhx.basic_client.config.log.HXLogerFactory;
-import com.wxhx.gate.plat.bean.exam.process.CarUsedInfo;
 import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
@@ -18,7 +14,6 @@ import com.wxhx.gate.plat.controller.vo.CheckresultVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
-import com.wxhx.gate.plat.init.InitCarInfo;
 import com.wxhx.gate.plat.service.bean.WebServiceResult;
 import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 
