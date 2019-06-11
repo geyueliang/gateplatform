@@ -44,7 +44,7 @@ public interface IManagerPlatService {
 	 * @param examineeInfoQueryVO
 	 * @return
 	 */
-	WebServiceResult<ExaminationInfo> getExaminSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO);
+	WebServiceResult<ExaminationInfo> getExaminSortInfo();
 	
 	/**
 	 * 获取考生照片

@@ -11,6 +11,7 @@ import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.bean.out.SystemCheckInfo;
+import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.controller.vo.CheckresultVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
@@ -129,7 +130,10 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		return result;
 	}
 
-	public WebServiceResult<ExaminationInfo> getExaminSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO) {
+	public WebServiceResult<ExaminationInfo> getExaminSortInfo() {
+		ExamineeInfoQueryVO examineeInfoQueryVO =  new ExamineeInfoQueryVO();
+		examineeInfoQueryVO.setKskm("2");
+		examineeInfoQueryVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		//获取当前可用车牌信息
 		CarUsedInfo carUsedInfo = InitCarInfo.getCanUseCar();
 		examineeInfoQueryVO.setKchp(carUsedInfo.getKchp());
