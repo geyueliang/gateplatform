@@ -32,7 +32,6 @@ public class RegisterServiceImpl implements IRegisterService {
 	@Autowired
 	private IControlCenterService iControlCenterService; // 控制中心
 
-	@Transactional(rollbackFor = Exception.class)
 	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
 		HXRespons<RegisterResponse> finalResult = new HXRespons<RegisterResponse>("ERROR", "操作失败", null);
 		ExaminationInfo appointmentInfo = null;
@@ -46,15 +45,16 @@ public class RegisterServiceImpl implements IRegisterService {
 		appointmentInfo.setSfzmhm(registerInfoVo.getSfzmhm());
 		appointmentInfo.setKsdd(registerInfoVo.getKsdd());
 		appointmentInfo.setKskm(registerInfoVo.getKskm());
-		appointmentInfo.setLsh(HXCoreUtil.getNowDataStr(new Date(), "yyyyMMddhhMMss"));
-		appointmentInfo.setZkzmbh("");
+		appointmentInfo.setLsh(HXCoreUtil.getNowDataStr(new Date(), "yyMMddhhMMss"));
+		appointmentInfo.setZkzmbh("0000");
 		appointmentInfo.setXm(registerInfoVo.getName());
 		appointmentInfo.setYycs(0);
-		appointmentInfo.setKsxm("");
+		appointmentInfo.setKsxm("0000");
 		int res = iControlCenterService.insertSortInfo(appointmentInfo);
 		
 		if(res == 1) {
 			//报道
+			registerInfoVo.setName(null);
 			result = iManagerPlatService.register(registerInfoVo);
 //			result = new RegisterResponse();
 //			result.setCode("1");
@@ -70,7 +70,7 @@ public class RegisterServiceImpl implements IRegisterService {
 					zpInfo = (ExaminationInfo)zpResult.getBodyContent().getContent().get(0);
 						
 					// 插入人脸机白名单
-					whiteListVO.setName(registerInfoVo.getName());
+					whiteListVO.setName(appointmentInfo.getXm());
 					whiteListVO.setIdnum(registerInfoVo.getSfzmhm());
 					whiteListVO.setPhoto(zpInfo.getZp());
 					whiteListVO.setValidStart(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 起

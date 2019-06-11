@@ -12,55 +12,55 @@
  	<update id="updateByCardId" parameterType="com.wxhx.gate.plat.dao.entity.Ksyyxx">
     update KSYYXX
     <set>
-      <if test="LSH != null">
+      <if test="lsh != null">
         LSH = #{lsh},
       </if>
-      <if test="KSKM != null">
+      <if test="kskm != null">
         KSKM = #{kskm},
       </if>
-      <if test="KSYY != null">
+      <if test="ksyy != null">
         KSYY = #{ksyy},
       </if>
-      <if test="KSCX != null">
+      <if test="kscx != null">
         KSCX = #{kscx},
       </if>
-      <if test="KSCC != null">
+      <if test="kscc != null">
         KSCC = #{kscc},
       </if>
-      <if test="JBR != null">
+      <if test="jbr != null">
         JBR = #{jbr},
       </if>
-      <if test="GLBM != null">
+      <if test="glbm != null">
         GLBM = #{glbm},
       </if>
-      <if test="DLR != null">
+      <if test="dlr != null">
         DLR = #{dlr},
       </if>
-      <if test="KSY1 != null">
+      <if test="ksy1 != null">
         KSY1 = #{ksy1},
       </if>
-      <if test="KSY2 != null">
+      <if test="ksy2 != null">
         KSY2 = #{ksy2},
       </if>
-      <if test="BCYYKSCS != null">
+      <if test="bcyykscs != null">
         BCYYKSCS = #{bcyykscs},
       </if>
-      <if test="KSXM != null">
+      <if test="ksxm != null">
         KSXM = #{ksxm},
       </if>
-      <if test="LXXH != null">
+      <if test="lxxh != null">
         LXXH = #{lxxh},
       </if>
-      <if test="MJSJ != null">
+      <if test="mjsj != null">
         MJSJ = #{mjsj},
       </if>
-      <if test="CTLBIT1 != null">
+      <if test="ctlbit1 != null">
         CTLBIT1 = #{ctlbit1},
       </if>
-      <if test="CTLBIT2 != null">
+      <if test="ctlbit2 != null">
         CTLBIT2 = #{ctlbit2},
       </if>
-      <if test="CTLBIT3 != null">
+      <if test="ctlbit3 != null">
         CTLBIT3 = #{ctlbit3}
       </if>
     </set>

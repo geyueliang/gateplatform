@@ -22,6 +22,7 @@ public class RegisterInfoVo {
 	@XmlElement(name="ksdd", required = true)
 	private String ksdd;
 	
+	@XmlElement(name="name", required = false)
 	private String name;
 
 	public String getKskm() {
