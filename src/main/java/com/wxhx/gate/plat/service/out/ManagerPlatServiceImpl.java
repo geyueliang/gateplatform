@@ -200,7 +200,4 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		}
 		return result;
 	}
-	
-	
-
 }
