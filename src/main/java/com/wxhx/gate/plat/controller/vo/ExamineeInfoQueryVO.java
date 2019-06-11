@@ -20,6 +20,9 @@ public class ExamineeInfoQueryVO {
 	@XmlElement(name="kscx", required = true)
 	private String kscx;	//考试车型
 	
+	@XmlElement(name="cx")
+	private String cx;	//考试车型
+	
 	@XmlElement(name="fhjls", required = true)
 	private String fhjls;	//返回记录数
 	
@@ -100,6 +103,14 @@ public class ExamineeInfoQueryVO {
 
 	public void setKsrq(String ksrq) {
 		this.ksrq = ksrq;
+	}
+
+	public String getCx() {
+		return cx;
+	}
+
+	public void setCx(String cx) {
+		this.cx = cx;
 	}
 	
 }

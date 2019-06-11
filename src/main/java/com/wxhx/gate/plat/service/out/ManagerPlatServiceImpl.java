@@ -3,8 +3,11 @@ package com.wxhx.gate.plat.service.out;
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
+import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
+import com.wxhx.gate.plat.bean.out.SystemCheckInfo;
+import com.wxhx.gate.plat.controller.vo.CheckresultVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
@@ -132,6 +135,41 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			e.printStackTrace();
 		}
 		return webServiceResult;
+	}
+
+	/**
+	 * 获取系统检测信息
+	 */
+	public WebServiceResult<SystemCheckInfo> getSystemTests(ExamineeInfoQueryVO examineeInfoQueryVO) {
+		WebServiceResult<SystemCheckInfo> webServiceResult = null;
+		try {
+			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
+			String jkid = "17E01";	//获取排考信息接口序列号
+			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
+			webServiceResult = HXCallWebServiceUtil.xmlToBean(responsStr, SystemCheckInfo.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return webServiceResult;
+	}
+
+	/**
+	 * 写入检测结果
+	 */
+	public WebServiceResult<CheckResponse> writeCheckResult(CheckresultVO checkresultVO) {
+		WebServiceResult<CheckResponse> result = null;
+		try {
+			String writeXml = HXCallWebServiceUtil.beanToXml(checkresultVO);
+			String jkid = "17E02";	//获取视频认证开启接口序列号
+			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+			if(HXCoreUtil.isEmpty(responsStr)) {
+				return result;
+			}
+			result = HXCallWebServiceUtil.xmlToBean(responsStr, CheckResponse.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	

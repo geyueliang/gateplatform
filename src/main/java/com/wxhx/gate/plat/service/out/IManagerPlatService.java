@@ -1,9 +1,10 @@
 package com.wxhx.gate.plat.service.out;
 
-import java.util.List;
-
+import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
+import com.wxhx.gate.plat.bean.out.SystemCheckInfo;
+import com.wxhx.gate.plat.controller.vo.CheckresultVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
@@ -68,5 +69,18 @@ public interface IManagerPlatService {
 	RegisterResponse writeVideoAttestation(ExamineeInfoVO examineeInfoVO);
 	
 	
+	/**
+	 * 获取系统检测项
+	 * @param examineeInfoVO
+	 * @return
+	 */
+	WebServiceResult<SystemCheckInfo> getSystemTests(ExamineeInfoQueryVO examineeInfoQueryVO);
+	
+	/**
+	 * 写入检测结果
+	 * @param checkresultVO
+	 * @return
+	 */
+	WebServiceResult<CheckResponse> writeCheckResult(CheckresultVO checkresultVO);
 	
 }
