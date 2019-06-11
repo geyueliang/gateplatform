@@ -40,23 +40,16 @@ public class RegisterController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	HXRespons<RegisterResponse> register(@RequestBody Map<String,Object> reqMap){
+	HXRespons<RegisterResponse> register(@RequestBody Map<String,String> reqMap){
 		//判断当前用户是否是在管理员列表中
 		String carNo = reqMap.get("carNo")+"";
-		
-		//如果是测试环境根据将身份证编号换成测试编号
-		if(isTest) {
-			if(!HXCoreUtil.isEmpty(CommonTestConstent.replaceMap.get(carNo)+"")){
-				carNo = CommonTestConstent.replaceMap.get(carNo)+"";
-			} 
-		}
-		
-		
+		String name = reqMap.get("name");
 		if(WhiteListInit.WHITE_LIST.contains(carNo)) {
 			HXRespons<RegisterResponse> r = new HXRespons<RegisterResponse>("SUCCESS", "管理員", null);
 			return r;
 		}
 		RegisterInfoVo registerInfoVo = new RegisterInfoVo();
+		registerInfoVo.setName(name);
 		registerInfoVo.setSfzmhm(carNo);
 		registerInfoVo.setKskm(kskm);
 		registerInfoVo.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
