@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
+
 /**
  * webService 返回信息
  * @author geliang
@@ -35,6 +37,11 @@ public class WebServiceResult<T> {
 
 	public void setBodyContent(WebServerBody bodyContent) {
 		this.bodyContent = bodyContent;
+	}
+
+	@Override
+	public String toString() {
+		return HXCoreUtil.getJsonString(this);
 	}
 	
 	
