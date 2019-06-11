@@ -1,12 +1,10 @@
 package com.wxhx.gate.plat.service.out;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
-import com.wxhx.gate.plat.bean.exam.process.CarUsedInfo;
+import com.wxhx.basic_client.common.HXLogUtil;
+import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
@@ -16,7 +14,6 @@ import com.wxhx.gate.plat.controller.vo.CheckresultVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
-import com.wxhx.gate.plat.init.InitCarInfo;
 import com.wxhx.gate.plat.service.bean.WebServiceResult;
 import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 
@@ -130,13 +127,12 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		return result;
 	}
 
-	public WebServiceResult<ExaminationInfo> getExaminSortInfo() {
+	public WebServiceResult<ExaminationInfo> getExaminSortInfo(String kchp) {
 		ExamineeInfoQueryVO examineeInfoQueryVO =  new ExamineeInfoQueryVO();
 		examineeInfoQueryVO.setKskm("2");
 		examineeInfoQueryVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		//获取当前可用车牌信息
-		CarUsedInfo carUsedInfo = InitCarInfo.getCanUseCar();
-		examineeInfoQueryVO.setKchp(carUsedInfo.getKchp());
+		examineeInfoQueryVO.setKchp(kchp);
 		WebServiceResult<ExaminationInfo> webServiceResult = null;
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
@@ -144,39 +140,28 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 			webServiceResult = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
 			if(webServiceResult.getBodyContent()!=null&&webServiceResult.getBodyContent().getContent()!=null&&webServiceResult.getBodyContent().getContent().size()>0) {
-				
-				ExaminationInfo ex =  (ExaminationInfo)webServiceResult.getBodyContent().getContent().get(0);
-				ex.setKchp(carUsedInfo.getKchp());
-				ex.setKcbh(carUsedInfo.getKcbh());
-				ex.setLxxh(carUsedInfo.getKslx());
 				//成功 设置预约测试
 				return webServiceResult;
 			}
 			//当前获取信息不对 尝试其他车辆
-			else {
-				int tryTime = 1;
-				List<String> tryHp = new ArrayList<String>();
-				tryHp.add(carUsedInfo.getKchp());
-				while(tryTime<=InitCarInfo.tryTimes()&&tryHp.size()<InitCarInfo.tryTimes()) {
-					CarUsedInfo tryCar = InitCarInfo.getTryCanUseCar(tryHp);
-					tryHp.add(tryCar.getKchp());
-					examineeInfoQueryVO.setKchp(tryCar.getKchp());
-					String tryWriteXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
-					String tryResponsStr = HXCallWebServiceUtil.queryWebService(jkid, tryWriteXml);
-					webServiceResult = HXCallWebServiceUtil.xmlToBean(tryResponsStr, ExaminationInfo.class);
-					if(webServiceResult.getBodyContent()!=null&&webServiceResult.getBodyContent().getContent()!=null&&webServiceResult.getBodyContent().getContent().size()>0) {
-						ExaminationInfo ex =  (ExaminationInfo)webServiceResult.getBodyContent().getContent().get(0);
-						ex.setKchp(carUsedInfo.getKchp());
-						ex.setKcbh(carUsedInfo.getKcbh());
-						
-						//成功 设置预约测试
-						return webServiceResult;
-					}
-
-				}
-			}
+			/*
+			 * else { int tryTime = 1; List<String> tryHp = new ArrayList<String>();
+			 * tryHp.add(carUsedInfo.getKchp());
+			 * while(tryTime<=InitCarInfo.tryTimes()&&tryHp.size()<InitCarInfo.tryTimes()) {
+			 * CarUsedInfo tryCar = InitCarInfo.getTryCanUseCar(tryHp);
+			 * tryHp.add(tryCar.getKchp()); examineeInfoQueryVO.setKchp(tryCar.getKchp());
+			 * String tryWriteXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
+			 * String tryResponsStr = HXCallWebServiceUtil.queryWebService(jkid,
+			 * tryWriteXml); webServiceResult =
+			 * HXCallWebServiceUtil.xmlToBean(tryResponsStr, ExaminationInfo.class);
+			 * if(webServiceResult.getBodyContent()!=null&&webServiceResult.getBodyContent()
+			 * .getContent()!=null&&webServiceResult.getBodyContent().getContent().size()>0)
+			 * { //成功 设置预约测试 return webServiceResult; }
+			 * 
+			 * } }
+			 */
 		} catch (Exception e) {
-			e.printStackTrace();
+			HXLogUtil.error(HXLogerFactory.getLogger("gate_plate"),"获取车次人员信息错误",e.getStackTrace());
 		}
 		return webServiceResult;
 	}
@@ -215,7 +200,4 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		}
 		return result;
 	}
-	
-	
-
 }

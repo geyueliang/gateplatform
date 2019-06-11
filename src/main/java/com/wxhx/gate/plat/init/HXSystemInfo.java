@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
+import com.wxhx.basic_client.common.HXLogUtil;
+import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.dao.EnvVarMapper;
 import com.wxhx.gate.plat.dao.KsclMapper;
@@ -63,11 +65,10 @@ public class HXSystemInfo {
 		if (!HXCoreUtil.isEmpty(localUrl)) {
 			iDongwoPlatService.updateUploadUrl(localUrl);
 		}
-		
-		//系统车辆检测
+		HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),"开始车辆检测");
 		List<Kscl> kscls = ksclMapper.selectAll();
 		iSystemCheckServier.startCheck(kscls);
-		
+		HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),"车辆检测结束");
 		
 	}
 }
