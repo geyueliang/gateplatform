@@ -10,5 +10,8 @@ public interface KsyyxxMapper extends Mapper<Ksyyxx>{
 	
 	//根据身份证查询预约信息
 	Ksyyxx selectByIdNum(@Param("sfzmhm") String idNum);
+	
+	//根据身份证号码更新预约信息
+	int updateByCardId(Ksyyxx ksyyxx);
    
 }

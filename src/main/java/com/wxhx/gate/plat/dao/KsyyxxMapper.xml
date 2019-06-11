@@ -9,4 +9,62 @@
 	    from KSYYXX where SFZMHM = #{sfzmhm} and TO_CHAR(YKRQ,'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd')
  	</select>
  	
+ 	<update id="updateByCardId" parameterType="com.wxhx.gate.plat.dao.entity.Ksyyxx">
+    update KSYYXX
+    <set>
+      <if test="LSH != null">
+        LSH = #{lsh},
+      </if>
+      <if test="KSKM != null">
+        KSKM = #{kskm},
+      </if>
+      <if test="KSYY != null">
+        KSYY = #{ksyy},
+      </if>
+      <if test="KSCX != null">
+        KSCX = #{kscx},
+      </if>
+      <if test="KSCC != null">
+        KSCC = #{kscc},
+      </if>
+      <if test="JBR != null">
+        JBR = #{jbr},
+      </if>
+      <if test="GLBM != null">
+        GLBM = #{glbm},
+      </if>
+      <if test="DLR != null">
+        DLR = #{dlr},
+      </if>
+      <if test="KSY1 != null">
+        KSY1 = #{ksy1},
+      </if>
+      <if test="KSY2 != null">
+        KSY2 = #{ksy2},
+      </if>
+      <if test="BCYYKSCS != null">
+        BCYYKSCS = #{bcyykscs},
+      </if>
+      <if test="KSXM != null">
+        KSXM = #{ksxm},
+      </if>
+      <if test="LXXH != null">
+        LXXH = #{lxxh},
+      </if>
+      <if test="MJSJ != null">
+        MJSJ = #{mjsj},
+      </if>
+      <if test="CTLBIT1 != null">
+        CTLBIT1 = #{ctlbit1},
+      </if>
+      <if test="CTLBIT2 != null">
+        CTLBIT2 = #{ctlbit2},
+      </if>
+      <if test="CTLBIT3 != null">
+        CTLBIT3 = #{ctlbit3}
+      </if>
+    </set>
+    where SFZMHM = #{sfzmhm}
+  </update>
+ 	
 </mapper>

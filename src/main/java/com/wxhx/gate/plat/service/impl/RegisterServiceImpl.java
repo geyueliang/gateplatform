@@ -47,6 +47,10 @@ public class RegisterServiceImpl implements IRegisterService {
 		appointmentInfo.setKsdd(registerInfoVo.getKsdd());
 		appointmentInfo.setKskm(registerInfoVo.getKskm());
 		appointmentInfo.setLsh(HXCoreUtil.getNowDataStr(new Date(), "yyyyMMddhhMMss"));
+		appointmentInfo.setZkzmbh("");
+		appointmentInfo.setXm(registerInfoVo.getName());
+		appointmentInfo.setYycs(0);
+		appointmentInfo.setKsxm("");
 		int res = iControlCenterService.insertSortInfo(appointmentInfo);
 		
 		if(res == 1) {
