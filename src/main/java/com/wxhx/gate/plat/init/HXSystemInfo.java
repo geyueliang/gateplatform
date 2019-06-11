@@ -12,7 +12,10 @@ import org.springframework.stereotype.Component;
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.dao.EnvVarMapper;
+import com.wxhx.gate.plat.dao.KsclMapper;
 import com.wxhx.gate.plat.dao.entity.EnvVar;
+import com.wxhx.gate.plat.dao.entity.Kscl;
+import com.wxhx.gate.plat.service.ISystemCheckService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 
 /**
@@ -29,7 +32,14 @@ public class HXSystemInfo {
 
 	@Autowired
 	private IDongwoPlatService iDongwoPlatService;
+	
+	@Autowired
+	private ISystemCheckService iSystemCheckServier;
+	
 
+	@Autowired
+	private KsclMapper ksclMapper;
+	
 	/**
 	 * 系統初始化相关工作
 	 */
@@ -53,5 +63,11 @@ public class HXSystemInfo {
 		if (!HXCoreUtil.isEmpty(localUrl)) {
 			iDongwoPlatService.updateUploadUrl(localUrl);
 		}
+		
+		//系统车辆检测
+		List<Kscl> kscls = ksclMapper.selectAll();
+		iSystemCheckServier.startCheck(kscls);
+		
+		
 	}
 }
