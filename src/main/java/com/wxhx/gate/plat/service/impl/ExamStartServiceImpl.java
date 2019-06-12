@@ -2,20 +2,23 @@ package com.wxhx.gate.plat.service.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.web.HXRespons;
-import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.FaceResponse;
 import com.wxhx.gate.plat.bean.out.RecordInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
+import com.wxhx.gate.plat.controller.vo.FaceInfoDelVo;
 import com.wxhx.gate.plat.service.IExamStartService;
 import com.wxhx.gate.plat.service.out.IControlCenterService;
+import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 import com.wxhx.gate.plat.service.out.IManagerPlatService;
 
 /**
@@ -32,6 +35,9 @@ public class ExamStartServiceImpl implements IExamStartService{
 	
 	@Autowired
 	private IControlCenterService iControlCenterService;	//控制中心
+	
+	@Autowired
+	private IDongwoPlatService iDongwoPlatService;
 	
 	private static String kskm = "2";
 	
@@ -67,25 +73,18 @@ public class ExamStartServiceImpl implements IExamStartService{
 		if(photoResponse != null) {
 			//更新门禁照片
 			int updateRes = iControlCenterService.updatePhotoInfo(recordInfo);
-			
-			//查询预约信息
-			ExaminationInfo examinationInfo = new ExaminationInfo();
-			examinationInfo.setSfzmhm(recordInfo.getIdNum());
-			ExaminationInfo ksyyxx = iControlCenterService.getExaminationInfo(examinationInfo);
-			if(ksyyxx != null) {
-				//写入视频认证
-				examineeInfoVO.setLsh(ksyyxx.getLsh());
-				examineeInfoVO.setKchp(ksyyxx.getKchp());
-				examineeInfoVO.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));  //考试系统编号
-				RegisterResponse writeVideoResponse = iManagerPlatService.writeVideoAttestation(examineeInfoVO);
-				if(writeVideoResponse != null) {
-					if("1".equals(photoResponse.getCode()) && updateRes == 1 && "1".equals(writeVideoResponse.getCode())) {
-						finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",null);
-					}
+			if(updateRes > 0) {	
+				//删除白名单
+				List<String> idNumList = new ArrayList<String>();
+				idNumList.add(recordInfo.getIdNum());
+				FaceInfoDelVo faceInfoDelVo = new FaceInfoDelVo();
+				faceInfoDelVo.setIdnum(idNumList);
+				FaceResponse deleteRes = iDongwoPlatService.deleteWhiteList(faceInfoDelVo);
+				if(deleteRes.getCode() == 0) {
+					finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",null);
 				}
 			}
 		}
-		
 		
 		return finalResult;
 	}

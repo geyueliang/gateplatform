@@ -5,6 +5,8 @@ import com.wxhx.gate.plat.bean.exam.process.ExamItemEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamMark;
 import com.wxhx.gate.plat.bean.exam.process.IdentityComparison;
 import com.wxhx.gate.plat.bean.exam.process.ProcessImage;
+import com.wxhx.gate.plat.bean.exam.process.ReadVideo;
+import com.wxhx.gate.plat.bean.exam.process.WirteVideo;
 
 /**
  * 考试过程接口
@@ -50,7 +52,21 @@ public interface IExamProcessService {
 	 */
 	public String examEnd(ExamEnd examEnd) throws Exception;
 	
+	/**
+	 * 视频认证发起写入
+	 * @param wirteVideo
+	 * @return
+	 * @throws Exception
+	 */
+	public String writeVideo(WirteVideo wirteVideo) throws Exception;
 	
+	/**
+	 * 读取视频认证结果
+	 * @param readVideo
+	 * @return
+	 * @throws Exception
+	 */
+	public String readVideo(ReadVideo readVideo) throws Exception;
 	
 	/**
 	 * 统一处理考试过程

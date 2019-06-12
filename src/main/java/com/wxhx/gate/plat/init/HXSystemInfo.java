@@ -70,6 +70,12 @@ public class HXSystemInfo {
 		HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),"开始车辆检测");
 		List<Kscl> kscls = ksclMapper.selectAll();
 		iSystemCheckServier.startCheck(kscls);
+		
+		Map<String, String> ksclMap = new HashMap<String, String>();
+		for(Kscl kscl : kscls) {
+			ksclMap.put(kscl.getKcbh(), kscl.getKchp());
+		}
+		EvnVarConstentInfo.setCarInfoMap(ksclMap);
 		HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),"车辆检测结束");
 		
 	}

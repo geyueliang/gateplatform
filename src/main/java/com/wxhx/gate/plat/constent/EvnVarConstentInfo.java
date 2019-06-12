@@ -5,6 +5,7 @@ package com.wxhx.gate.plat.constent;
  *
  */
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class EvnVarConstentInfo {
@@ -26,7 +27,21 @@ public class EvnVarConstentInfo {
 	public static String FACEMACHE_URL = "faceUrl";	//人脸机url地址
 	
 	public static String LOCAL_URL = "localUrl";	//人脸机返回信息url地址
-
+	
+	private static Map<String, String> carInfoMap = new HashMap<String, String>();
+	
+	/**
+	 * 获取可用的车辆
+	 * @param key
+	 * @return
+	 */
+	public static String getCarInfoMap(String key) {
+		return carInfoMap.get(key);
+	}
+	
+	public static void setCarInfoMap(Map<String, String> carInfoMap) {
+		EvnVarConstentInfo.carInfoMap = carInfoMap;
+	}
 	
 	
 	private static Map<String, String> systemInfoMap;

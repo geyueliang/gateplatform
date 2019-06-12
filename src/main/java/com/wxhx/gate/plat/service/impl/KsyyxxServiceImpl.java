@@ -57,7 +57,7 @@ public class KsyyxxServiceImpl implements IKsyyxxService{
 		kszp.setSfzmhm(examinationInfo.getSfzmhm());
 		kszp.setLsh(examinationInfo.getLsh());
 		int res = kszpMapper.updateLsh(kszp);
-		if(res == 1) {
+		if(res > 0) {
 			return true;
 		}
 		return false;

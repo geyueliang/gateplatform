@@ -16,6 +16,8 @@ import com.wxhx.gate.plat.bean.exam.process.ExamMark;
 import com.wxhx.gate.plat.bean.exam.process.IdentityComparison;
 import com.wxhx.gate.plat.bean.exam.process.ProcessBase;
 import com.wxhx.gate.plat.bean.exam.process.ProcessImage;
+import com.wxhx.gate.plat.bean.exam.process.ReadVideo;
+import com.wxhx.gate.plat.bean.exam.process.WirteVideo;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.dao.FunctionMapper;
 import com.wxhx.gate.plat.dao.KsgcMapper;
@@ -94,6 +96,20 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
+	
+	public String writeVideo(WirteVideo wirteVideo) throws Exception {
+		String writeXml = HXCallWebServiceUtil.beanToXml(wirteVideo);
+		String jkid = "17E14"; //视频认证发启（写入）
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
+		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+	} 
+	
+	public String readVideo(ReadVideo readVideo) throws Exception {
+		String writeXml = HXCallWebServiceUtil.beanToXml(readVideo);
+		String jkid = "17E15"; //读取视频认证结果
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
+		return HXCallWebServiceUtil.queryWebService(jkid, writeXml);
+	} 
 
 	/**
 	 * 统一处理过程处理
@@ -135,6 +151,14 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		//项目结束
 		case 3:
 			result = this.examItemEnd((ExamItemEnd) getCallBeanFromArray(processArray,typeId));
+			break;
+		//视频认证发启（写入）	
+		case 4:
+			result = this.writeVideo((WirteVideo) getCallBeanFromArray(processArray,typeId));
+			break;
+		//读取视频认证结果
+		case 5:
+			result = this.readVideo((ReadVideo) getCallBeanFromArray(processArray,typeId));
 			break;
 		default:
 			break;
@@ -247,6 +271,26 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			//考试项目
 			examItemEnd.setKsxm(array[6]);
 			t = (T) examItemEnd;
+			break;
+		//视频认证发启（写入）	
+		case 4:
+			WirteVideo wirteVideo = new WirteVideo();
+			wirteVideo.setKskm("2");
+			wirteVideo.setLsh(t.getLsh());
+			wirteVideo.setSfzmhm(sfzmhm);
+			wirteVideo.setKchp(EvnVarConstentInfo.getCarInfoMap(array[4]));
+			wirteVideo.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
+			wirteVideo.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));
+			t = (T) wirteVideo;
+			break;
+		//读取视频认证结果
+		case 5:
+			ReadVideo readVideo = new ReadVideo();
+			readVideo.setKskm(t.getKskm());
+			readVideo.setKchp(EvnVarConstentInfo.getCarInfoMap(array[4]));
+			readVideo.setLsh(t.getLsh());
+			readVideo.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
+			t = (T) readVideo;
 			break;
 		default:
 			break;
