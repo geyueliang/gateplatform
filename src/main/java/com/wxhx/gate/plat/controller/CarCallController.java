@@ -1,7 +1,6 @@
 package com.wxhx.gate.plat.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +34,7 @@ public class CarCallController {
 		} catch (Exception e) {
 			result = 0;
 		}
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"车载调用返回{0}",result);
 		return result;
 	}
 	
