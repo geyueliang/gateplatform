@@ -18,4 +18,11 @@ public interface KszpMapper extends Mapper<Kszp>{
 	 * @return
 	 */
 	Kszp getKszpByCarNo(@Param("carNo") String carNo,@Param("type")String type);
+	
+	/**
+	 * 根据身份证号码更新流水号
+	 * @param sfzmhm
+	 * @return
+	 */
+	int updateLsh(Kszp kszp);
 }

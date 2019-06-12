@@ -9,11 +9,13 @@ import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.bean.out.SystemCheckInfo;
+import com.wxhx.gate.plat.bean.out.VidoeCheckResponse;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.controller.vo.CheckresultVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
+import com.wxhx.gate.plat.controller.vo.VideoCheckQueryVO;
 import com.wxhx.gate.plat.service.bean.WebServiceResult;
 import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 
@@ -189,12 +191,31 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		WebServiceResult<CheckResponse> result = null;
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(checkresultVO);
-			String jkid = "17E02";	//获取视频认证开启接口序列号
+			String jkid = "17E02";	//
 			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			if(HXCoreUtil.isEmpty(responsStr)) {
 				return result;
 			}
 			result = HXCallWebServiceUtil.xmlToBean(responsStr, CheckResponse.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 * 读取视频认证结果
+	 */
+	public WebServiceResult<VidoeCheckResponse> readVideoAttestation(VideoCheckQueryVO videoCheckQueryVO) {
+		WebServiceResult<VidoeCheckResponse> result = null;
+		try {
+			String writeXml = HXCallWebServiceUtil.beanToXml(videoCheckQueryVO);
+			String jkid = "17E15";	//获取视频认证开启接口序列号
+			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
+			if(HXCoreUtil.isEmpty(responsStr)) {
+				return result;
+			}
+			result = HXCallWebServiceUtil.xmlToBean(responsStr, VidoeCheckResponse.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

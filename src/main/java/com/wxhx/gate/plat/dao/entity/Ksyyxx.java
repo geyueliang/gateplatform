@@ -50,6 +50,8 @@ public class Ksyyxx {
     private String ctlbit3;
 
     private Date mjsj;
+    
+    private String yycs;
 
     public String getLsh() {
         return lsh;
@@ -114,16 +116,15 @@ public class Ksyyxx {
     public void setYyrq(Date yyrq) {
         this.yyrq = yyrq;
     }
+	public Date getYkrq() {
+		return ykrq;
+	}
 
-    public Date getYkrq() {
-        return ykrq;
-    }
-
-    public void setYkrq(Date ykrq) {
-        this.ykrq = ykrq;
-    }
-
-    public String getKscx() {
+	public void setYkrq(Date ykrq) {
+		this.ykrq = ykrq;
+	}
+	
+	public String getKscx() {
         return kscx;
     }
 
@@ -242,4 +243,13 @@ public class Ksyyxx {
     public void setMjsj(Date mjsj) {
         this.mjsj = mjsj;
     }
+
+	public String getYycs() {
+		return yycs;
+	}
+
+	public void setYycs(String yycs) {
+		this.yycs = yycs;
+	}
+    
 }

@@ -16,4 +16,9 @@ public interface IKsyyxxService {
 	 */
 	public boolean updateKsyyxx(ExaminationInfo examinationInfo);
 	
+	/**
+	 * 
+	 */
+	public boolean updateKszpLsh(ExaminationInfo examinationInfo);
+	
 }

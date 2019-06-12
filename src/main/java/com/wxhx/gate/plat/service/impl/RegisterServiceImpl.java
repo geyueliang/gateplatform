@@ -73,9 +73,13 @@ public class RegisterServiceImpl implements IRegisterService {
 					whiteListVO.setName(appointmentInfo.getXm());
 					whiteListVO.setIdnum(registerInfoVo.getSfzmhm());
 					whiteListVO.setPhoto(zpInfo.getZp());
+					System.out.println("照片========>"+whiteListVO.getPhoto());
+					
 					whiteListVO.setValidStart(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 起
 					whiteListVO.setValidEnd(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 止
 					faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
+//					faceResponse = new FaceResponse();
+//					faceResponse.setCode(0);
 					if (faceResponse.getCode() == 0) {
 						// 插入照片信息
 						int photoRes = iControlCenterService.insertPhotoInfo(appointmentInfo);

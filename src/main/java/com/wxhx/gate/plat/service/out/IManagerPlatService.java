@@ -4,10 +4,12 @@ import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
 import com.wxhx.gate.plat.bean.out.SystemCheckInfo;
+import com.wxhx.gate.plat.bean.out.VidoeCheckResponse;
 import com.wxhx.gate.plat.controller.vo.CheckresultVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoVO;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
+import com.wxhx.gate.plat.controller.vo.VideoCheckQueryVO;
 import com.wxhx.gate.plat.service.bean.WebServiceResult;
 
 /**
@@ -82,5 +84,12 @@ public interface IManagerPlatService {
 	 * @return
 	 */
 	WebServiceResult<CheckResponse> writeCheckResult(CheckresultVO checkresultVO);
+	
+	/**
+	 *  读取视频认证结果
+	 * @param examineeInfoVO
+	 * @return
+	 */
+	WebServiceResult<VidoeCheckResponse> readVideoAttestation(VideoCheckQueryVO videoCheckQueryVO);
 	
 }

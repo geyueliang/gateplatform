@@ -141,8 +141,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		}
 		//解析返回对象
 		WebServiceResult serviceResult =  HXCallWebServiceUtil.xmlToBean(result, WebServiceResult.class);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"返回内容",serviceResult);
 		if(serviceResult!=null&&serviceResult.getHead()!=null) {
-			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"返回内容",serviceResult);
 			result = HXCoreUtil.getJsonString(serviceResult.getHead());
 		}
 		else {

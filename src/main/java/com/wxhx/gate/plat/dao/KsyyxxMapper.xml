@@ -18,6 +18,9 @@
       <if test="kskm != null">
         KSKM = #{kskm},
       </if>
+      <if test="zkzmbh != null">
+        ZKZMBH = #{zkzmbh},
+      </if>
       <if test="ksyy != null">
         KSYY = #{ksyy},
       </if>
@@ -61,10 +64,13 @@
         CTLBIT2 = #{ctlbit2},
       </if>
       <if test="ctlbit3 != null">
-        CTLBIT3 = #{ctlbit3}
+        CTLBIT3 = #{ctlbit3},
+      </if>
+      <if test="yycs != null">
+        YYCS = #{yycs}
       </if>
     </set>
-    where SFZMHM = #{sfzmhm}
+    where SFZMHM = #{sfzmhm} and to_char(YKRQ,'yyyy-mm-dd') = to_char(#{ykrq},'yyyy-mm-dd')
   </update>
  	
 </mapper>

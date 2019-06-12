@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
@@ -27,6 +28,7 @@ import com.wxhx.gate.plat.service.out.IDongwoPlatService;
  *
  */
 @Component
+@DependsOn("HXLogerFactory")
 public class HXSystemInfo {
 
 	@Autowired
