@@ -139,18 +139,22 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		//身份验证
 		case 0:
 			result = this.idCheck((IdentityComparison) getCallBeanFromArray(processArray,typeId));
+			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"身份验证返回{0}",result);
 			break;
 		//考试扣分
 		case 1:
 			result = this.examMarkHappen((ExamMark) getCallBeanFromArray(processArray,typeId));
+			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"考试扣分返回{0}",result);
 			break;
 		//图片上传
 		case 2:
 			result = this.uploadImage((ProcessImage) getCallBeanFromArray(processArray,typeId));
+			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"图片上传返回{0}",result);
 			break;
 		//项目结束
 		case 3:
 			result = this.examItemEnd((ExamItemEnd) getCallBeanFromArray(processArray,typeId));
+			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"项目结束返回{0}",result);
 			break;
 		//视频认证发启（写入）	
 		case 4:
@@ -165,7 +169,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		}
 		//解析返回对象
 		WebServiceResult serviceResult =  HXCallWebServiceUtil.xmlToBean(result, WebServiceResult.class);
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"返回内容",serviceResult);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"返回的json{0}",serviceResult);
 		if(serviceResult!=null&&serviceResult.getHead()!=null) {
 			result = HXCoreUtil.getJsonString(serviceResult.getHead());
 		}
