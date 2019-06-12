@@ -6,4 +6,10 @@
  		select sys.uf_e_decrypt(#{encodeStr}) from dual
  	</select>
  	
+ 	
+ 	
+ 	<select id="getDbDate" resultType="String">
+ 		select to_char(sysdate,'yyyy-mm-dd hh24:mi:ss') from dual
+ 	</select>
+ 	
 </mapper>
