@@ -2,12 +2,16 @@ package com.wxhx.gate.plat.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
+import com.wxhx.basic_client.common.HXLogUtil;
+import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.SystemCheckInfo;
@@ -63,11 +67,13 @@ public class SystemCheckServiceImpl implements ISystemCheckService{
 					checkresultVO.setCheckcar(checkCar);
 					WebServiceResult<CheckResponse> webResult = iManagerPlatService.writeCheckResult(checkresultVO);
 					if(webResult.getHead()!=null && HXCoreUtil.isEquals(webResult.getHead().getCode(), "1")) {
-						finalResult = new HXRespons<CheckResponse>("SUCCESS", "操作成功", null);
-						System.out.println("======================>" + checkCar.getKchp()+":"+finalResult.getResMsg());
+						finalResult = new HXRespons<CheckResponse>("SUCCESS", kscl.getKcbh()+":写入检测成功", null);
+						//操作成功后设置缓存
+						EvnVarConstentInfo.addCar(kscl);
+						HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),checkCar.getKchp()+":"+finalResult.getResMsg());
 					}else {
 						finalResult = new HXRespons<CheckResponse>("ERROR", kscl.getKcbh()+":写入检测失败", null);
-						System.out.println("======================>" + checkCar.getKchp()+":"+finalResult.getResMsg());
+						HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),checkCar.getKchp()+":"+finalResult.getResMsg());
 					}
 				}
 				else {

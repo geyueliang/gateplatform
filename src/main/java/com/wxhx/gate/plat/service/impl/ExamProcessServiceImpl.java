@@ -157,11 +157,11 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"项目结束返回{0}",result);
 			break;
 		//视频认证发启（写入）	
-		case 4:
+		case 5:
 			result = this.writeVideo((WirteVideo) getCallBeanFromArray(processArray,typeId));
 			break;
 		//读取视频认证结果
-		case 5:
+		case 6:
 			result = this.readVideo((ReadVideo) getCallBeanFromArray(processArray,typeId));
 			break;
 		default:
@@ -277,23 +277,16 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			t = (T) examItemEnd;
 			break;
 		//视频认证发启（写入）	
-		case 4:
+		case 5:
 			WirteVideo wirteVideo = new WirteVideo();
-			wirteVideo.setKskm("2");
-			wirteVideo.setLsh(t.getLsh());
-			wirteVideo.setSfzmhm(sfzmhm);
-			wirteVideo.setKchp(EvnVarConstentInfo.getCarInfoMap(array[4]));
-			wirteVideo.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
+			wirteVideo.setKchp(EvnVarConstentInfo.getCarInfo(array[4]));
 			wirteVideo.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));
 			t = (T) wirteVideo;
 			break;
 		//读取视频认证结果
-		case 5:
+		case 6:
 			ReadVideo readVideo = new ReadVideo();
-			readVideo.setKskm(t.getKskm());
-			readVideo.setKchp(EvnVarConstentInfo.getCarInfoMap(array[4]));
-			readVideo.setLsh(t.getLsh());
-			readVideo.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
+			readVideo.setKchp(EvnVarConstentInfo.getCarInfo(array[4]));
 			t = (T) readVideo;
 			break;
 		default:

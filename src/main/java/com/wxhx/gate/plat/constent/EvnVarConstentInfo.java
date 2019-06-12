@@ -8,6 +8,8 @@ package com.wxhx.gate.plat.constent;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wxhx.gate.plat.dao.entity.Kscl;
+
 public class EvnVarConstentInfo {
 
 	public static String JKXLH = "jaya2xlh";	//精英接口序列号
@@ -30,21 +32,22 @@ public class EvnVarConstentInfo {
 	
 	private static Map<String, String> carInfoMap = new HashMap<String, String>();
 	
+	private static Map<String, String> systemInfoMap;
+	
 	/**
 	 * 获取可用的车辆
 	 * @param key
 	 * @return
 	 */
-	public static String getCarInfoMap(String key) {
+	public static String getCarInfo(String key) {
 		return carInfoMap.get(key);
 	}
 	
-	public static void setCarInfoMap(Map<String, String> carInfoMap) {
-		EvnVarConstentInfo.carInfoMap = carInfoMap;
+	public static void addCar(Kscl kscl) {
+		carInfoMap.put(kscl.getKcbh(), kscl.getKchp());
 	}
 	
 	
-	private static Map<String, String> systemInfoMap;
 	
 	/***
 	 * 根据指定的key获取当前系统参数
