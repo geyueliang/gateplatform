@@ -10,7 +10,7 @@
   </update>
  	
  	<select id="getKszpByCarNo" resultType="com.wxhx.gate.plat.dao.entity.Kszp">
- 		SELECT * from  kszp WHERE  sfzmhm = #{carNo} and ZPLX = #{type} AND  TO_CHAR(GXSJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') AND ROWNUM = 1
+ 		SELECT * from  kszp WHERE  sfzmhm = #{carNo} and ZPLX = #{type} AND  TO_CHAR(GXSJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') AND ZP IS NOT NULL AND ROWNUM = 1
  	</select>
  	
   <update id="updateLsh" parameterType="com.wxhx.gate.plat.dao.entity.Kszp">

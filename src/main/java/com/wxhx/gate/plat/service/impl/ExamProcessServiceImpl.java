@@ -349,8 +349,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			//复制基本属性
 			BeanUtils.copyProperties(examEnd, examItemEnd);
 			//照片
-			Kszp kszp = kszpMapper.getKszpByCarNo(examItemEnd.getSfzmhm(), "BD");
-			examEnd.setZp(kszp.getZp());
+			Kszp kszp = kszpMapper.getKszpByCarNo(examItemEnd.getSfzmhm(), "CZ");
+			if(kszp!=null) {
+				examEnd.setZp(kszp.getZp());
+			}
 			//结束时间
 			examEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			/**
