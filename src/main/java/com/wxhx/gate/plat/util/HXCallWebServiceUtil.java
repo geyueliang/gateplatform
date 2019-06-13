@@ -142,18 +142,6 @@ public class HXCallWebServiceUtil {
         Client client = dcf.createClient(url, service, port);
         //开始调用查询接口
         QName opration = new QName("http://tempuri.org/", "queryObjectOut");
-        //发送请求编码
-		if(callXml.contains("<zp>")&&callXml.contains("</zp>")) {
-			int zpStart = callXml.indexOf("<zp>");
-			int zpEnd = callXml.indexOf("</zp>");
-			String firstStr = callXml.substring(0,zpStart);
-			String endStr = callXml.substring(zpEnd+5,callXml.length());
-			String zpBase64Str = callXml.substring(zpStart+4,zpEnd);
-			callXml = URLEncoder.encode(firstStr, "utf-8")+"<zp>"+zpBase64Str+"</zp>"+URLDecoder.decode(endStr, "utf-8");
-		}
-		else {
-			callXml = URLEncoder.encode(callXml, "utf-8");
-		}
         Object[] resultObj = client.invoke(opration, xtlb,jkxlh,jkid,callXml);
         String result = "";
         if(resultObj!=null&&resultObj.length>0) {
@@ -181,18 +169,6 @@ public class HXCallWebServiceUtil {
         Client client = dcf.createClient(url, service, port);
         //开始调用查询接口
         QName opration = new QName("http://tempuri.org/", "writeObjectOut");
-        //发送请求编码
-		if(callXml.contains("<zp>")&&callXml.contains("</zp>")) {
-			int zpStart = callXml.indexOf("<zp>");
-			int zpEnd = callXml.indexOf("</zp>");
-			String firstStr = callXml.substring(0,zpStart);
-			String endStr = callXml.substring(zpEnd+5,callXml.length());
-			String zpBase64Str = callXml.substring(zpStart+4,zpEnd);
-			callXml = URLEncoder.encode(firstStr, "utf-8")+"<zp>"+zpBase64Str+"</zp>"+URLDecoder.decode(endStr, "utf-8");
-		}
-		else {
-			callXml = URLEncoder.encode(callXml, "utf-8");
-		}
         Object[] resultObj = client.invoke(opration, xtlb,jkxlh,jkid,callXml);
         String result = "";
         if(resultObj!=null&&resultObj.length>0) {
