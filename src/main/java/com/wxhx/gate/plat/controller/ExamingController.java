@@ -148,11 +148,9 @@ public class ExamingController {
 		recordInfo.setFaceResultStatus(0);
 		
 		HXRespons<FaceResponse> faceResponse= iExamStartService.examing(recordInfo);
-		Map<String, Object> res = new HashMap<String, Object>();
 		
 		if(HXCoreUtil.isEquals("SUCCESS", faceResponse.getResCode())) {
-			res.put("code", 0);
-			res.put("msg", "success");
+			result.setResCode("1");
 			hxThreadManager.execThread(new Runnable() {
 				public void run() {
 					try {
@@ -172,8 +170,7 @@ public class ExamingController {
 			});
 		}
 		else {
-			res.put("code",1);
-			res.put("msg", "error");
+			result.setResCode("0");
 		}
 		return result;
 	}
