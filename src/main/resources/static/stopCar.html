@@ -77,7 +77,7 @@ h3{
 			processData : false, //必须false才会避开jQuery对 formdata 的默认处理
 			contentType : false, //必须false才会自动加上正确的Content-Type
 			success : function(data) {
-				if (data.resCode == 1) {
+				if (data.resCode == 'SUCCESS') {
 					alert("上报异常成功！");
 				}
 				else{
