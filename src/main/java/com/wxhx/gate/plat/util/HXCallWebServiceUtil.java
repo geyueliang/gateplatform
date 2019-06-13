@@ -152,7 +152,7 @@ public class HXCallWebServiceUtil {
 	
 	
 	/**
-	 * 封装调用webservice查询写入接口
+	 * 封装调用webservice查询接口
 	 * @param xtlb
 	 * @param jkxlh
 	 * @param jkid

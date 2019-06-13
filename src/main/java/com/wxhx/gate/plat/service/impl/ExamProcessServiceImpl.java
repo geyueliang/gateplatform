@@ -119,7 +119,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String result = "";
 		String[] processArray = null;
 		//包含照片的 不需要解码
-		if(content.contains(",2,")) {
+		if(content.contains(",2,")||content.contains(",5,")||content.contains(",6,")) {
 			processArray = content.split(",");
 		}
 		else {
@@ -171,6 +171,25 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		WebServiceResult serviceResult =  HXCallWebServiceUtil.xmlToBean(result, WebServiceResult.class);
 		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"返回的json{0}",serviceResult);
 		if(serviceResult!=null&&serviceResult.getHead()!=null) {
+			//视频认证结果返回
+			WebServiceResultHead head = serviceResult.getHead();
+			if(typeId==6) {
+				int resultCode = Integer.parseInt(head.getCode());
+				//未处理
+				if(resultCode==0) {
+					head.setCode("2"); //等待继续
+				}
+				//未处理
+				if(resultCode==1||resultCode==3) {
+					head.setCode("1"); //等待继续
+				}
+				
+				//未处理
+				if(resultCode==2) {
+					head.setCode("2"); //等待继续
+				}
+				
+			}
 			result = HXCoreUtil.getJsonString(serviceResult.getHead());
 		}
 		else {
