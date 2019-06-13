@@ -173,22 +173,27 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		if(serviceResult!=null&&serviceResult.getHead()!=null) {
 			//视频认证结果返回
 			WebServiceResultHead head = serviceResult.getHead();
+			int resultCode = Integer.parseInt(head.getCode());
 			if(typeId==6) {
-				int resultCode = Integer.parseInt(head.getCode());
 				//未处理
 				if(resultCode==0) {
 					head.setCode("2"); //等待继续
 				}
 				//未处理
-				if(resultCode==1||resultCode==3) {
-					head.setCode("1"); //等待继续
+				else if(resultCode==1||resultCode==3) {
+					head.setCode("1"); //成功
 				}
-				
-				//未处理
-				if(resultCode==2) {
-					head.setCode("2"); //等待继续
+				else{
+					head.setCode("0"); //失败
 				}
-				
+			}
+			else {
+				if(resultCode==1) {
+					head.setCode("1"); //成功
+				}
+				else {
+					head.setCode("0"); //成功
+				}
 			}
 			result = HXCoreUtil.getJsonString(serviceResult.getHead());
 		}
