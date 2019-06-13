@@ -12,8 +12,8 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 
+import com.wxhx.gate.plat.bean.cxf.HXJaxWsDynamicClientFactory;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.service.bean.WebServiceBean;
 import com.wxhx.gate.plat.service.bean.WebServiceResult;
@@ -135,7 +135,7 @@ public class HXCallWebServiceUtil {
 	 */
 	public static String queryWebService(String xtlb, String jkxlh, String jkid, String callXml, String url)
 			throws Exception {
-		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+		HXJaxWsDynamicClientFactory dcf = HXJaxWsDynamicClientFactory.newInstance();
 		//创建客户端
         QName service = new QName("http://tempuri.org/", "TmriOutAccess");
         QName port = new QName("http://tempuri.org/","BasicHttpBinding_ITmriOutAccess");
@@ -162,7 +162,7 @@ public class HXCallWebServiceUtil {
 	 */
 	public static String writeWebService(String xtlb, String jkxlh, String jkid, String callXml, String url)
 			throws Exception {
-		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+		HXJaxWsDynamicClientFactory dcf = HXJaxWsDynamicClientFactory.newInstance();
 		//创建客户端
         QName service = new QName("http://tempuri.org/", "TmriOutAccess");
         QName port = new QName("http://tempuri.org/","BasicHttpBinding_ITmriOutAccess");

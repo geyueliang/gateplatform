@@ -9,4 +9,9 @@
 	    from KSCL where KCHP = #{kchp}
  	</select>
  	
+ 		
+ 	<select id="selectKcInfo" resultType="com.wxhx.gate.plat.dao.entity.Kscl">
+	    select * 
+	    from KSCL where KCHP = #{kchp}
+ 	</select>
 </mapper>
