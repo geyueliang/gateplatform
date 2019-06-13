@@ -1,16 +1,20 @@
 package com.wxhx.gate.plat.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
@@ -31,7 +35,6 @@ import com.wxhx.gate.plat.service.out.IDongwoPlatService;
  *
  */
 @RestController
-@RequestMapping("/examStart")
 public class ExamingController {
 	
 	@Autowired
@@ -50,7 +53,7 @@ public class ExamingController {
 	 * 开始考试
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.POST,produces="application/json;charset=UTF-8")
+	@RequestMapping(value = "/examStart", method = RequestMethod.POST,produces="application/json;charset=UTF-8")
 	public String examStart(@RequestBody RecordInfo recordInfo){
 		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"人脸机上传信息成功{0}",recordInfo);
 
@@ -117,5 +120,61 @@ public class ExamingController {
 		}
 		return HXCoreUtil.getJsonString(res);
 		
+	}
+	
+	/**
+	 * 手动开始考试
+	 * @param file
+	 * @param userWhiteList
+	 * @return
+	 * @throws Exception 
+	 */
+
+	@RequestMapping(value = "/examStartByHand", method= RequestMethod.POST,produces="application/json;charset=UTF-8")
+	public HXRespons<String> examStartByHand(@RequestParam("imageFile") MultipartFile file, RecordInfo recordInfo) throws Exception{
+		HXRespons<String> result = new HXRespons<String>();
+		Base64 base64 = new Base64();
+		byte[] data = new byte[file.getInputStream().available()];
+		file.getInputStream().read(data);
+		String imageBase64 =  new String(base64.encode(data));
+		recordInfo.setScenePhoto(imageBase64);
+		
+		final String idNum = recordInfo.getIdNum();
+		
+		recordInfo.setTime(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd HH:mm:ss"));
+		recordInfo.setValidStart(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd"));
+		recordInfo.setValidEnd(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd"));
+		recordInfo.setCardResultStatus(0);
+		recordInfo.setFaceResultStatus(0);
+		
+		HXRespons<FaceResponse> faceResponse= iExamStartService.examing(recordInfo);
+		Map<String, Object> res = new HashMap<String, Object>();
+		
+		if(HXCoreUtil.isEquals("SUCCESS", faceResponse.getResCode())) {
+			res.put("code", 0);
+			res.put("msg", "success");
+			hxThreadManager.execThread(new Runnable() {
+				public void run() {
+					try {
+						Thread.sleep(1*1000);
+						iDongwoPlatService.openGate();
+						
+						//删除白名单信息
+						List<String> idNumList = new ArrayList<String>();
+						idNumList.add(idNum);
+						FaceInfoDelVo faceInfoDelVo = new FaceInfoDelVo();
+						faceInfoDelVo.setIdnum(idNumList);
+						iDongwoPlatService.deleteWhiteList(faceInfoDelVo);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		else {
+			res.put("code",1);
+			res.put("msg", "error");
+		}
+		return result;
 	}
 }
