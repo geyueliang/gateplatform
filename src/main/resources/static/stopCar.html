@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>车辆异常处理</title>
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<style>
+.fakeimg {
+	height: 200px;
+	background: #aaa;
+}
+h3{
+	background-color:#6495ed;
+  }
+ 
+</style>
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row clearfix">
+				<div class="col-md-12 column">
+					<h3>
+						异常车辆登记处理
+					</h3>
+				</div>
+				</div>
+				<div>
+					<img src="./fonts/cinqueterre.jpg"
+						class="img-responsive img-circle" alt="Cinque Terre" width="304"
+						height="236">
+				</div>
+				
+				<form class="form"  method="post" enctype="multipart/form-data" id="reportCarException" onsubmit="return false">
+						<div class="form-group">
+							<div class="col-md-6">
+								<label>车牌号码:</label>
+							</div>
+							<div class="col-md-6">
+								<input type="text" class="form-control" id="carNum" placeholder="请登记异常车辆车牌"/>
+							</div>
+						</div> 
+						<div class="form-group">
+							<button class="btn btn-primary"  onclick="submitException()">提交异常车辆信息</button>
+						</div>
+				</form>
+				<hr class="hidden-sm hidden-md hidden-lg">
+			</div>
+		</div>
+	</div>
+
+
+	<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Brand</a>
+		</div>
+	</nav>
+
+	<!-- JavaScript 放置在文档最后面可以使页面加载速度更快 -->
+	<!-- 可选: 包含 jQuery 库 -->
+	<script src="./js/jquery.min.js"></script>
+	<!-- 可选: 合并了 Bootstrap JavaScript 插件 -->
+	<script src="./js/bootstrap.min.js"></script>
+
+<script>
+
+	var submitException = function() {
+		var carNum = $("#carNum").val();
+		$.ajax({
+			url : "/gateplat/exceptionCar/",
+			type : 'GET',
+			data : "&carNum="+carNum,
+			cache : false,
+			async : false,
+			processData : false, //必须false才会避开jQuery对 formdata 的默认处理
+			contentType : false, //必须false才会自动加上正确的Content-Type
+			success : function(data) {
+				if (data.resCode == 1) {
+					alert("上报异常成功！");
+				}
+				else{
+					alert("上报异常识别请联系管理员处理！");
+				}
+
+			},
+			error : function(data) {
+				console.log("失败");
+			}
+		});
+	}
+</script>
+</body>
+</html>

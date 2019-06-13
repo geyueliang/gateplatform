@@ -10,4 +10,7 @@ public interface KsclMapper extends Mapper<Kscl>{
 	
 	//根据考车号牌查询考车编号
 	String selectByKchp(@Param("kchp") String kchp);
+	
+	//根据考车号牌查询考车信息
+	Kscl selectKcInfo(@Param("kchp") String kchp);
 }
