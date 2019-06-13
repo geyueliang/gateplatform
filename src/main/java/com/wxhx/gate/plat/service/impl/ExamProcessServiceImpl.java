@@ -78,7 +78,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		//是最后的项目 调用科目考试结束
 		if(HXCoreUtil.isEquals("ckm2zd01", examItemEnd.getKsxm())) {
 			//调用科目考试结束
-			ExamEnd examEnd = this.createExamEnd(examItemEnd);
+			ExamEnd examEnd = this.createExamEnd(examItemEnd,0);
 			result = this.examEnd(examEnd);
 		}
 		else {
@@ -86,6 +86,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			String jkid = "17C55"; //项目结束
 			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
 			result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+			//判断当前扣分是否超过20 	超过20分 结束考试
+			int kfhj = this.getKskf(examItemEnd);
+			if(kfhj>20) {
+				ExamEnd examEnd = this.createExamEnd(examItemEnd,kfhj);
+				result = this.examEnd(examEnd);
+			}
 		}
 		return result;
 	}
@@ -337,7 +343,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	 * @param examItemEnd
 	 * @return
 	 */
-	private ExamEnd createExamEnd(ExamItemEnd examItemEnd) {
+	private ExamEnd createExamEnd(ExamItemEnd examItemEnd,int kfhj) {
 		ExamEnd examEnd = new ExamEnd();
 		try {
 			//复制基本属性
@@ -350,31 +356,64 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			/**
 			 * 考试成绩
 			 */
-			//判断当前是第几次考试
-			int kscs = ksgcMapper.getNowKscs(examItemEnd.getSfzmhm());
-			List<Ksgc> kfxms = null;
-			//第一次考试
-			if(kscs<2) {
-				kfxms = ksgcMapper.getKfxm(examItemEnd.getSfzmhm(), 1);
-			}
-			//第二次考试
-			else {
-				kfxms = ksgcMapper.getKfxm(examItemEnd.getSfzmhm(), 2);
-			}
-			//计算扣分
-			int kfhj = 0;
-			if(kfxms!=null&&kfxms.size()>0) {
-				for(Ksgc kfxm:kfxms) {
-					kfhj = kfhj+InitKSKFDM.getKf(kfxm.getCs2());
+			if(kfhj==0) {
+				//判断当前是第几次考试
+				int kscs = ksgcMapper.getNowKscs(examItemEnd.getSfzmhm());
+				List<Ksgc> kfxms = null;
+				//第一次考试
+				if(kscs<2) {
+					kfxms = ksgcMapper.getKfxm(examItemEnd.getSfzmhm(), 1);
 				}
+				//第二次考试
+				else {
+					kfxms = ksgcMapper.getKfxm(examItemEnd.getSfzmhm(), 2);
+				}
+				//计算扣分
+				int kfhjj = 0;
+				if(kfxms!=null&&kfxms.size()>0) {
+					for(Ksgc kfxm:kfxms) {
+						kfhjj = kfhjj+InitKSKFDM.getKf(kfxm.getCs2());
+					}
+				}
+				//考试成绩
+				examEnd.setKscj((100-kfhjj)+"");
 			}
-			//考试成绩
-			examEnd.setKscj((100-kfhj)+"");
+			else {
+				//考试成绩
+				examEnd.setKscj((100-kfhj)+"");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		return null;
+		return examEnd;
+	}
+	
+	
+	/**
+	 * 得到当前项目结束时候的扣分总数
+	 * @param examItemEnd
+	 * @return
+	 */
+	private int getKskf(ExamItemEnd examItemEnd) {
+		//判断当前是第几次考试
+		int kscs = ksgcMapper.getNowKscs(examItemEnd.getSfzmhm());
+		List<Ksgc> kfxms = null;
+		//第一次考试
+		if(kscs<2) {
+			kfxms = ksgcMapper.getKfxm(examItemEnd.getSfzmhm(), 1);
+		}
+		//第二次考试
+		else {
+			kfxms = ksgcMapper.getKfxm(examItemEnd.getSfzmhm(), 2);
+		}
+		//计算扣分
+		int kfhj = 0;
+		if(kfxms!=null&&kfxms.size()>0) {
+			for(Ksgc kfxm:kfxms) {
+				kfhj = kfhj+InitKSKFDM.getKf(kfxm.getCs2());
+			}
+		}
+		return kfhj;
 	}
 }
