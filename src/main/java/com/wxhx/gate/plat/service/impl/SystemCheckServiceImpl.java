@@ -60,7 +60,7 @@ public class SystemCheckServiceImpl implements ISystemCheckService{
 						CheckItem checkItem = new CheckItem();
 						checkItem.setCheckname(checkContents.getCheckname());
 						checkItem.setCheckkey(checkContents.getCheckkey());
-						checkItem.setCheckresult("1");
+						checkItem.setCheckresult(kscl.getKczt()+"");	//设置考车状态对应检测结果
 						checkitemList.add(checkItem);
 					}
 					checkCar.setCheckitem(checkitemList);
@@ -70,10 +70,10 @@ public class SystemCheckServiceImpl implements ISystemCheckService{
 						finalResult = new HXRespons<CheckResponse>("SUCCESS", kscl.getKcbh()+":写入检测成功", null);
 						//操作成功后设置缓存
 						EvnVarConstentInfo.addCar(kscl);
-						HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),checkCar.getKchp()+":"+finalResult.getResMsg());
+						HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),checkCar.getKchp()+":"+finalResult.getResMsg());
 					}else {
 						finalResult = new HXRespons<CheckResponse>("ERROR", kscl.getKcbh()+":写入检测失败", null);
-						HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),checkCar.getKchp()+":"+finalResult.getResMsg());
+						HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),checkCar.getKchp()+":"+finalResult.getResMsg());
 					}
 				}
 				else {

@@ -74,15 +74,7 @@ public class ExamStartServiceImpl implements IExamStartService{
 			//更新门禁照片
 			int updateRes = iControlCenterService.updatePhotoInfo(recordInfo);
 			if(updateRes > 0) {	
-				//删除白名单
-				List<String> idNumList = new ArrayList<String>();
-				idNumList.add(recordInfo.getIdNum());
-				FaceInfoDelVo faceInfoDelVo = new FaceInfoDelVo();
-				faceInfoDelVo.setIdnum(idNumList);
-				FaceResponse deleteRes = iDongwoPlatService.deleteWhiteList(faceInfoDelVo);
-				if(deleteRes.getCode() == 0) {
-					finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",null);
-				}
+				finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",null);
 			}
 		}
 		

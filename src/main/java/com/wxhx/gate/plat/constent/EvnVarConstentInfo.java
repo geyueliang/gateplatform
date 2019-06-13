@@ -5,6 +5,8 @@ package com.wxhx.gate.plat.constent;
  *
  */
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +46,12 @@ public class EvnVarConstentInfo {
 	}
 	
 	public static void addCar(Kscl kscl) {
-		carInfoMap.put(kscl.getKcbh(), kscl.getKchp());
+		try {
+			carInfoMap.put(kscl.getKcbh(), URLEncoder.encode(kscl.getKchp(),"UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

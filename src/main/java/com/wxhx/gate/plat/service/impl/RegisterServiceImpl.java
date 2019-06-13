@@ -55,9 +55,9 @@ public class RegisterServiceImpl implements IRegisterService {
 		if(res == 1) {
 			//报道
 			registerInfoVo.setName(null);
-			result = iManagerPlatService.register(registerInfoVo);
-//			result = new RegisterResponse();
-//			result.setCode("1");
+//			result = iManagerPlatService.register(registerInfoVo);
+			result = new RegisterResponse();
+			result.setCode("1");
 			
 			if(HXCoreUtil.isEquals(result.getCode(), "1")) {
 				ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
@@ -76,7 +76,9 @@ public class RegisterServiceImpl implements IRegisterService {
 					
 					whiteListVO.setValidStart(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 起
 					whiteListVO.setValidEnd(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 止
-					faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
+//					faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
+					faceResponse = new FaceResponse();
+					faceResponse.setCode(0);
 					if (faceResponse.getCode() == 0) {
 						// 插入照片信息
 						int photoRes = iControlCenterService.insertPhotoInfo(appointmentInfo);

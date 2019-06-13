@@ -78,10 +78,5 @@ public class HXSystemInfo {
 			iSystemCheckServier.startCheck(kscls);
 			HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),"车辆检测结束");
 		}
-		
-		HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),"开始车辆检测");
-		List<Kscl> kscls = ksclMapper.selectAll();
-		iSystemCheckServier.startCheck(kscls);
-		HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),"车辆检测结束");
 	}
 }
