@@ -33,7 +33,7 @@ public class RegisterServiceImpl implements IRegisterService {
 	private IControlCenterService iControlCenterService; // 控制中心
 
 	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
-		HXRespons<RegisterResponse> finalResult = new HXRespons<RegisterResponse>("ERROR", "操作失败", null);
+		HXRespons<RegisterResponse> finalResult = new HXRespons<RegisterResponse>("0", "报道失败", null);
 		ExaminationInfo appointmentInfo = null;
 		ExaminationInfo zpInfo = null;
 		FaceResponse faceResponse = null;
@@ -55,9 +55,9 @@ public class RegisterServiceImpl implements IRegisterService {
 		if(res == 1) {
 			//报道
 			registerInfoVo.setName(null);
-//			result = iManagerPlatService.register(registerInfoVo);
-			result = new RegisterResponse();
-			result.setCode("1");
+			result = iManagerPlatService.register(registerInfoVo);
+//			result = new RegisterResponse();
+//			result.setCode("1");
 			
 			if(HXCoreUtil.isEquals(result.getCode(), "1")) {
 				ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
@@ -76,15 +76,15 @@ public class RegisterServiceImpl implements IRegisterService {
 					
 					whiteListVO.setValidStart(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 起
 					whiteListVO.setValidEnd(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 止
-//					faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
-					faceResponse = new FaceResponse();
-					faceResponse.setCode(0);
+					faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
+//					faceResponse = new FaceResponse();
+//					faceResponse.setCode(0);
 					if (faceResponse.getCode() == 0) {
 						// 插入照片信息
 						int photoRes = iControlCenterService.insertPhotoInfo(appointmentInfo);
 					
 						if (photoRes > 0) {
-							finalResult = new HXRespons<RegisterResponse>("SUCCESS", "操作成功", result);
+							finalResult = new HXRespons<RegisterResponse>("1", "报道成功", result);
 						}
 					}
 				}
