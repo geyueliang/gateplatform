@@ -63,7 +63,7 @@ public class HXJaxWsDynamicClientFactory extends DynamicClientFactory{
  
         javaCompiler.setClassPath(classPath);
         javaCompiler.setOutputDir(dest);
-        javaCompiler.setTarget("1.6");
+        javaCompiler.setTarget("1.8");
  
         return javaCompiler.compileFiles(srcList);
     }
