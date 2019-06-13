@@ -41,19 +41,25 @@ public class RegisterController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	HXRespons<RegisterResponse> register(@RequestBody Map<String,String> reqMap){
+		HXRespons<RegisterResponse> registerResponse = new HXRespons<RegisterResponse>("0", "报道失败", null);
 		//判断当前用户是否是在管理员列表中
 		String carNo = reqMap.get("carNo")+"";
 		String name = reqMap.get("name");
+		if(carNo == null || HXCoreUtil.isEquals("", carNo) || name == null || HXCoreUtil.isEquals("", name)) {
+			return registerResponse;
+		}
+		
 		if(WhiteListInit.WHITE_LIST.contains(carNo)) {
-			HXRespons<RegisterResponse> r = new HXRespons<RegisterResponse>("SUCCESS", "管理員", null);
-			return r;
+			registerResponse = new HXRespons<RegisterResponse>("1", "管理員", null);
+			return registerResponse;
 		}
 		RegisterInfoVo registerInfoVo = new RegisterInfoVo();
 		registerInfoVo.setName(name);
 		registerInfoVo.setSfzmhm(carNo);
 		registerInfoVo.setKskm(kskm);
 		registerInfoVo.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
-		return iRegisterService.register(registerInfoVo);
+		registerResponse = iRegisterService.register(registerInfoVo);
+		return registerResponse;
 	}
 	
 }
