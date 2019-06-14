@@ -59,14 +59,13 @@ public class ExamingController {
 
 		Map<String, Object> res = new HashMap<String, Object>();
 		final String idNum = recordInfo.getIdNum();
-		
 		//测试
-		if(HXCoreUtil.isEquals("320831199003100634", recordInfo.getIdNum())) {
-			recordInfo.setName("吴义");
-			recordInfo.setIdNum("522127198510066559");
-		}
+		/*
+		 * if(HXCoreUtil.isEquals("320831199003100634", recordInfo.getIdNum())) {
+		 * recordInfo.setName("吴义"); recordInfo.setIdNum("522127198510066559"); }
+		 */
 		if(WhiteListInit.WHITE_LIST.contains(recordInfo.getIdNum())) {
-			res.put("code", 1);
+			res.put("code", 0);
 			res.put("msg", "管理员开门");
 			hxThreadManager.execThread(new Runnable() {
 				public void run() {
@@ -81,11 +80,7 @@ public class ExamingController {
 			});
 			return HXCoreUtil.getJsonString(res);
 		}
-		
-		
-		
 		HXRespons<FaceResponse> result= iExamStartService.examing(recordInfo);
-		
 		if(HXCoreUtil.isEquals("SUCCESS", result.getResCode())) {
 			res.put("code", 0);
 			res.put("msg", "success");
