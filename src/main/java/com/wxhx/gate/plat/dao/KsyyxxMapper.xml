@@ -72,5 +72,4 @@
     </set>
     where SFZMHM = #{sfzmhm} and to_char(YKRQ,'yyyy-mm-dd') = to_char(#{ykrq},'yyyy-mm-dd')
   </update>
- 	
 </mapper>
