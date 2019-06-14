@@ -26,6 +26,7 @@ import com.wxhx.gate.plat.dao.KsgcMapper;
 import com.wxhx.gate.plat.dao.KsyxxMapper;
 import com.wxhx.gate.plat.dao.KsyyxxMapper;
 import com.wxhx.gate.plat.dao.KszpMapper;
+import com.wxhx.gate.plat.dao.entity.Kcsb;
 import com.wxhx.gate.plat.dao.entity.Ksgc;
 import com.wxhx.gate.plat.dao.entity.Ksyyxx;
 import com.wxhx.gate.plat.dao.entity.Kszp;
@@ -204,11 +205,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			 * 项目内容
 			 */
 			ExamItemEnd examItemEnd = new ExamItemEnd();
-			examItemEnd.setSbxh(KcsbInit.getSBBH(processArray[7]));  //设备序列号
+			Kcsb kcsb = KcsbInit.getKcsb(processArray[7]);
+			examItemEnd.setSbxh(kcsb!=null?kcsb.getSbbh():processArray[7]);  //设备序列号
 			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date())); //结束时间
 			String czlx = HXCoreUtil.isEquals("true",processArray[8])?"1":"0";  //操作类型
-			examItemEnd.setCzlx(czlx); //考试项目
-			examItemEnd.setKsxm(KcsbInit.getKcsb(processArray[6]).getSbxm());
+			examItemEnd.setCzlx(czlx); 
+			examItemEnd.setKsxm(processArray[6]); //考试项目
 			//开始调用扣分
 			result = this.examMarkHappen(examMark,examItemEnd);
 			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"考试扣分返回{0}",result);
@@ -357,14 +359,15 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		case 3:
 			ExamItemEnd examItemEnd = new ExamItemEnd();
 			//设备序列号
-			examItemEnd.setSbxh(KcsbInit.getSBBH(array[7]));
+			Kcsb kcsb = KcsbInit.getKcsb(array[7]);
+			examItemEnd.setSbxh(kcsb!=null?kcsb.getSbbh():array[7]);  //设备序列号
 			//结束时间
 			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			//操作类型
 			String czlx = HXCoreUtil.isEquals("true",array[8])?"1":"0"; 
 			examItemEnd.setCzlx(czlx);
 			//考试项目
-			examItemEnd.setKsxm(KcsbInit.getKcsb(array[6]).getSbxm());
+			examItemEnd.setKsxm(array[6]);
 			t = (T) examItemEnd;
 			break;
 		//视频认证发启（写入）	
