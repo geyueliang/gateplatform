@@ -77,8 +77,6 @@ public class RegisterServiceImpl implements IRegisterService {
 					whiteListVO.setValidStart(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 起
 					whiteListVO.setValidEnd(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 止
 					faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
-//					faceResponse = new FaceResponse();
-//					faceResponse.setCode(0);
 					
 					if (faceResponse.getCode() == 0) {
 						appointmentInfo.setZp(zpInfo.getZp());
