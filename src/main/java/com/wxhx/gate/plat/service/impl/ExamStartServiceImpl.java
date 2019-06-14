@@ -52,10 +52,7 @@ public class ExamStartServiceImpl implements IExamStartService{
 		int cardResultStatus = recordInfo.getCardResultStatus();	//人证比对
 		int faceResultStatus = recordInfo.getFaceResultStatus();	//白名单比对
 		
-		if(cardResultStatus != 0) {
-			if(faceResultStatus != 0) {
-				return finalResult;
-			}
+		if(cardResultStatus + faceResultStatus == 2) {
 			return finalResult;
 		}
 		

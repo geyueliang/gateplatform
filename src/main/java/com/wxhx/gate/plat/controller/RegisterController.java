@@ -49,6 +49,12 @@ public class RegisterController {
 			return registerResponse;
 		}
 		
+		//测试
+		if(HXCoreUtil.isEquals("320831199003100634", carNo)) {
+			name = "吴义";
+			carNo = "522127198510066559";
+		}
+		
 		if(WhiteListInit.WHITE_LIST.contains(carNo)) {
 			registerResponse = new HXRespons<RegisterResponse>("1", "管理員", null);
 			return registerResponse;
@@ -58,6 +64,9 @@ public class RegisterController {
 		registerInfoVo.setSfzmhm(carNo);
 		registerInfoVo.setKskm(kskm);
 		registerInfoVo.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
+		
+		
+		
 		registerResponse = iRegisterService.register(registerInfoVo);
 		return registerResponse;
 	}

@@ -58,21 +58,12 @@ public class ExamingController {
 		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"人脸机上传信息成功{0}",recordInfo);
 
 		Map<String, Object> res = new HashMap<String, Object>();
-		/**
-		 * 测试
-		 */
-		if(true) {
-			res.put("code", 0);
-			res.put("msg", "success");
-			return HXCoreUtil.getJsonString(res);
-		}
 		final String idNum = recordInfo.getIdNum();
-//		HXCoreUtil.createImageFromBase64(recordInfo.getScenePhoto(), "D://11.jpg");
-		//如果是测试环境根据将身份证编号换成测试编号
-		if(isTest) {
-			if(!HXCoreUtil.isEmpty(CommonTestConstent.replaceMap.get(recordInfo.getIdNum())+"")){
-				recordInfo.setIdNum(CommonTestConstent.replaceMap.get(recordInfo.getIdNum())+"");
-			} 
+		
+		//测试
+		if(HXCoreUtil.isEquals("320831199003100634", recordInfo.getIdNum())) {
+			recordInfo.setName("吴义");
+			recordInfo.setIdNum("522127198510066559");
 		}
 		if(WhiteListInit.WHITE_LIST.contains(recordInfo.getIdNum())) {
 			res.put("code", 1);
@@ -90,6 +81,8 @@ public class ExamingController {
 			});
 			return HXCoreUtil.getJsonString(res);
 		}
+		
+		
 		
 		HXRespons<FaceResponse> result= iExamStartService.examing(recordInfo);
 		
@@ -148,11 +141,9 @@ public class ExamingController {
 		recordInfo.setFaceResultStatus(0);
 		
 		HXRespons<FaceResponse> faceResponse= iExamStartService.examing(recordInfo);
-		Map<String, Object> res = new HashMap<String, Object>();
 		
 		if(HXCoreUtil.isEquals("SUCCESS", faceResponse.getResCode())) {
-			res.put("code", 0);
-			res.put("msg", "success");
+			result.setResCode("1");
 			hxThreadManager.execThread(new Runnable() {
 				public void run() {
 					try {
@@ -172,8 +163,7 @@ public class ExamingController {
 			});
 		}
 		else {
-			res.put("code",1);
-			res.put("msg", "error");
+			result.setResCode("0");
 		}
 		return result;
 	}

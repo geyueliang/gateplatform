@@ -68,7 +68,6 @@ public class HXCallWebServiceUtil {
 	 * @throws Exception
 	 */
 	public static  WebServiceResult xmlToBean(String xmlStr,Class type) throws Exception {
-//		System.out.println("原始字符串：" + xmlStr);
 		JAXBContext context = JAXBContext.newInstance(WebServiceResult.class,type);
 		Unmarshaller unmarshaller = context.createUnmarshaller(); 
 		//照片不用解码
@@ -78,7 +77,6 @@ public class HXCallWebServiceUtil {
 			String firstStr = xmlStr.substring(0,zpStart);
 			String endStr = xmlStr.substring(zpEnd+5,xmlStr.length());
 			String zpBase64Str = xmlStr.substring(zpStart+4,zpEnd);
-			System.out.println(zpBase64Str);
 			xmlStr = URLDecoder.decode(firstStr, "utf-8")+"<zp>"+zpBase64Str+"</zp>"+URLDecoder.decode(endStr, "utf-8");
 //			xmlStr.indexOf("<zp>")
 		}
