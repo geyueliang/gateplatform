@@ -4,6 +4,7 @@ import com.wxhx.gate.plat.bean.exam.process.ExamEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamItemEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamMark;
 import com.wxhx.gate.plat.bean.exam.process.IdentityComparison;
+import com.wxhx.gate.plat.bean.exam.process.ItemBegin;
 import com.wxhx.gate.plat.bean.exam.process.ProcessImage;
 import com.wxhx.gate.plat.bean.exam.process.ReadVideo;
 import com.wxhx.gate.plat.bean.exam.process.WirteVideo;
@@ -22,13 +23,21 @@ public interface IExamProcessService {
 	 */
 	public String idCheck(IdentityComparison comparison) throws Exception;
 	
+	/**
+	 * 项目开始
+	 * @param itemBegin
+	 * @return
+	 * @throws Exception
+	 */
+	public String itemBegin(ItemBegin itemBegin) throws Exception;
+	
 	
 	/**
 	 * 项目扣分
 	 * @param examMark
 	 * @return
 	 */
-	public String examMarkHappen(ExamMark examMark) throws Exception;
+	public String examMarkHappen(ExamMark examMark,ExamItemEnd examItemEnd) throws Exception;
 	
 	
 	/**

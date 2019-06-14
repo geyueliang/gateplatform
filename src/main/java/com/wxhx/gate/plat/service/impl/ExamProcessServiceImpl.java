@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
 import com.wxhx.basic_client.config.log.HXLogerFactory;
+import com.wxhx.basic_client.config.thread.HXThreadManager;
 import com.wxhx.gate.plat.bean.exam.process.ExamEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamItemEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamMark;
 import com.wxhx.gate.plat.bean.exam.process.IdentityComparison;
+import com.wxhx.gate.plat.bean.exam.process.ItemBegin;
 import com.wxhx.gate.plat.bean.exam.process.ProcessBase;
 import com.wxhx.gate.plat.bean.exam.process.ProcessImage;
 import com.wxhx.gate.plat.bean.exam.process.ReadVideo;
@@ -28,14 +30,20 @@ import com.wxhx.gate.plat.dao.entity.Ksgc;
 import com.wxhx.gate.plat.dao.entity.Ksyyxx;
 import com.wxhx.gate.plat.dao.entity.Kszp;
 import com.wxhx.gate.plat.init.InitKSKFDM;
+import com.wxhx.gate.plat.init.KcsbInit;
 import com.wxhx.gate.plat.service.IExamProcessService;
 import com.wxhx.gate.plat.service.bean.WebServiceResult;
 import com.wxhx.gate.plat.service.bean.WebServiceResultHead;
+import com.wxhx.gate.plat.service.impl.thread.DealEndThread;
 import com.wxhx.gate.plat.util.GatePlatUtil;
 import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 
 @Service
 public class ExamProcessServiceImpl implements IExamProcessService{
+	
+	
+	@Autowired
+	private HXThreadManager hxThreadManager;
 
 	@Autowired
 	private FunctionMapper functionMapper;
@@ -52,31 +60,69 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	@Autowired
 	private KszpMapper kszpMapper;
 	
+	/**
+	 * 身份验证
+	 */
 	public String idCheck(IdentityComparison comparison) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(comparison);
 		String jkid = "17C51"; //身份比對
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
-		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"身份对比调用{0},入参{1}",jkid,writeXml);
+		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+		//验证成功开始第一个项目
+		ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
+		this.itemBegin(itemBegin);
+		return result;
 	}
 
-	public String examMarkHappen(ExamMark examMark) throws Exception {
+	
+	/**
+	 * 项目开始
+	 */
+	public String itemBegin(ItemBegin itemBegin) throws Exception {
+		String writeXml = HXCallWebServiceUtil.beanToXml(itemBegin);
+		String jkid = "17C52";	//项目开始接口
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"项目开始调用{0},入参{1}",jkid,writeXml);
+		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+	}
+	
+	/**
+	 * 发生扣分
+	 */
+	public String examMarkHappen(ExamMark examMark,ExamItemEnd examItemEnd) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(examMark);
 		String jkid = "17C53"; //考试扣分
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"发生扣分调用{0},入参{1}",jkid,writeXml);
+		//判断当前的分数加上已经扣的分数 是否达到结束考试要求
+		int nowKf = InitKSKFDM.getKf(examMark.getKfxm());
+		//获取当前已经扣除分数
+		int currentSum = this.getKskf(examMark.getSfzmhm());
+		/**
+		 *  超过20分 考试不及格 调用项目结束和 科目结束进行处理
+		 */
+		if((nowKf+currentSum)>20) {
+			//复制基本属性
+			BeanUtils.copyProperties(examItemEnd, examMark);
+			ExamEnd examEnd = this.createExamEnd(examItemEnd,(nowKf+currentSum));
+			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
+			hxThreadManager.execThread(dealEndThread);
+		}
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 
 	public String uploadImage(ProcessImage processImage) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(processImage);
 		String jkid = "17C54"; //图片上传
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"上传图片调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 
+	/**
+	 * 项目结束
+	 */
 	public String examItemEnd(ExamItemEnd examItemEnd) throws Exception {
 		String result = "";
 		//是最后的项目 调用科目考试结束
-		if(HXCoreUtil.isEquals("ckm2zd01", examItemEnd.getKsxm())) {
+		if(HXCoreUtil.isEquals("99001", examItemEnd.getKsxm())) {
 			//调用科目考试结束
 			ExamEnd examEnd = this.createExamEnd(examItemEnd,0);
 			result = this.examEnd(examEnd);
@@ -84,36 +130,39 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		else {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examItemEnd);
 			String jkid = "17C55"; //项目结束
-			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
+			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"项目结束调用{0},入参{1}",jkid,writeXml);
 			result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			//判断当前扣分是否超过20 	超过20分 结束考试
-			int kfhj = this.getKskf(examItemEnd);
+			int kfhj = this.getKskf(examItemEnd.getSfzmhm());
 			if(kfhj>20) {
 				ExamEnd examEnd = this.createExamEnd(examItemEnd,kfhj);
 				result = this.examEnd(examEnd);
 			}
 		}
+		//项目结束调用下一个项目的开始
+		ItemBegin itemBegin = this.getItemBegin(examItemEnd.getSfzmhm(), examItemEnd, null);
+		this.itemBegin(itemBegin);
 		return result;
 	}
 
 	public String examEnd(ExamEnd examEnd) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(examEnd);
 		String jkid = "17C56"; //科目结束
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"科目结束调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 	
 	public String writeVideo(WirteVideo wirteVideo) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(wirteVideo);
 		String jkid = "17E14"; //视频认证发启（写入）
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"发起视频认证调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	} 
 	
 	public String readVideo(ReadVideo readVideo) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(readVideo);
 		String jkid = "17E15"; //读取视频认证结果
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"调用{0},入参{1}",jkid,writeXml);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"读取视频认证结果调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 	} 
 
@@ -149,7 +198,19 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			break;
 		//考试扣分
 		case 1:
-			result = this.examMarkHappen((ExamMark) getCallBeanFromArray(processArray,typeId));
+			//扣分内容
+			ExamMark examMark = (ExamMark) getCallBeanFromArray(processArray,typeId);
+			/**
+			 * 项目内容
+			 */
+			ExamItemEnd examItemEnd = new ExamItemEnd();
+			examItemEnd.setSbxh(KcsbInit.getSBBH(processArray[7]));  //设备序列号
+			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date())); //结束时间
+			String czlx = HXCoreUtil.isEquals("true",processArray[8])?"1":"0";  //操作类型
+			examItemEnd.setCzlx(czlx); //考试项目
+			examItemEnd.setKsxm(KcsbInit.getKcsb(processArray[6]).getSbxm());
+			//开始调用扣分
+			result = this.examMarkHappen(examMark,examItemEnd);
 			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"考试扣分返回{0}",result);
 			break;
 		//图片上传
@@ -175,7 +236,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		}
 		//解析返回对象
 		WebServiceResult serviceResult =  HXCallWebServiceUtil.xmlToBean(result, WebServiceResult.class);
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"返回的json{0}",serviceResult);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"process处理 typeId{0}返回的json{1}",typeId,serviceResult);
 		if(serviceResult!=null&&serviceResult.getHead()!=null) {
 			//视频认证结果返回
 			WebServiceResultHead head = serviceResult.getHead();
@@ -296,14 +357,14 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		case 3:
 			ExamItemEnd examItemEnd = new ExamItemEnd();
 			//设备序列号
-			examItemEnd.setSbxh(array[7]);
+			examItemEnd.setSbxh(KcsbInit.getSBBH(array[7]));
 			//结束时间
 			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			//操作类型
 			String czlx = HXCoreUtil.isEquals("true",array[8])?"1":"0"; 
 			examItemEnd.setCzlx(czlx);
 			//考试项目
-			examItemEnd.setKsxm(array[6]);
+			examItemEnd.setKsxm(KcsbInit.getKcsb(array[6]).getSbxm());
 			t = (T) examItemEnd;
 			break;
 		//视频认证发启（写入）	
@@ -397,17 +458,17 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	 * @param examItemEnd
 	 * @return
 	 */
-	private int getKskf(ExamItemEnd examItemEnd) {
+	private int getKskf(String sfzmhm) {
 		//判断当前是第几次考试
-		int kscs = ksgcMapper.getNowKscs(examItemEnd.getSfzmhm());
+		int kscs = ksgcMapper.getNowKscs(sfzmhm);
 		List<Ksgc> kfxms = null;
 		//第一次考试
 		if(kscs<2) {
-			kfxms = ksgcMapper.getKfxm(examItemEnd.getSfzmhm(), 1);
+			kfxms = ksgcMapper.getKfxm(sfzmhm, 1);
 		}
 		//第二次考试
 		else {
-			kfxms = ksgcMapper.getKfxm(examItemEnd.getSfzmhm(), 2);
+			kfxms = ksgcMapper.getKfxm(sfzmhm, 2);
 		}
 		//计算扣分
 		int kfhj = 0;
@@ -418,4 +479,54 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		}
 		return kfhj;
 	}
+	
+	
+	
+	/**
+	 * 根据当前考生的身份证信息 和 结束的项目 得到开始项目的入参
+	 * @param sfzmhm
+	 * @param examItemEnd
+	 * @return
+	 * @throws Exception 
+	 * @throws IllegalAccessException 
+	 */
+	private ItemBegin getItemBegin(String sfzmhm,ExamItemEnd examItemEnd,IdentityComparison comparison) throws Exception {
+		ItemBegin itemBegin = null;
+		Ksyyxx ksyyxx = ksyyxxMapper.selectByIdNum(sfzmhm);
+		if(ksyyxx!=null&&!HXCoreUtil.isEmpty(ksyyxx.getKsxm())) {
+			//当前路线序号
+			String lxxh = ksyyxx.getLxxh();
+			//结束项目是空 身份验证信息不空	当前为第一项目
+			if(examItemEnd==null&&comparison!=null) {
+				itemBegin = new ItemBegin();
+				//复制基本属性
+				BeanUtils.copyProperties(itemBegin, comparison);
+				String ksxm = KcsbInit.getNextBeginItem(lxxh, null);
+				itemBegin.setKsxm(ksxm);	//考试项目
+				itemBegin.setSbxh(ksxm); 		//设备序号(备案编号)
+				itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+			}
+			
+			//考试项目结束
+			if(examItemEnd!=null&&comparison==null) {
+				//如果是最后一个项目结束 不用操作
+				if(HXCoreUtil.isEquals(examItemEnd.getKsxm(), "99001")) {
+					return null;
+				}
+				else {
+					itemBegin = new ItemBegin();
+					//复制基本属性
+					BeanUtils.copyProperties(itemBegin, examItemEnd);
+					String ksxm = KcsbInit.getNextBeginItem(lxxh, examItemEnd.getKsxm());
+					itemBegin.setKsxm(ksxm);	//考试项目
+					itemBegin.setSbxh(ksxm); 		//设备序号(备案编号)
+					itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+				}
+				
+			}
+			
+		}
+		return itemBegin;
+	}
+
 }
