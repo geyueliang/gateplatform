@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.gate.plat.dao.KcsbMapper;
 import com.wxhx.gate.plat.dao.LxpzMapper;
 import com.wxhx.gate.plat.dao.entity.Kcsb;
@@ -97,6 +98,10 @@ public class KcsbInit {
 			if((index+1)<sbxms.size()) {
 				result = sbxms.get(index+1);
 			}
+		}
+		//后一项是终点也不用发送
+		if(HXCoreUtil.isEquals(result,"99001")) {
+			result = "";
 		}
 		return result;
 	}

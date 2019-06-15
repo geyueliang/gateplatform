@@ -142,7 +142,9 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		}
 		//项目结束调用下一个项目的开始
 		ItemBegin itemBegin = this.getItemBegin(examItemEnd.getSfzmhm(), examItemEnd, null);
-		this.itemBegin(itemBegin);
+		if(itemBegin!=null) {
+			this.itemBegin(itemBegin);
+		}
 		return result;
 	}
 
@@ -517,10 +519,13 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 					return null;
 				}
 				else {
+					String ksxm = KcsbInit.getNextBeginItem(lxxh, examItemEnd.getKsxm());
+					if(HXCoreUtil.isEmpty(ksxm)) {
+						return null;
+					}
 					itemBegin = new ItemBegin();
 					//复制基本属性
 					BeanUtils.copyProperties(itemBegin, examItemEnd);
-					String ksxm = KcsbInit.getNextBeginItem(lxxh, examItemEnd.getKsxm());
 					itemBegin.setKsxm(ksxm);	//考试项目
 					itemBegin.setSbxh(ksxm); 		//设备序号(备案编号)
 					itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
