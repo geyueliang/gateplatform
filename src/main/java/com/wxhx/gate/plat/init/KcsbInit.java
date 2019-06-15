@@ -100,7 +100,7 @@ public class KcsbInit {
 			}
 		}
 		//后一项是终点也不用发送
-		if(HXCoreUtil.isEquals(result,"99001")) {
+		if(HXCoreUtil.isEquals(result,"20500")) {
 			result = "";
 		}
 		return result;

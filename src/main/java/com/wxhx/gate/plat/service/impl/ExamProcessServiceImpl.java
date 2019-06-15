@@ -123,9 +123,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String examItemEnd(ExamItemEnd examItemEnd) throws Exception {
 		String result = "";
 		//是最后的项目 调用科目考试结束
-		if(HXCoreUtil.isEquals("99001", examItemEnd.getKsxm())) {
+		if(HXCoreUtil.isEquals("20500", examItemEnd.getKsxm())) {
 			//调用科目考试结束
 			ExamEnd examEnd = this.createExamEnd(examItemEnd,0);
+			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"开始科目结束,项目入参{0},科目入参{1}",examItemEnd,examEnd);
 			result = this.examEnd(examEnd);
 		}
 		else {
@@ -515,7 +516,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			//考试项目结束
 			if(examItemEnd!=null&&comparison==null) {
 				//如果是最后一个项目结束 不用操作
-				if(HXCoreUtil.isEquals(examItemEnd.getKsxm(), "99001")) {
+				if(HXCoreUtil.isEquals(examItemEnd.getKsxm(), "20500")) {
 					return null;
 				}
 				else {
