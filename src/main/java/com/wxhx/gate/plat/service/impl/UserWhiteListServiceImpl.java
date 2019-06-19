@@ -15,6 +15,8 @@ import com.wxhx.gate.plat.service.IUserWhiteListService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 import com.wxhx.gate.plat.util.GatePlatUtil;
 
+import tk.mybatis.mapper.common.base.delete.DeleteByPrimaryKeyMapper;
+
 @Service
 public class UserWhiteListServiceImpl implements IUserWhiteListService{
 
@@ -27,19 +29,25 @@ public class UserWhiteListServiceImpl implements IUserWhiteListService{
 	
 	public boolean addUserWhiteInfo(UserWhiteList userWhite) {
 		boolean result = false;
-		//新增白名单数据到数据库
-		int i= userWhiteListMapper.insertSelective(userWhite);
-		//将白名单发送到人脸机器
-		WhiteListVO whiteListVO = new WhiteListVO();
-		whiteListVO.setIdnum(userWhite.getCarId());
-		whiteListVO.setName(userWhite.getUserName());
-		whiteListVO.setPhoto(userWhite.getUserPhoto());
-		whiteListVO.setValidStart(GatePlatUtil.getFormatDate("yyyy.MM.dd", new Date()));
-		whiteListVO.setValidEnd("2099.12.31");
-		FaceResponse res = iDongwoPlatService.insertWhiteList(whiteListVO);
-		if(i>0&&res.getCode()==0) {
-			WhiteListInit.WHITE_LIST.add(userWhite.getCarId());
-			result = true;
+		//先删除白名单
+		int delRes = userWhiteListMapper.deleteWhiteList(userWhite.getCarId());
+		if(delRes>=0) {
+			//新增白名单数据到数据库
+			int i= userWhiteListMapper.insertSelective(userWhite);
+			if(i>0) {
+				//将白名单发送到人脸机器
+				WhiteListVO whiteListVO = new WhiteListVO();
+				whiteListVO.setIdnum(userWhite.getCarId());
+				whiteListVO.setName(userWhite.getUserName());
+				whiteListVO.setPhoto(userWhite.getUserPhoto());
+				whiteListVO.setValidStart(GatePlatUtil.getFormatDate("yyyy.MM.dd", new Date()));
+				whiteListVO.setValidEnd("2099.12.31");
+				FaceResponse res = iDongwoPlatService.insertWhiteList(whiteListVO);
+				if(res.getCode()==0) {
+					WhiteListInit.WHITE_LIST.add(userWhite.getCarId());
+					result = true;
+				}
+			}
 		}
 		return result;
 	}

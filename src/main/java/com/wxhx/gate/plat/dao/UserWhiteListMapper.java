@@ -14,4 +14,11 @@ public interface UserWhiteListMapper extends Mapper<UserWhiteList>{
 	 */
 	List<String> selectEnableList();
 	
+	/**
+	 * 根据身份证号码删除白名单
+	 * @param cardId
+	 * @return
+	 */
+	int deleteWhiteList(String cardId);
+	
 }

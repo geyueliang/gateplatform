@@ -5,5 +5,9 @@
  	<select id="selectEnableList" resultType="String">
  		SELECT car_id FROM USER_WHITE_LIST where user_status = 1
  	</select>
+ 	
+ 	<delete id="deleteWhiteList" parameterType="java.lang.String">
+ 		DELETE FROM USER_WHITE_LIST WHERE CAR_ID = #{cardId}
+ 	</delete>
  
 </mapper>
