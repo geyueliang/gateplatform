@@ -1,10 +1,16 @@
 package com.wxhx.gate.plat.dao.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
+
+@Table(name = "KSKFDM")
 public class Kskfdm {
+	
     private String dm;
 
     private String kfms;
 
+    @Column(name = "KF")
     private int kf;
 
     public String getDm() {

@@ -26,6 +26,7 @@ import com.wxhx.gate.plat.dao.KsgcMapper;
 import com.wxhx.gate.plat.dao.KsyxxMapper;
 import com.wxhx.gate.plat.dao.KsyyxxMapper;
 import com.wxhx.gate.plat.dao.KszpMapper;
+import com.wxhx.gate.plat.dao.entity.Kcsb;
 import com.wxhx.gate.plat.dao.entity.Ksgc;
 import com.wxhx.gate.plat.dao.entity.Ksyyxx;
 import com.wxhx.gate.plat.dao.entity.Kszp;
@@ -122,9 +123,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String examItemEnd(ExamItemEnd examItemEnd) throws Exception {
 		String result = "";
 		//是最后的项目 调用科目考试结束
-		if(HXCoreUtil.isEquals("99001", examItemEnd.getKsxm())) {
+		if(HXCoreUtil.isEquals("20500", examItemEnd.getKsxm())) {
 			//调用科目考试结束
 			ExamEnd examEnd = this.createExamEnd(examItemEnd,0);
+			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"开始科目结束,项目入参{0},科目入参{1}",examItemEnd,examEnd);
 			result = this.examEnd(examEnd);
 		}
 		else {
@@ -141,7 +143,9 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		}
 		//项目结束调用下一个项目的开始
 		ItemBegin itemBegin = this.getItemBegin(examItemEnd.getSfzmhm(), examItemEnd, null);
-		this.itemBegin(itemBegin);
+		if(itemBegin!=null) {
+			this.itemBegin(itemBegin);
+		}
 		return result;
 	}
 
@@ -204,11 +208,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			 * 项目内容
 			 */
 			ExamItemEnd examItemEnd = new ExamItemEnd();
-			examItemEnd.setSbxh(KcsbInit.getSBBH(processArray[7]));  //设备序列号
+			Kcsb kcsb = KcsbInit.getKcsb(processArray[7]);
+			examItemEnd.setSbxh(kcsb!=null?kcsb.getSbbh():processArray[7]);  //设备序列号
 			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date())); //结束时间
 			String czlx = HXCoreUtil.isEquals("true",processArray[8])?"1":"0";  //操作类型
-			examItemEnd.setCzlx(czlx); //考试项目
-			examItemEnd.setKsxm(KcsbInit.getKcsb(processArray[6]).getSbxm());
+			examItemEnd.setCzlx(czlx); 
+			examItemEnd.setKsxm(processArray[6]); //考试项目
 			//开始调用扣分
 			result = this.examMarkHappen(examMark,examItemEnd);
 			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"考试扣分返回{0}",result);
@@ -357,14 +362,15 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		case 3:
 			ExamItemEnd examItemEnd = new ExamItemEnd();
 			//设备序列号
-			examItemEnd.setSbxh(KcsbInit.getSBBH(array[7]));
+			Kcsb kcsb = KcsbInit.getKcsb(array[7]);
+			examItemEnd.setSbxh(kcsb!=null?kcsb.getSbbh():array[7]);  //设备序列号
 			//结束时间
 			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			//操作类型
 			String czlx = HXCoreUtil.isEquals("true",array[8])?"1":"0"; 
 			examItemEnd.setCzlx(czlx);
 			//考试项目
-			examItemEnd.setKsxm(KcsbInit.getKcsb(array[6]).getSbxm());
+			examItemEnd.setKsxm(array[6]);
 			t = (T) examItemEnd;
 			break;
 		//视频认证发启（写入）	
@@ -510,14 +516,17 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			//考试项目结束
 			if(examItemEnd!=null&&comparison==null) {
 				//如果是最后一个项目结束 不用操作
-				if(HXCoreUtil.isEquals(examItemEnd.getKsxm(), "99001")) {
+				if(HXCoreUtil.isEquals(examItemEnd.getKsxm(), "20500")) {
 					return null;
 				}
 				else {
+					String ksxm = KcsbInit.getNextBeginItem(lxxh, examItemEnd.getKsxm());
+					if(HXCoreUtil.isEmpty(ksxm)) {
+						return null;
+					}
 					itemBegin = new ItemBegin();
 					//复制基本属性
 					BeanUtils.copyProperties(itemBegin, examItemEnd);
-					String ksxm = KcsbInit.getNextBeginItem(lxxh, examItemEnd.getKsxm());
 					itemBegin.setKsxm(ksxm);	//考试项目
 					itemBegin.setSbxh(ksxm); 		//设备序号(备案编号)
 					itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));

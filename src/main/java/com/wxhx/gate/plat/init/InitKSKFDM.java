@@ -30,7 +30,7 @@ public class InitKSKFDM {
 		List<Kskfdm> kskfdms = kskfdmMapper.selectAll();
 		if(kskfdms!=null && kskfdms.size()>0) {
 			for(Kskfdm dm:kskfdms) {
-				this.KSKFMAPPING.put(dm.getDm(), dm.getKf());
+				InitKSKFDM.KSKFMAPPING.put(dm.getDm(), dm.getKf());
 			}
 		}
 	}
