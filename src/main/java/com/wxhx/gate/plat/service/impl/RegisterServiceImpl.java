@@ -32,6 +32,7 @@ public class RegisterServiceImpl implements IRegisterService {
 	@Autowired
 	private IControlCenterService iControlCenterService; // 控制中心
 
+	@Transactional(rollbackFor = Exception.class)
 	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
 		HXRespons<RegisterResponse> finalResult = new HXRespons<RegisterResponse>("0", "报道失败", null);
 		ExaminationInfo appointmentInfo = null;
@@ -50,6 +51,12 @@ public class RegisterServiceImpl implements IRegisterService {
 		appointmentInfo.setXm(registerInfoVo.getName());
 		appointmentInfo.setYycs(0);
 		appointmentInfo.setKsxm("0000");
+		
+		if(iControlCenterService.getExaminationInfo(appointmentInfo)!=null) {
+			finalResult = new HXRespons<RegisterResponse>("0", "今天已报道，请与管理员联系", null);
+			return finalResult;
+		}
+		
 		int res = iControlCenterService.insertSortInfo(appointmentInfo);
 		
 		if(res == 1) {
