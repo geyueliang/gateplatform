@@ -24,7 +24,7 @@ public interface IManagerPlatService {
 	 * @param registerVo
 	 * @return
 	 */
-	RegisterResponse register(RegisterInfoVo registerVo);
+	RegisterResponse register(RegisterInfoVo registerVo) throws Exception;
 	
 	/**
 	 * 获取预约信息
@@ -53,7 +53,7 @@ public interface IManagerPlatService {
 	 * @param examineeInfoVO
 	 * @return
 	 */
-	WebServiceResult<ExaminationInfo> getZP(ExamineeInfoQueryVO examineeInfoQueryVO);
+	WebServiceResult<ExaminationInfo> getZP(ExamineeInfoQueryVO examineeInfoQueryVO) throws Exception;
 	
 	/**
 	 * 写入考生门禁照片
