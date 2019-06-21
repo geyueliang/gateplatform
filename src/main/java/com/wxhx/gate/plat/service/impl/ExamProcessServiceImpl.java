@@ -139,6 +139,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			if(kfhj>20) {
 				ExamEnd examEnd = this.createExamEnd(examItemEnd,kfhj);
 				result = this.examEnd(examEnd);
+				return result;
 			}
 		}
 		//项目结束调用下一个项目的开始
@@ -211,7 +212,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			Kcsb kcsb = KcsbInit.getKcsb(processArray[7]);
 			examItemEnd.setSbxh(kcsb!=null?kcsb.getSbbh():processArray[7]);  //设备序列号
 			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date())); //结束时间
-			String czlx = HXCoreUtil.isEquals("true",processArray[8])?"1":"0";  //操作类型
+//			String czlx = HXCoreUtil.isEquals("true",processArray[8])?"1":"0";  //操作类型
+			String czlx = "1";
 			examItemEnd.setCzlx(czlx); 
 			examItemEnd.setKsxm(processArray[6]); //考试项目
 			//开始调用扣分
@@ -419,6 +421,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			Kszp kszp = kszpMapper.getKszpByCarNo(examItemEnd.getSfzmhm(), "CZ");
 			if(kszp!=null) {
 				examEnd.setZp(kszp.getZp());
+			}
+			else {
+				kszp = kszpMapper.getKszpByCarNo(examItemEnd.getSfzmhm(), "BD");
+				if(kszp!=null) {
+					examEnd.setZp(kszp.getZp());
+				}
 			}
 			//结束时间
 			examEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));

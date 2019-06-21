@@ -28,13 +28,13 @@ public class CarCallController {
 	public int carCall(CarCallInfoVo callInfoVo) {
 		int result = 0;
 		try {
-			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"车载调用接口入参{0}",callInfoVo.getContent());
+			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"=============车载调用接口入参{0}============",callInfoVo.getContent());
 			String resJson = iExamProcessService.doProcess(callInfoVo.getContent());
 			result =Integer.parseInt(JSONObject.parseObject(resJson).getString("code"));
 		} catch (Exception e) {
 			result = 0;
 		}
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"车载调用返回{0}",result);
+		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"=============车载调用返回{0}============",result);
 		return result;
 	}
 	
