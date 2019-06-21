@@ -24,15 +24,15 @@ public class ExamFinishController {
 		HXRespons<ExamFinishResponse> examinationInfo = new HXRespons<ExamFinishResponse>("0", "结束考试失败", null);
 		
 		
-		String sfzmhm = reqMap.get("sfzmhm")+"";
+		String sfzmhm = reqMap.get("sfzmhm");
 		String score = reqMap.get("score");
-		if(sfzmhm == null || HXCoreUtil.isEquals("", sfzmhm) || score == null || HXCoreUtil.isEquals("", score)) {
+		if(HXCoreUtil.isEmpty(sfzmhm) || HXCoreUtil.isEmpty(score)) {
 			examinationInfo = new HXRespons<ExamFinishResponse>("0", "考试分数或身份证号码不能为空", null);
 			return examinationInfo;
 		}
 		
 		
-		examinationInfo = iExamFinishService.ExamFinish(sfzmhm, score);
+		examinationInfo = iExamFinishService.examFinish(sfzmhm, score);
 		return examinationInfo;
 	}
 }

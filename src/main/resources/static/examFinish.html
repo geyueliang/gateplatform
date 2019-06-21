@@ -93,33 +93,6 @@ h3{
 				});
 			}
 		
-		
-			//开始考试
-			var startExamin = function() {
-				
-				var formData = new FormData($("#startExamin")[0]);
-				$.ajax({
-					type : "post",
-					contentType : "application/json; charset=utf-8",
-					url : "/gateplat/examStartByHand",
-					data : formData,
-					cache : false,
-					async : false,
-					processData : false, //必须false才会避开jQuery对 formdata 的默认处理
-					contentType : false, //必须false才会自动加上正确的Content-Type
-					success : function(message) {
-						if (message.resCode == "1") {
-							alert("考试成功");
-						}
-						else{
-							alert("考试失败");
-						}
-					},
-					error : function(message) {
-						console.log("失败");
-					}
-				});
-			};
 	</script>
 </body>
 </html>

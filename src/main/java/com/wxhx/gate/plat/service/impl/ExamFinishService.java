@@ -36,31 +36,39 @@ public class ExamFinishService implements IExamFinishService{
 	@Autowired
 	private IExamProcessService iExamProcessService;
 
-	public HXRespons<ExamFinishResponse> ExamFinish(String sfzmhm, String score) {
-		HXRespons<ExamFinishResponse> finalResult = new HXRespons<ExamFinishResponse>("0", "考试不合格", null);
+	public HXRespons<ExamFinishResponse> examFinish(String sfzmhm, String score) {
+		HXRespons<ExamFinishResponse> finalResult = new HXRespons<ExamFinishResponse>("0", "操作失败", null);
 		WebServiceResult<ExamFinishResponse> result = null;
+		
+		//获取预约信息
 		Ksyyxx ksyyxx = ksyyxxMapper.selectByIdNum(sfzmhm);
-		Kszp kszp = kszpMapper.getKszpByCarNo(sfzmhm, "BD");
-		
-		ExamEnd examEnd = new ExamEnd();
-		examEnd.setLsh(ksyyxx.getLsh());
-		examEnd.setKskm("2");
-		examEnd.setSfzmhm(ksyyxx.getSfzmhm());
-		examEnd.setZp(kszp.getZp());
-		examEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
-		examEnd.setKscj(score);
-		examEnd.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
-		examEnd.setDwjgdm(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.XZGLBM));
-		examEnd.setZdbs(GatePlatUtil.getLocalhostIp());
-		
-		try {
-			result = HXCallWebServiceUtil.xmlToBean(iExamProcessService.examEnd(examEnd), ExamFinishResponse.class);
-			if(result != null) {
-				finalResult = new HXRespons<ExamFinishResponse>(result.getHead().getCode(), result.getHead().getMessage(), null);
+		if(ksyyxx != null) {
+			
+			//获取预约照片
+			Kszp kszp = kszpMapper.getKszpByCarNo(sfzmhm, "BD");
+			if(kszp != null) {
+				ExamEnd examEnd = new ExamEnd();
+				examEnd.setLsh(ksyyxx.getLsh());
+				examEnd.setKskm("2");
+				examEnd.setSfzmhm(ksyyxx.getSfzmhm());
+				examEnd.setZp(kszp.getZp());
+				examEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+				examEnd.setKscj(score);
+				examEnd.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
+				examEnd.setDwjgdm(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.XZGLBM));
+				examEnd.setZdbs(GatePlatUtil.getLocalhostIp());
+				
+				try {
+					result = HXCallWebServiceUtil.xmlToBean(iExamProcessService.examEnd(examEnd), ExamFinishResponse.class);
+					if(result != null) {
+						finalResult = new HXRespons<ExamFinishResponse>(result.getHead().getCode(), result.getHead().getMessage(), null);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+		
 		
 		return finalResult;
 	}

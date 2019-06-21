@@ -16,6 +16,6 @@ public interface IExamFinishService {
 	 * @param score
 	 * @return
 	 */
-	public HXRespons<ExamFinishResponse> ExamFinish(String sfzmhm,String score);
+	public HXRespons<ExamFinishResponse> examFinish(String sfzmhm,String score);
 
 }
