@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
-import com.wxhx.gate.plat.constent.CommonTestConstent;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.controller.vo.RegisterInfoVo;
 import com.wxhx.gate.plat.init.WhiteListInit;
