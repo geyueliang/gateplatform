@@ -45,7 +45,7 @@ public class HXCallWebServiceUtil {
 	}
 	
 	/**
-	 * 中午字符转换
+	 * 中文字符转换
 	 * @param str
 	 * @return
 	 */
@@ -122,6 +122,7 @@ public class HXCallWebServiceUtil {
 	}
 	
 	
+	
 	/**
 	 * 封装调用webservice查询接口接口
 	 * @param xtlb
@@ -133,14 +134,15 @@ public class HXCallWebServiceUtil {
 	 */
 	public static String queryWebService(String xtlb, String jkxlh, String jkid, String callXml, String url)
 			throws Exception {
-		HXJaxWsDynamicClientFactory dcf = HXJaxWsDynamicClientFactory.newInstance();
-		//创建客户端
-        QName service = new QName("http://tempuri.org/", "TmriOutAccess");
-        QName port = new QName("http://tempuri.org/","BasicHttpBinding_ITmriOutAccess");
-        Client client = dcf.createClient(url, service, port);
-        //开始调用查询接口
-        QName opration = new QName("http://tempuri.org/", "queryObjectOut");
-        Object[] resultObj = client.invoke(opration, xtlb,jkxlh,jkid,callXml);
+		/*
+		 * HXJaxWsDynamicClientFactory dcf = HXJaxWsDynamicClientFactory.newInstance();
+		 * //创建客户端 QName service = new QName("http://tempuri.org/", "TmriOutAccess");
+		 * QName port = new
+		 * QName("http://tempuri.org/","BasicHttpBinding_ITmriOutAccess"); Client client
+		 * = dcf.createClient(url, service, port); //开始调用查询接口 QName opration = new
+		 * QName("http://tempuri.org/", "queryObjectOut");
+		 */
+        Object[] resultObj = HXWebServiceClientFactory.queryObject(xtlb, jkxlh, jkid, callXml, url);
         String result = "";
         if(resultObj!=null&&resultObj.length>0) {
         	result =  (String)resultObj[0];
@@ -150,7 +152,7 @@ public class HXCallWebServiceUtil {
 	
 	
 	/**
-	 * 封装调用webservice查询接口
+	 * 封装调用webservice写入接口
 	 * @param xtlb
 	 * @param jkxlh
 	 * @param jkid
@@ -160,14 +162,15 @@ public class HXCallWebServiceUtil {
 	 */
 	public static String writeWebService(String xtlb, String jkxlh, String jkid, String callXml, String url)
 			throws Exception {
-		HXJaxWsDynamicClientFactory dcf = HXJaxWsDynamicClientFactory.newInstance();
-		//创建客户端
-        QName service = new QName("http://tempuri.org/", "TmriOutAccess");
-        QName port = new QName("http://tempuri.org/","BasicHttpBinding_ITmriOutAccess");
-        Client client = dcf.createClient(url, service, port);
-        //开始调用查询接口
-        QName opration = new QName("http://tempuri.org/", "writeObjectOut");
-        Object[] resultObj = client.invoke(opration, xtlb,jkxlh,jkid,callXml);
+		/*
+		 * HXJaxWsDynamicClientFactory dcf = HXJaxWsDynamicClientFactory.newInstance();
+		 * //创建客户端 QName service = new QName("http://tempuri.org/", "TmriOutAccess");
+		 * QName port = new
+		 * QName("http://tempuri.org/","BasicHttpBinding_ITmriOutAccess"); Client client
+		 * = dcf.createClient(url, service, port); //开始调用写入接口 QName opration = new
+		 * QName("http://tempuri.org/", "writeObjectOut");
+		 */
+        Object[] resultObj = HXWebServiceClientFactory.writeObject(xtlb, jkxlh, jkid, callXml, url);
         String result = "";
         if(resultObj!=null&&resultObj.length>0) {
         	result =  (String)resultObj[0];
