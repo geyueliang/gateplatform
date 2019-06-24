@@ -13,5 +13,12 @@ public interface KsyyxxMapper extends Mapper<Ksyyxx>{
 	
 	//根据身份证号码更新预约信息
 	int updateByCardId(Ksyyxx ksyyxx);
+	
+	/**
+	 * 根据身份证号码删除预约信息
+	 * @param sfzmhm
+	 * @return
+	 */
+	int deleteKsyyxx(String sfzmhm);
    
 }

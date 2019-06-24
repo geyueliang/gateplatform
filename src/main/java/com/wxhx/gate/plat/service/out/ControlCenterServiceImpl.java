@@ -39,8 +39,11 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		//将下载下来的预约信息转换成对应的预约信息
 		Ksyyxx ksyyxx = new Ksyyxx();
 		copyInfo(examinationInfo,ksyyxx);
-		//插入排考信息
-		return ksyyxxMapper.insertSelective(ksyyxx);
+		//插入排考信息,先根据身份证号码删除历史数据，防止LSH唯一冲突（考生一次报名考试LSH唯一，五次机会用完以后再次报名更换）
+		if(ksyyxxMapper.deleteKsyyxx(ksyyxx.getSfzmhm())>=0) {
+			return ksyyxxMapper.insertSelective(ksyyxx);
+		};
+		return 0;
 	}
 	
 	public ExaminationInfo getExaminationInfo(ExaminationInfo examinationInfo) {

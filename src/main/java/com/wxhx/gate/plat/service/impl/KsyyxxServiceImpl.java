@@ -28,6 +28,7 @@ public class KsyyxxServiceImpl implements IKsyyxxService{
 		 */
 		Ksyyxx ksyyxx = new Ksyyxx();
 		ksyyxx.setSfzmhm(examinationInfo.getSfzmhm());
+		ksyyxx.setXm(examinationInfo.getXm());
 		ksyyxx.setLsh(examinationInfo.getLsh());
 		ksyyxx.setZkzmbh(examinationInfo.getZkzmbh());
 		ksyyxx.setKsyy(examinationInfo.getKsyy());
