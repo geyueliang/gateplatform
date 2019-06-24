@@ -1,10 +1,11 @@
 package com.wxhx.gate.plat.service.out;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
-import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
@@ -26,6 +27,8 @@ import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
  */
 @Service
 public class ManagerPlatServiceImpl implements IManagerPlatService{
+
+	private static Logger logger = LoggerFactory.getLogger(ManagerPlatServiceImpl.class);
 
 	
 	/**
@@ -163,7 +166,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			 * } }
 			 */
 		} catch (Exception e) {
-			HXLogUtil.error(HXLogerFactory.getLogger("gate_plate"),"获取车次人员信息错误",e.getStackTrace());
+			HXLogUtil.error(logger,"获取车次人员信息错误",e.getStackTrace());
 		}
 		return webServiceResult;
 	}

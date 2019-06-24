@@ -6,15 +6,16 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
-import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
+import com.wxhx.gate.plat.controller.ExamingController;
 import com.wxhx.gate.plat.dao.EnvVarMapper;
 import com.wxhx.gate.plat.dao.KsclMapper;
 import com.wxhx.gate.plat.dao.entity.EnvVar;
@@ -29,8 +30,10 @@ import com.wxhx.gate.plat.service.out.IDongwoPlatService;
  *
  */
 @Component
-@DependsOn("HXLogerFactory")
 public class HXSystemInfo {
+	
+	private static Logger logger = LoggerFactory.getLogger(HXSystemInfo.class);
+
 	
 	@Value("${wxhx.gate.plate.model.dev:n}")
 	private String devModel;
@@ -73,10 +76,10 @@ public class HXSystemInfo {
 			if (!HXCoreUtil.isEmpty(localUrl)) {
 				iDongwoPlatService.updateUploadUrl(localUrl);
 			}
-			HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),"开始车辆检测");
+			HXLogUtil.debug(logger,"开始车辆检测");
 			List<Kscl> kscls = ksclMapper.selectAll();
 			iSystemCheckServier.startCheck(kscls);
-			HXLogUtil.debug(HXLogerFactory.getLogger("gate_plate"),"车辆检测结束");
+			HXLogUtil.debug(logger,"车辆检测结束");
 		}
 	}
 }
