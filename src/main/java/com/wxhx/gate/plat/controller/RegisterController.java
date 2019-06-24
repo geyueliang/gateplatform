@@ -59,12 +59,12 @@ public class RegisterController {
 		 * if(HXCoreUtil.isEquals("320831199003100634", carNo)) { name = "吴义"; carNo =
 		 * "522127198510066559"; }
 		 */
-		HXLogUtil.debug(logger,"白名单信息{0}"+WhiteListInit.WHITE_LIST);
+		HXLogUtil.debug(logger,"白名单信息{0}",WhiteListInit.WHITE_LIST);
 		if(WhiteListInit.WHITE_LIST.contains(carNo)) {
 			registerResponse = new HXRespons<RegisterResponse>("1", "管理員", null);
 			return registerResponse;
 		}
-		HXLogUtil.debug(logger,"开始报道{0}"+reqMap);
+		HXLogUtil.debug(logger,"开始报道{0}",reqMap);
 		RegisterInfoVo registerInfoVo = new RegisterInfoVo();
 		registerInfoVo.setName(name);
 		registerInfoVo.setSfzmhm(carNo);
