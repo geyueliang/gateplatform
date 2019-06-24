@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
-import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.controller.vo.ExamineeInfoQueryVO;
@@ -27,6 +27,9 @@ import com.wxhx.gate.plat.service.out.IManagerPlatService;
  */
 @Component
 public class UpdateReserveInfoTimer {
+	
+	private static Logger logger = LoggerFactory.getLogger(UpdateReserveInfoTimer.class);
+
 
 	@Autowired
 	private KsclMapper ksclMapper;
@@ -77,7 +80,7 @@ public class UpdateReserveInfoTimer {
 						//更新照片流水号
 						if(iKsyyxxServer.updateKszpLsh(examSortInfo)) {
 							if(iKsyyxxServer.updateKsyyxx(examSortInfo)) {
-								HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"更新预约信息成功",examSortInfo);
+								HXLogUtil.info(logger,"更新预约信息成功",examSortInfo);
 							}
 						}
 					}

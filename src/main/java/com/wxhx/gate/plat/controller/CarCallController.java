@@ -1,5 +1,7 @@
 package com.wxhx.gate.plat.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wxhx.basic_client.common.HXLogUtil;
-import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.gate.plat.controller.vo.CarCallInfoVo;
 import com.wxhx.gate.plat.service.IExamProcessService;
 
@@ -18,6 +19,8 @@ import com.wxhx.gate.plat.service.IExamProcessService;
  */
 @RestController
 public class CarCallController {
+	
+	private static Logger logger = LoggerFactory.getLogger(CarCallController.class);
 
 	@Autowired
 	private IExamProcessService iExamProcessService;
@@ -28,13 +31,13 @@ public class CarCallController {
 	public int carCall(CarCallInfoVo callInfoVo) {
 		int result = 0;
 		try {
-			HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"=============车载调用接口入参{0}============",callInfoVo.getContent());
+			HXLogUtil.info(logger,"=============车载调用接口入参{0}=============",callInfoVo.getContent());
 			String resJson = iExamProcessService.doProcess(callInfoVo.getContent());
 			result =Integer.parseInt(JSONObject.parseObject(resJson).getString("code"));
 		} catch (Exception e) {
 			result = 0;
 		}
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"=============车载调用返回{0}============",result);
+		HXLogUtil.info(logger,"=============车载调用返回{0}=============",result);
 		return result;
 	}
 	
