@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,12 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
-import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.basic_client.config.thread.HXThreadManager;
 import com.wxhx.basic_client.web.HXRespons;
 import com.wxhx.gate.plat.bean.out.FaceResponse;
 import com.wxhx.gate.plat.bean.out.RecordInfo;
-import com.wxhx.gate.plat.constent.CommonTestConstent;
 import com.wxhx.gate.plat.controller.vo.FaceInfoDelVo;
 import com.wxhx.gate.plat.init.WhiteListInit;
 import com.wxhx.gate.plat.service.IExamStartService;
@@ -37,6 +36,9 @@ import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 @RestController
 public class ExamingController {
 	
+	private static Logger logger = LoggerFactory.getLogger(ExamingController.class);
+
+	
 	@Autowired
 	private IExamStartService iExamStartService;
 	
@@ -46,8 +48,6 @@ public class ExamingController {
 	@Autowired
 	private IDongwoPlatService iDongwoPlatService;
 	
-	@Value("${wxhx.gate.test:false}")
-	private boolean isTest;
 	
 	/**
 	 * 开始考试
@@ -55,7 +55,7 @@ public class ExamingController {
 	 */
 	@RequestMapping(value = "/examStart", method = RequestMethod.POST,produces="application/json;charset=UTF-8")
 	public String examStart(@RequestBody RecordInfo recordInfo){
-		HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"人脸机上传信息成功{0}",recordInfo);
+		HXLogUtil.debug(logger,"人脸机上传信息成功{0}",recordInfo);
 
 		Map<String, Object> res = new HashMap<String, Object>();
 		final String idNum = recordInfo.getIdNum();

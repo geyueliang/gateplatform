@@ -7,18 +7,22 @@ import java.text.SimpleDateFormat;
 import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
 import org.apache.commons.net.ntp.TimeStamp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
-import com.wxhx.basic_client.config.log.HXLogerFactory;
 import com.wxhx.gate.plat.dao.FunctionMapper;
 import com.wxhx.gate.plat.timer.ITimeDealService;
 
 @Service
 public class TimeDealServiceImpl implements ITimeDealService{
+	
+	private static Logger logger = LoggerFactory.getLogger(TimeDealServiceImpl.class);
+
 
 	@Value("${wxhx.gate.plate.ntp.address:default}")
 	private String ntpAddress;
@@ -64,7 +68,7 @@ public class TimeDealServiceImpl implements ITimeDealService{
 				Runtime.getRuntime().exec(cmd); // 修改日期
 				result = true;
 			} catch (Exception e) {
-				HXLogUtil.info(HXLogerFactory.getLogger("gate_plate"),"设置系统时间异常{0}",e.getStackTrace());
+				HXLogUtil.error(logger,"设置系统时间异常{0}",e.getStackTrace());
 			}
 
 		}
