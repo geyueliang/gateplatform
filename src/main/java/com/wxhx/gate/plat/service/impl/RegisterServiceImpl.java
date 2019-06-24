@@ -33,7 +33,7 @@ public class RegisterServiceImpl implements IRegisterService {
 	private IControlCenterService iControlCenterService; // 控制中心
 
 	@Transactional(rollbackFor = Exception.class)
-	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) {
+	public HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) throws Exception{
 		HXRespons<RegisterResponse> finalResult = new HXRespons<RegisterResponse>("0", "报道失败", null);
 		ExaminationInfo appointmentInfo = null;
 		ExaminationInfo zpInfo = null;
@@ -63,15 +63,20 @@ public class RegisterServiceImpl implements IRegisterService {
 			//报道
 			registerInfoVo.setName(null);
 			result = iManagerPlatService.register(registerInfoVo);
+			
+			//返回精英报道返回信息
+			finalResult = new HXRespons<RegisterResponse>(result.getCode(), result.getMessage(), null);
+			
 //			result = new RegisterResponse();
 //			result.setCode("1");
 			
 			if(HXCoreUtil.isEquals(result.getCode(), "1")) {
+				
 				ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
 				examineeInfoQueryVO.setSfzmhm(registerInfoVo.getSfzmhm());
 				examineeInfoQueryVO.setKsdd(registerInfoVo.getKsdd());
 					
-				//获取照片信息
+				//获取预约照片信息
 				WebServiceResult<ExaminationInfo> zpResult = iManagerPlatService.getZP(examineeInfoQueryVO);
 				if(zpResult != null && zpResult.getBodyContent() != null) {
 					zpInfo = (ExaminationInfo)zpResult.getBodyContent().getContent().get(0);

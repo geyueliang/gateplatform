@@ -65,9 +65,11 @@ public class RegisterController {
 		registerInfoVo.setKskm(kskm);
 		registerInfoVo.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		
-		
-		
-		registerResponse = iRegisterService.register(registerInfoVo);
+		try {
+			registerResponse = iRegisterService.register(registerInfoVo);
+		} catch (Exception e) {
+			registerResponse = new HXRespons<RegisterResponse>("0", "报道失败:"+e.getMessage(), null);
+		}
 		return registerResponse;
 	}
 	

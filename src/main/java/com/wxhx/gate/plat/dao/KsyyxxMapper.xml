@@ -9,6 +9,10 @@
 	    from KSYYXX where SFZMHM = #{sfzmhm} and TO_CHAR(YKRQ,'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd')
  	</select>
  	
+ 	<delete id="deleteKsyyxx" parameterType="java.lang.String">
+ 		DELETE FROM KSYYXX WHERE SFZMHM = #{sfzmhm}
+ 	</delete>
+ 	
  	<update id="updateByCardId" parameterType="com.wxhx.gate.plat.dao.entity.Ksyyxx">
     update KSYYXX
     <set>

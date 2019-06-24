@@ -17,6 +17,6 @@ public interface IRegisterService {
 	 * @param registerInfoVo
 	 * @return
 	 */
-	HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo);
+	HXRespons<RegisterResponse> register(RegisterInfoVo registerInfoVo) throws Exception;
 	
 }

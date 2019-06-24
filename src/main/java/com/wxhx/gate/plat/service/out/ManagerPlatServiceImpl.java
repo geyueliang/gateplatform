@@ -34,7 +34,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 * 注册写入
 	 */
-	public RegisterResponse register(RegisterInfoVo registerVo) {
+	public RegisterResponse register(RegisterInfoVo registerVo) throws Exception{
 		RegisterResponse result = null;
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(registerVo);
@@ -42,7 +42,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			result = HXCallWebServiceUtil.xmlToBean(responsStr, RegisterResponse.class, true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw e;
 		}
 		return result;
 	}
@@ -84,7 +84,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 *  获取考生照片
 	 */
-	public WebServiceResult<ExaminationInfo> getZP(ExamineeInfoQueryVO examineeInfoQueryVO) {
+	public WebServiceResult<ExaminationInfo> getZP(ExamineeInfoQueryVO examineeInfoQueryVO) throws Exception{
 		WebServiceResult<ExaminationInfo> examinationInfo = null;
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
@@ -92,7 +92,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 			examinationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw e;
 		}
 		return examinationInfo;
 	}
