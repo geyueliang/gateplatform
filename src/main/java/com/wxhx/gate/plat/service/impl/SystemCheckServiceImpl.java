@@ -67,7 +67,7 @@ public class SystemCheckServiceImpl implements ISystemCheckService{
 					checkCar.setCheckitem(checkitemList);
 					checkresultVO.setCheckcar(checkCar);
 					WebServiceResult<CheckResponse> webResult = iManagerPlatService.writeCheckResult(checkresultVO);
-					if(webResult.getHead()!=null && HXCoreUtil.isEquals(webResult.getHead().getCode(), "1")) {
+					if(webResult!=null && webResult.getHead()!=null && HXCoreUtil.isEquals(webResult.getHead().getCode(), "1")) {
 						finalResult = new HXRespons<CheckResponse>("SUCCESS", kscl.getKcbh()+":写入检测成功", null);
 						//操作成功后设置缓存
 						EvnVarConstentInfo.addCar(kscl);
