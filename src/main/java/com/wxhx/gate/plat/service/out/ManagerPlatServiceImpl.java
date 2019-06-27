@@ -35,7 +35,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 注册写入
 	 */
 	public RegisterResponse register(RegisterInfoVo registerVo) throws Exception{
-		RegisterResponse result = null;
+		RegisterResponse result = new RegisterResponse();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(registerVo);
 			String jkid = "17E05"; //接口序列号
@@ -51,7 +51,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 获取预约信息
 	 */
 	public WebServiceResult<ExaminationInfo> getAppointmentInfo(ExamineeInfoQueryVO examineeInfoQueryVO) {
-		WebServiceResult<ExaminationInfo> examinationInfo = null;
+		WebServiceResult<ExaminationInfo> examinationInfo = new WebServiceResult<ExaminationInfo>();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
 			String jkid = "17E13";	//获取预约信息接口序列号
@@ -68,7 +68,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 
 	 */
 	public WebServiceResult<ExaminationInfo> getSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO) {
-		WebServiceResult<ExaminationInfo> webServiceResult = null;
+		WebServiceResult<ExaminationInfo> webServiceResult = new WebServiceResult<ExaminationInfo>();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
 			String jkid = "17E11";	//获取排考信息接口序列号
@@ -85,7 +85,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 *  获取考生照片
 	 */
 	public WebServiceResult<ExaminationInfo> getZP(ExamineeInfoQueryVO examineeInfoQueryVO) throws Exception{
-		WebServiceResult<ExaminationInfo> examinationInfo = null;
+		WebServiceResult<ExaminationInfo> examinationInfo = new WebServiceResult<ExaminationInfo>();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
 			String jkid = "17E04";	//获取考生照片接口序列号
@@ -101,7 +101,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 写入考生门禁照片
 	 */
 	public RegisterResponse uploadFacePhoto(ExamineeInfoVO examineeInfoVO) {
-		RegisterResponse result = null;
+		RegisterResponse result = new RegisterResponse();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoVO);
 			String jkid = "17E25";	//获取考生照片接口序列号
@@ -117,7 +117,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 写入视频认证
 	 */
 	public RegisterResponse writeVideoAttestation(ExamineeInfoVO examineeInfoVO) {
-		RegisterResponse result = null;
+		RegisterResponse result = new RegisterResponse();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoVO);
 			String jkid = "17E14";	//获取视频认证开启接口序列号
@@ -138,7 +138,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		examineeInfoQueryVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		//获取当前可用车牌信息
 		examineeInfoQueryVO.setKchp(kchp);
-		WebServiceResult<ExaminationInfo> webServiceResult = null;
+		WebServiceResult<ExaminationInfo> webServiceResult = new WebServiceResult<ExaminationInfo>();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
 			String jkid = "17E07";	//获取排考信息接口序列号
@@ -175,7 +175,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 获取系统检测信息
 	 */
 	public WebServiceResult<SystemCheckInfo> getSystemTests(ExamineeInfoQueryVO examineeInfoQueryVO) {
-		WebServiceResult<SystemCheckInfo> webServiceResult = null;
+		WebServiceResult<SystemCheckInfo> webServiceResult = new WebServiceResult<SystemCheckInfo>();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
 			String jkid = "17E01";	//
@@ -191,7 +191,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 写入检测结果
 	 */
 	public WebServiceResult<CheckResponse> writeCheckResult(CheckresultVO checkresultVO) {
-		WebServiceResult<CheckResponse> result = null;
+		WebServiceResult<CheckResponse> result = new WebServiceResult<CheckResponse>();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(checkresultVO);
 			String jkid = "17E02";	//
@@ -210,7 +210,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 读取视频认证结果
 	 */
 	public WebServiceResult<VidoeCheckResponse> readVideoAttestation(VideoCheckQueryVO videoCheckQueryVO) {
-		WebServiceResult<VidoeCheckResponse> result = null;
+		WebServiceResult<VidoeCheckResponse> result = new WebServiceResult<VidoeCheckResponse>();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(videoCheckQueryVO);
 			String jkid = "17E15";	//获取视频认证开启接口序列号
