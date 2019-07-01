@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>调用日志查看</title>
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/bootstrap-table.css">
+<link rel="stylesheet" href="./css/bootstrap-datetimepicker.min.css">
+</head>
+<body>
+	
+	<div class="container">
+		<div class="row">
+			<div class="form-inline">
+				  <div class="form-group">
+				    <label for="sfzmhm" class="col-form-label">身份证号码</label>
+				    <input type="text" class="form-control-plaintext" id="sfzmhm_log">
+				  </div>
+				  
+				  <div class="form-group">
+				    <label for="datetimepicker" class="col-form-label">选择查询日期</label>
+				    <input type="text" class="form-control-plaintext" id="datetimepicker" data-date-format="yyyy-mm-dd">
+				  </div>
+				  	
+				  <div class="form-group">
+				  	<button type="button" class="btn btn-primary" onclick="searchLog()">开始查询</button>
+				  </div>
+				  		  
+			</div>
+		</div>
+	</div>
+
+    <table data-toggle="table">
+      <thead>
+        <tr>
+          <th>身份证号码</th>
+          <th>调用时间</th>
+          <th>接口id</th>
+          <th>接口描述</th>
+          <th>调用结果</th>
+          <th>结果明细</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+</body>
+	<script src="./js/jquery.min.js"></script>
+	<!-- 可选: 合并了 Bootstrap JavaScript 插件 -->
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/bootstrap-table.js"></script>
+	<script src="./js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="./js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	<script type="text/javascript">
+	$('#datetimepicker').datetimepicker({
+		  language: 'zh-CN',
+		  minView: "month",//设置只显示到月份
+		  format : "yyyy-mm-dd",//日期格式
+		  autoclose:true,//选中关闭
+		  todayBtn: true//今日按钮
+	});
+	
+	
+	searchLog = function(){
+		var obj = new Object();
+		obj.sfzmhm = $("#sfzmhm_log").val();
+		obj.day = $("#datetimepicker").val();
+		$.ajax({
+			type : "post",
+			contentType : "application/json; charset=utf-8",
+			url : "/gateplat/calljyLog",
+			dataType : "json",
+			data : JSON.stringify(obj),
+			success : function(data) {
+				console.log(data);
+			},
+			error : function(data) {
+				alert('查询日志错误'+data)
+			}
+		});
+	}
+	
+	</script>
+</html>

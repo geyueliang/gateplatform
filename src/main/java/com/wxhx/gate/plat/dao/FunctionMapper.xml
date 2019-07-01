@@ -12,4 +12,8 @@
  		select to_char(sysdate,'yyyy-mm-dd hh24:mi:ss') from dual
  	</select>
  	
+ 	<select id="tableExit" resultType="int">
+ 		select count(*) from user_tables where table_name =upper(#{tableName})
+ 	</select>
+ 	
 </mapper>

@@ -23,5 +23,12 @@ public interface FunctionMapper {
 	 */
 	public String getDbDate();
 	
+	/**
+	 * 判断指定的表是否存在
+	 * @param tableName
+	 * @return
+	 */
+	public int tableExit(@Param("tableName")String tableName);
+	
 	
 }

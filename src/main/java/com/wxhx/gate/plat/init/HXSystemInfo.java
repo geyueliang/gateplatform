@@ -78,7 +78,7 @@ public class HXSystemInfo {
 			}
 			HXLogUtil.debug(logger,"开始车辆检测");
 			List<Kscl> kscls = ksclMapper.selectAll();
-			iSystemCheckServier.startCheck(kscls);
+			//iSystemCheckServier.startCheck(kscls);
 			HXLogUtil.debug(logger,"车辆检测结束");
 		}
 	}

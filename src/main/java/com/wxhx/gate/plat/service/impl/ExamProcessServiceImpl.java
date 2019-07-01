@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
 import com.wxhx.basic_client.config.thread.HXThreadManager;
+import com.wxhx.gate.plat.aop.annotation.ExamProcessLogSaveAnnotation;
 import com.wxhx.gate.plat.bean.exam.process.ExamEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamItemEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamMark;
@@ -67,6 +68,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	/**
 	 * 身份验证
 	 */
+	@ExamProcessLogSaveAnnotation
 	public String idCheck(IdentityComparison comparison) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(comparison);
 		String jkid = "17C51"; //身份比對
@@ -82,6 +84,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	/**
 	 * 项目开始
 	 */
+	@ExamProcessLogSaveAnnotation
 	public String itemBegin(ItemBegin itemBegin) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(itemBegin);
 		String jkid = "17C52";	//项目开始接口
@@ -92,6 +95,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	/**
 	 * 发生扣分
 	 */
+	@ExamProcessLogSaveAnnotation
 	public String examMarkHappen(ExamMark examMark,ExamItemEnd examItemEnd) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(examMark);
 		String jkid = "17C53"; //考试扣分
@@ -113,6 +117,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 
+	@ExamProcessLogSaveAnnotation
 	public String uploadImage(ProcessImage processImage) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(processImage);
 		String jkid = "17C54"; //图片上传
@@ -123,6 +128,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	/**
 	 * 项目结束
 	 */
+	@ExamProcessLogSaveAnnotation
 	public String examItemEnd(ExamItemEnd examItemEnd) throws Exception {
 		String result = "";
 		//是最后的项目 调用科目考试结束
@@ -152,7 +158,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		}
 		return result;
 	}
-
+	
+	@ExamProcessLogSaveAnnotation
 	public String examEnd(ExamEnd examEnd) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(examEnd);
 		String jkid = "17C56"; //科目结束
