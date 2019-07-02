@@ -30,15 +30,15 @@
 		</div>
 	</div>
 
-    <table data-toggle="table">
+    <table data-toggle="table" id="calljyLog" data-pagination="true">
       <thead>
         <tr>
-          <th>身份证号码</th>
-          <th>调用时间</th>
-          <th>接口id</th>
-          <th>接口描述</th>
-          <th>调用结果</th>
-          <th>结果明细</th>
+          <th data-field="sfzmhm">身份证号码</th>
+          <th data-field="dyrq">调用时间</th>
+          <th data-field="jkid">接口id</th>
+          <th data-field="jkms">接口描述</th>
+          <th data-field="dyjg">调用结果</th>
+          <th data-field="jgnr">结果明细</th>
         </tr>
       </thead>
       <tbody>
@@ -72,6 +72,7 @@
 			dataType : "json",
 			data : JSON.stringify(obj),
 			success : function(data) {
+				$("#calljyLog").bootstrapTable('load', data);
 				console.log(data);
 			},
 			error : function(data) {

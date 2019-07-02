@@ -2,6 +2,9 @@ package com.wxhx.gate.plat.service.impl;
 
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -13,8 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
+import com.wxhx.gate.plat.dao.CallJyLogMapper;
 import com.wxhx.gate.plat.dao.FunctionMapper;
+import com.wxhx.gate.plat.dao.entity.CallJyLog;
 import com.wxhx.gate.plat.service.ICallJYLogService;
 
 @Service
@@ -27,6 +33,11 @@ public class CallJYLogServiceImpl implements ICallJYLogService{
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	@Autowired
+	private CallJyLogMapper callJyLogMapper;
+	
+	static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
 	
 	@PostConstruct
@@ -53,5 +64,23 @@ public class CallJYLogServiceImpl implements ICallJYLogService{
 				HXLogUtil.error(logger, "运行sql脚本错误{0}", e.getStackTrace());
 			}
 		}
+	}
+
+	
+	/**
+	 * 查询调用精英接口返回日志
+	 */
+	public List<CallJyLog> callJYLog(String sfzmhm,String day) {
+		CallJyLog callJyLog = new CallJyLog();
+		callJyLog.setSfzmhm(sfzmhm);
+		if(!HXCoreUtil.isEmpty(day)) {
+			try {
+				callJyLog.setDyrq(HXCoreUtil.getNowDataStr(df.parse(day), "yyyyMMdd"));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		List<CallJyLog> logList = callJyLogMapper.select(callJyLog);
+		return logList;
 	}
 }
