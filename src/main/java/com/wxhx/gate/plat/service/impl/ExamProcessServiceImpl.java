@@ -167,6 +167,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 	
+	@ExamProcessLogSaveAnnotation
 	public String writeVideo(WirteVideo wirteVideo) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(wirteVideo);
 		String jkid = "17E14"; //视频认证发启（写入）
@@ -174,6 +175,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	} 
 	
+	@ExamProcessLogSaveAnnotation
 	public String readVideo(ReadVideo readVideo) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(readVideo);
 		String jkid = "17E15"; //读取视频认证结果

@@ -2,6 +2,8 @@ package com.wxhx.gate.plat.dao.entity;
 
 import java.util.Date;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
+
 public class CallJyLog {
     private String id;
 
@@ -82,4 +84,11 @@ public class CallJyLog {
     public void setDysj(Date dysj) {
         this.dysj = dysj;
     }
+
+	@Override
+	public String toString() {
+		return HXCoreUtil.getJsonString(this);
+	}
+    
+    
 }
