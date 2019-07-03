@@ -1,8 +1,5 @@
 package com.wxhx.gate.plat.aop;
 
-import java.util.Date;
-import java.util.Map;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,8 +15,6 @@ import com.wxhx.basic_client.common.HXLogUtil;
 import com.wxhx.basic_client.config.thread.HXThreadManager;
 import com.wxhx.gate.plat.dao.CallJyLogMapper;
 import com.wxhx.gate.plat.dao.entity.CallJyLog;
-import com.wxhx.gate.plat.service.bean.WebServiceResult;
-import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 
 
 @Aspect
