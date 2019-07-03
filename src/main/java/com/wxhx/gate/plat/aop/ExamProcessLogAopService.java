@@ -53,89 +53,24 @@ public class ExamProcessLogAopService {
 		//根据当前入参 判断执行的精英接口
 		if(args!=null && args.length>0) {
 			final Object param = args[0];
-			try {
-				hxThreadManager.createPool("save_log").execute(new Runnable() {
-					public void run() {
-						Map<String, String> callJkInfo = AopParamUtil.getJKInfo(param);
-						if(!HXCoreUtil.isEmpty(callJkInfo.get("jkid"))) {
-							CallJyLog callJyLog = new CallJyLog();
-							//id
-							callJyLog.setId(HXCoreUtil.getUuId());
-							try {
-								//调用结果
-								WebServiceResult serviceResult =  HXCallWebServiceUtil.xmlToBean(res.toString(), WebServiceResult.class);
-								if(serviceResult!=null && serviceResult.getHead()!=null && HXCoreUtil.isEquals("1", serviceResult.getHead().getCode())) {
-									callJyLog.setDyjg("1");
+				try {
+					hxThreadManager.createPool("save_log").execute(new Runnable() {
+						public void run() {
+							CallJyLog callJkInfo = AopParamUtil.getJKInfo(param,res.toString());
+							if(callJkInfo!=null){
+								if(callJyLogMapper.insertSelective(callJkInfo)<1) {
+									HXLogUtil.error(logger, "保存日志调用日志错误{0}", callJkInfo);
 								}
-								else {
-									callJyLog.setDyjg("0");
-								}
-								//结果内容
-								callJyLog.setJgnr(res.toString());
-								//接口id
-								callJyLog.setJkid(callJkInfo.get("jkid"));
-								//接口描述
-								callJyLog.setJkid(callJkInfo.get("jkms"));
-								//调用日期
-								callJyLog.setDyrq(HXCoreUtil.getNowDataStr(new Date(), "yyyyMMdd"));
-								//调用时间
-								callJyLog.setDysj(new Date());
-								//保存日志
-								if(callJyLogMapper.insertSelective(callJyLog)<1) {
-									HXLogUtil.error(logger, "保存日志调用日志错误{0}", callJyLog);
 								}
 								
-							} catch (Exception e) {
-								HXLogUtil.error(logger, "执行保存调用精英日志异常{0}", e);
 							}
-							
-							
-							
-						}
-						
-						
-						
-					}
-				});
-			} catch (BasicClientException e) {
-				HXLogUtil.error(logger, "执行保存调用精英日志异常{0}", e);
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+						});
+				} catch (BasicClientException e) {
+					HXLogUtil.error(logger, "执行保存日志调用日志线程发送错误{0}", e);
+				}
+				}
 		HXLogUtil.debug(logger, "执行完成方法：{0},方法返回结果是:{1}", fullMethod, HXCoreUtil.getJsonString(res));
-	}
+	} 
 	
 	
 	/*
