@@ -58,126 +58,22 @@ public class ManagerPlatLogAopService {
 		//根据当前入参 判断执行的精英接口
 		if(args!=null && args.length>0) {
 			final Object param = args[0];
-				try {
-					hxThreadManager.createPool("save_log").execute(new Runnable() {
-						public void run() {
-							CallJyLog callJyLog = new CallJyLog();
-							
-							String jkid = "";
-							String jkms = "";
-							String dyjg = "";
-							if(param instanceof RegisterInfoVo) {
-								jkid = "17E05";
-								jkms = "考生报道";
-								dyjg = getDyjg(res);
+			try {
+				hxThreadManager.createPool("save_log").execute(new Runnable() {
+					public void run() {
+						CallJyLog callJkInfo = AopParamUtil.getManagerPlatJKInfo(param,res);
+						if(callJkInfo!=null){
+							if(callJyLogMapper.insertSelective(callJkInfo)<1) {
+								HXLogUtil.error(logger, "保存日志调用日志错误{0}", callJkInfo);
 							}
-							
-							if(param instanceof ExamineeInfoQueryVO) {
-								ExamineeInfoQueryVO examineeInfoQueryVO = (ExamineeInfoQueryVO)param;
-								if(HXCoreUtil.isEmpty(examineeInfoQueryVO.getSfzmhm()) && HXCoreUtil.isEmpty(examineeInfoQueryVO.getKscx()) && !HXCoreUtil.isEmpty(examineeInfoQueryVO.getKskm())) {
-									jkid = "17E11";
-									jkms = "排考信息";
-								}
-								else if(!HXCoreUtil.isEmpty(examineeInfoQueryVO.getSfzmhm()) && HXCoreUtil.isEmpty(examineeInfoQueryVO.getKscx()) && !HXCoreUtil.isEmpty(examineeInfoQueryVO.getKskm())) {
-									jkid = "17E13";
-									jkms = "预约信息";
-								}
-								else if(!HXCoreUtil.isEmpty(examineeInfoQueryVO.getKscx())) {
-									jkid = "17E01";
-									jkms = "获取系统检测项";
-								}
-								else {
-									jkid = "17E04";
-									jkms = "照片信息";
-								}
-								dyjg = getDyjg(res);
-								
-							}
-							
-							if(param instanceof ExamineeInfoVO) {
-								ExamineeInfoVO examineeInfoVO = (ExamineeInfoVO)param;
-								if(!HXCoreUtil.isEmpty(examineeInfoVO.getMjzp())) {
-									jkid = "17E25";
-									jkms = "写入考生门禁照片";
-								}
-								else {
-									jkid = "17E14";
-									jkms = "写入视频认证";
-								}
-								dyjg = getDyjg(res);
-							}
-							
-							if(param instanceof String) {
-								jkid = "17E07";
-								jkms = "获取当前可用车牌信息";
-								dyjg = getDyjg(res);
-							}
-							
-							if(param instanceof CheckresultVO) {
-								jkid = "17E02";
-								jkms = "写入检测结果";
-								dyjg = getDyjg(res);
-							}
-							
-							if(param instanceof VideoCheckQueryVO) {
-								jkid = "17E15";
-								jkms = "读取视频认证结果";
-								dyjg = getDyjg(res);
-							}
-							
-							
-							//id
-							callJyLog.setId(HXCoreUtil.getUuId());
-							//调用结果
-							callJyLog.setDyjg(dyjg);
-							//结果内容
-							callJyLog.setJgnr(res.toString());
-							//接口id
-							callJyLog.setJkid(jkid);
-							//接口描述
-							callJyLog.setJkid(jkms);
-							//调用日期
-							callJyLog.setDyrq(HXCoreUtil.getNowDataStr(new Date(), "yyyyMMdd"));
-							//调用时间
-							callJyLog.setDysj(new Date());
-							
-							if(callJyLog!=null){
-								if(callJyLogMapper.insertSelective(callJyLog)<1) {
-									HXLogUtil.error(logger, "保存日志调用日志错误{0}", callJyLog);
-								}
-								}
-								
-							}
-						});
-				} catch (BasicClientException e) {
-					HXLogUtil.error(logger, "执行保存日志调用日志线程发送错误{0}", e);
-				}
-				}
-		HXLogUtil.debug(logger, "执行完成方法：{0},方法返回结果是:{1}", fullMethod, HXCoreUtil.getJsonString(res));
-	}
-	
-	//获取调用结果
-	public String getDyjg(Object res) {
-		String dyjg = "0";
-		if(res instanceof WebServiceResult) {
-			WebServiceResult serviceResult = (WebServiceResult)res;
-			if(serviceResult!=null && serviceResult.getHead()!=null && HXCoreUtil.isEquals("1", serviceResult.getHead().getCode())) {
-				dyjg = "1";
-			}
-			else {
-				dyjg = "0";
-			}
-		}else {
-			RegisterResponse registerResponse = (RegisterResponse)res;
-			if(registerResponse!=null && registerResponse.getCode() != null && HXCoreUtil.isEquals("1",registerResponse.getCode())) {
-				dyjg = "1";
-			}else {
-				dyjg = "0";
+						}
+					}
+				});
+			} catch (BasicClientException e) {
+				HXLogUtil.error(logger, "执行保存日志调用日志线程发送错误{0}", e);
 			}
 		}
-		
-		return dyjg;
-		
+		HXLogUtil.debug(logger, "执行完成方法：{0},方法返回结果是:{1}", fullMethod, HXCoreUtil.getJsonString(res));
 	}
 	
 	
