@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
+import com.wxhx.gate.plat.aop.annotation.ManagerPlatLogSaveAnnotation;
 import com.wxhx.gate.plat.bean.out.CheckResponse;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.bean.out.RegisterResponse;
@@ -34,6 +35,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 * 注册写入
 	 */
+	@ManagerPlatLogSaveAnnotation
 	public RegisterResponse register(RegisterInfoVo registerVo) throws Exception{
 		RegisterResponse result = new RegisterResponse();
 		try {
@@ -50,6 +52,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 * 获取预约信息
 	 */
+	@ManagerPlatLogSaveAnnotation
 	public WebServiceResult<ExaminationInfo> getAppointmentInfo(ExamineeInfoQueryVO examineeInfoQueryVO) {
 		WebServiceResult<ExaminationInfo> examinationInfo = new WebServiceResult<ExaminationInfo>();
 		try {
@@ -67,6 +70,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	 * 获取排考信息
 	 * 
 	 */
+	@ManagerPlatLogSaveAnnotation
 	public WebServiceResult<ExaminationInfo> getSortInfo(ExamineeInfoQueryVO examineeInfoQueryVO) {
 		WebServiceResult<ExaminationInfo> webServiceResult = new WebServiceResult<ExaminationInfo>();
 		try {
@@ -84,6 +88,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 *  获取考生照片
 	 */
+	@ManagerPlatLogSaveAnnotation
 	public WebServiceResult<ExaminationInfo> getZP(ExamineeInfoQueryVO examineeInfoQueryVO) throws Exception{
 		WebServiceResult<ExaminationInfo> examinationInfo = new WebServiceResult<ExaminationInfo>();
 		try {
@@ -100,6 +105,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 * 写入考生门禁照片
 	 */
+	@ManagerPlatLogSaveAnnotation
 	public RegisterResponse uploadFacePhoto(ExamineeInfoVO examineeInfoVO) {
 		RegisterResponse result = new RegisterResponse();
 		try {
@@ -116,6 +122,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 * 写入视频认证
 	 */
+	@ManagerPlatLogSaveAnnotation
 	public RegisterResponse writeVideoAttestation(ExamineeInfoVO examineeInfoVO) {
 		RegisterResponse result = new RegisterResponse();
 		try {
@@ -132,6 +139,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		return result;
 	}
 
+	@ManagerPlatLogSaveAnnotation
 	public WebServiceResult<ExaminationInfo> getExaminSortInfo(String kchp) {
 		ExamineeInfoQueryVO examineeInfoQueryVO =  new ExamineeInfoQueryVO();
 		examineeInfoQueryVO.setKskm("2");
@@ -174,6 +182,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 * 获取系统检测信息
 	 */
+	@ManagerPlatLogSaveAnnotation
 	public WebServiceResult<SystemCheckInfo> getSystemTests(ExamineeInfoQueryVO examineeInfoQueryVO) {
 		WebServiceResult<SystemCheckInfo> webServiceResult = new WebServiceResult<SystemCheckInfo>();
 		try {
@@ -190,6 +199,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 * 写入检测结果
 	 */
+	@ManagerPlatLogSaveAnnotation
 	public WebServiceResult<CheckResponse> writeCheckResult(CheckresultVO checkresultVO) {
 		WebServiceResult<CheckResponse> result = new WebServiceResult<CheckResponse>();
 		try {
@@ -209,6 +219,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 	/**
 	 * 读取视频认证结果
 	 */
+	@ManagerPlatLogSaveAnnotation
 	public WebServiceResult<VidoeCheckResponse> readVideoAttestation(VideoCheckQueryVO videoCheckQueryVO) {
 		WebServiceResult<VidoeCheckResponse> result = new WebServiceResult<VidoeCheckResponse>();
 		try {
