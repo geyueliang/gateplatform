@@ -153,7 +153,7 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		//是否夜考
 		target.setLxxh(source.getKssxh()+"");
 		//考试车辆编号
-		if(HXCoreUtil.isEmpty(source.getKcbh())){
+		if(!HXCoreUtil.isEmpty(source.getKcbh())){
 			target.setCtlbit1(source.getKcbh().substring(0, 2));
 		}
 		//
