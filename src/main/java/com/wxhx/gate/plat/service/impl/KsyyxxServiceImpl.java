@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.gate.plat.bean.out.ExaminationInfo;
 import com.wxhx.gate.plat.dao.KsyyxxMapper;
 import com.wxhx.gate.plat.dao.KszpMapper;
@@ -39,7 +40,9 @@ public class KsyyxxServiceImpl implements IKsyyxxService{
 		ksyyxx.setKsy2(examinationInfo.getKsy2());
 		ksyyxx.setKsxm(examinationInfo.getKsxm());
 		ksyyxx.setLxxh(examinationInfo.getLxxh());
-		ksyyxx.setCtlbit1(examinationInfo.getKcbh());
+		if(!HXCoreUtil.isEmpty(examinationInfo.getKcbh())) {
+			ksyyxx.setCtlbit1(examinationInfo.getKcbh().substring(0,2));
+		}
 		ksyyxx.setCtlbit3(examinationInfo.getKssxh()+"");
 		ksyyxx.setYycs(examinationInfo.getYycs()+"");
 		ksyyxx.setYkrq(new Date());
