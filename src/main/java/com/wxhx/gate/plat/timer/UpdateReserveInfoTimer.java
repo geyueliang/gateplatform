@@ -77,12 +77,18 @@ public class UpdateReserveInfoTimer {
 						ExaminationInfo appointmentInfo = (ExaminationInfo)appointmentInfoRes.getBodyContent().getContent().get(0);
 						examSortInfo.setZkzmbh(appointmentInfo.getZkzmbh());
 						examSortInfo.setYycs(appointmentInfo.getYycs());
-						//更新照片流水号
-						if(iKsyyxxServer.updateKszpLsh(examSortInfo)) {
-							if(iKsyyxxServer.updateKsyyxx(examSortInfo)) {
-								HXLogUtil.info(logger,"更新预约信息成功",examSortInfo);
+						examSortInfo.setDlr(appointmentInfo.getDlr());
+						try {
+							//更新照片流水号
+							if(iKsyyxxServer.updateKszpLsh(examSortInfo)) {
+								if(iKsyyxxServer.updateKsyyxx(examSortInfo)) {
+									HXLogUtil.info(logger,"更新预约信息成功{0}",examSortInfo);
+								}
 							}
+						} catch (Exception e) {
+							HXLogUtil.error(logger,"更新预约信息失败{0}",e.getStackTrace());
 						}
+
 					}
 				}
 			}

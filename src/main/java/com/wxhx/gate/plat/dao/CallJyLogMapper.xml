@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wxhx.gate.plat.dao.CallJyLogMapper" >
- 
+ 	<select id="fuzzySelect" parameterType="com.wxhx.gate.plat.dao.entity.CallJyLog"  resultType = "com.wxhx.gate.plat.dao.entity.CallJyLog">
+	    select *
+	    from CALL_JY_LOG where 1=1 
+	    <if test="sfzmhm != null and sfzmhm != ''">
+        	AND SFZMHM = #{sfzmhm}
+      	</if>
+      	<if test="dyrq != null">
+        	AND DYRQ = #{dyrq}
+      	</if>
+      	<if test="jkid != null and jkid != ''">
+        	AND JKID = #{jkid}
+      	</if>
+	    ORDER BY DYRQ DESC
+	    
+ 	</select>
 </mapper>

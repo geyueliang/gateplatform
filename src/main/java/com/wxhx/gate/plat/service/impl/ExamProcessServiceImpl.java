@@ -72,7 +72,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String idCheck(IdentityComparison comparison) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(comparison);
 		String jkid = "17C51"; //身份比對
-		HXLogUtil.info(logger,"身份对比调用{0},入参{1}",jkid,writeXml);
+		HXLogUtil.info(logger,"身份对比调用{0},入参{1}",jkid,HXCallWebServiceUtil.enCodeStr(writeXml));
 		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		//验证成功开始第一个项目
 		ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);

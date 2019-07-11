@@ -26,7 +26,8 @@ public class CallJyLogController {
 	public String addWhiteUser(@RequestBody Map<String,String> reqMap) throws Exception{
 		String sfzmhm = reqMap.get("sfzmhm");
 		String day = reqMap.get("day");
-		String result = HXCoreUtil.getJsonString(iCallJYLogService.callJYLog(sfzmhm,day));
+		String jkid = reqMap.get("jkid");
+		String result = HXCoreUtil.getJsonString(iCallJYLogService.callJYLog(sfzmhm,day,jkid));
 		return result;
 	}
 	

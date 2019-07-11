@@ -20,6 +20,7 @@ import com.wxhx.gate.plat.service.IExamStartService;
 import com.wxhx.gate.plat.service.out.IControlCenterService;
 import com.wxhx.gate.plat.service.out.IDongwoPlatService;
 import com.wxhx.gate.plat.service.out.IManagerPlatService;
+import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 
 /**
  * 
@@ -60,14 +61,14 @@ public class ExamStartServiceImpl implements IExamStartService{
 		examineeInfoVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		examineeInfoVO.setKskm(kskm);
 		examineeInfoVO.setSfzmhm(recordInfo.getIdNum());
-		examineeInfoVO.setMjzp(recordInfo.getScenePhoto());
+		examineeInfoVO.setMjzp(HXCallWebServiceUtil.enCodeStr("data:image/jpeg;base64,"+recordInfo.getScenePhoto()));
 		try {
 			examineeInfoVO.setKsrq(HXCoreUtil.getNowDataStr(df.parse(recordInfo.getTime()), "yyyy-MM-dd"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
-		if(photoResponse != null) {
+		if(photoResponse != null && photoResponse.getCode() == "1") {
 			//更新门禁照片
 			int updateRes = iControlCenterService.updatePhotoInfo(recordInfo);
 			if(updateRes > 0) {	
