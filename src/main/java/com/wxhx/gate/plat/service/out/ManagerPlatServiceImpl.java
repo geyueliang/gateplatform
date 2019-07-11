@@ -254,7 +254,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		examineeInfoQueryVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		//考试科目
 		examineeInfoQueryVO.setKskm("2");
-//		examineeInfoQueryVO.setKsrq(HXCoreUtil.getNowDataStr(new Date(), "yyyy-MM-dd"));
+		examineeInfoQueryVO.setKsrq(HXCoreUtil.getNowDataStr(new Date(), "yyyy-MM-dd"));
 		examineeInfoQueryVO.setSfzmhm(sfzmhm);
 		String responsStr = "";
 		try {

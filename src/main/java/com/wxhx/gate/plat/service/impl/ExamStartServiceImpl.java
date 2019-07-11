@@ -61,14 +61,14 @@ public class ExamStartServiceImpl implements IExamStartService{
 		examineeInfoVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		examineeInfoVO.setKskm(kskm);
 		examineeInfoVO.setSfzmhm(recordInfo.getIdNum());
-		examineeInfoVO.setMjzp(HXCallWebServiceUtil.enCodeStr("data:image/jpeg;base64,"+recordInfo.getScenePhoto()));
+		examineeInfoVO.setMjzp(HXCallWebServiceUtil.enCodeStr(recordInfo.getScenePhoto()));
 		try {
 			examineeInfoVO.setKsrq(HXCoreUtil.getNowDataStr(df.parse(recordInfo.getTime()), "yyyy-MM-dd"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
-		if(photoResponse != null && photoResponse.getCode() == "1") {
+		if(photoResponse != null && HXCoreUtil.isEquals(photoResponse.getCode(), "1")) {
 			//更新门禁照片
 			int updateRes = iControlCenterService.updatePhotoInfo(recordInfo);
 			if(updateRes > 0) {	
