@@ -31,4 +31,17 @@ public class CallJyLogController {
 		return result;
 	}
 	
+	
+	
+	@RequestMapping(value = "/queryMjzp", method= RequestMethod.POST)
+	public String queryMjzp(@RequestBody Map<String,String> reqMap) throws Exception{
+		String sfzmhm = reqMap.get("sfzmhm");
+		String res = "";
+		try {
+			//调用接口
+		} catch (Exception e) {
+			res = e.getStackTrace().toString();
+		}
+		return res;
+	}
 }

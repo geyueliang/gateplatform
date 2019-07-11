@@ -30,6 +30,10 @@
 				  <div class="form-group">
 				  	<button type="button" class="btn btn-primary" onclick="searchLog()">开始查询</button>
 				  </div>
+				  
+				  <div class="form-group">
+				  	<button type="button" class="btn btn-primary" onclick="getMjPic()">查询照片</button>
+				  </div>
 				  		  
 			</div>
 		</div>
@@ -49,6 +53,9 @@
       <tbody>
       </tbody>
     </table>
+    
+    <textarea rows="100" cols="100" id="mjresult"></textarea>
+    
 </body>
 	<script src="./js/jquery.min.js"></script>
 	<!-- 可选: 合并了 Bootstrap JavaScript 插件 -->
@@ -84,6 +91,29 @@
 			},
 			error : function(data) {
 				alert('查询日志错误'+data)
+			}
+		});
+	}
+	
+	
+	
+	
+	
+	getMjPic = function(){
+		var obj = new Object();
+		obj.sfzmhm = $("#sfzmhm_log").val();
+		$.ajax({
+			type : "post",
+			contentType : "application/json; charset=utf-8",
+			url : "/gateplat/queryMjzp",
+			dataType : "json",
+			data : JSON.stringify(obj),
+			success : function(data) {
+				$("#mjresult").val(data);
+				console.log(data);
+			},
+			error : function(data) {
+				alert('查询门禁照片错误'+data)
 			}
 		});
 	}
