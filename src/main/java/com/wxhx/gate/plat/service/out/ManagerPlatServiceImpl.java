@@ -1,5 +1,6 @@
 package com.wxhx.gate.plat.service.out;
 
+import java.net.URLDecoder;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -261,6 +262,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
 			String jkid = "17E24";	//获取考生照片接口序列号
 			responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
+			responsStr = URLDecoder.decode(responsStr, "utf-8");
 			HXLogUtil.info(logger,"获取考生门禁照片{0}",responsStr);
 		} catch (Exception e) {
 			throw e;
