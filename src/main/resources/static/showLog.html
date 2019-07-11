@@ -102,6 +102,7 @@
 	getMjPic = function(){
 		var obj = new Object();
 		obj.sfzmhm = $("#sfzmhm_log").val();
+		$("#mjresult").val("");
 		$.ajax({
 			type : "post",
 			contentType : "application/json; charset=utf-8",
@@ -109,7 +110,7 @@
 			dataType : "json",
 			data : JSON.stringify(obj),
 			success : function(data) {
-				$("#mjresult").val(data);
+				$("#mjresult").val(data.result);
 				console.log(data);
 			},
 			error : function(data) {
