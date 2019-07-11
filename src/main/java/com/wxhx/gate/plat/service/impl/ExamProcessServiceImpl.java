@@ -68,7 +68,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	/**
 	 * 身份验证
 	 */
-	//@ExamProcessLogSaveAnnotation
+	@ExamProcessLogSaveAnnotation
 	public String idCheck(IdentityComparison comparison) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(comparison);
 		String jkid = "17C51"; //身份比對
@@ -210,14 +210,14 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		switch (typeId) {
 		//身份验证
 		case 0:
-			//result = this.idCheck((IdentityComparison) getCallBeanFromArray(processArray,typeId));
-			//HXLogUtil.info(logger,"身份验证返回{0}",result);
-			WebServiceResultHead head = new WebServiceResultHead();
-			head.setCode("1");
-			head.setMessage("success");
-			result = HXCoreUtil.getJsonString(head);
-			return result;
-//			break;
+			result = this.idCheck((IdentityComparison) getCallBeanFromArray(processArray,typeId));
+			HXLogUtil.info(logger,"身份验证返回{0}",result);
+			/*
+			 * WebServiceResultHead head = new WebServiceResultHead(); head.setCode("1");
+			 * head.setMessage("success"); result = HXCoreUtil.getJsonString(head); return
+			 * result;
+			 */
+			break;
 		//考试扣分
 		case 1:
 			//扣分内容
