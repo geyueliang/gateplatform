@@ -55,6 +55,14 @@ public interface IManagerPlatService {
 	 */
 	WebServiceResult<ExaminationInfo> getZP(ExamineeInfoQueryVO examineeInfoQueryVO) throws Exception;
 	
+	
+	/**
+	 * 查询考生门禁照片
+	 * @param examineeInfoVO
+	 * @return
+	 */
+	String getMjzp(String sfzmhm) throws Exception;
+	
 	/**
 	 * 写入考生门禁照片
 	 * @param examineeInfoVO
