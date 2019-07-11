@@ -1,5 +1,7 @@
 package com.wxhx.gate.plat.service.out;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -244,5 +246,25 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public String getMjzp(String sfzmhm) throws Exception {
+		ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
+		//考试地点
+		examineeInfoQueryVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
+		//考试科目
+		examineeInfoQueryVO.setKskm("2");
+		examineeInfoQueryVO.setKsrq(HXCoreUtil.getNowDataStr(new Date(), "yyyy-MM-dd"));
+		examineeInfoQueryVO.setSfzmhm(sfzmhm);
+		String responsStr = "";
+		try {
+			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoQueryVO);
+			String jkid = "17E24";	//获取考生照片接口序列号
+			responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
+			HXLogUtil.info(logger,"获取考生门禁照片{0}",responsStr);
+		} catch (Exception e) {
+			throw e;
+		}
+		return responsStr;
 	}
 }
