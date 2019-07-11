@@ -70,9 +70,10 @@ public class CallJYLogServiceImpl implements ICallJYLogService{
 	/**
 	 * 查询调用精英接口返回日志
 	 */
-	public List<CallJyLog> callJYLog(String sfzmhm,String day) {
+	public List<CallJyLog> callJYLog(String sfzmhm,String day,String jkid) {
 		CallJyLog callJyLog = new CallJyLog();
 		callJyLog.setSfzmhm(sfzmhm);
+		callJyLog.setJkid(jkid);
 		if(!HXCoreUtil.isEmpty(day)) {
 			try {
 				callJyLog.setDyrq(HXCoreUtil.getNowDataStr(df.parse(day), "yyyyMMdd"));
@@ -80,7 +81,7 @@ public class CallJYLogServiceImpl implements ICallJYLogService{
 				e.printStackTrace();
 			}
 		}
-		List<CallJyLog> logList = callJyLogMapper.select(callJyLog);
+		List<CallJyLog> logList = callJyLogMapper.fuzzySelect(callJyLog);
 		return logList;
 	}
 }

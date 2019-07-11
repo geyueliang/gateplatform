@@ -101,7 +101,7 @@ public class AopParamUtil {
 			//接口id
 			callJyLog.setJkid(jkid);
 			//接口描述
-			callJyLog.setJkid(jkms);
+			callJyLog.setJkms(jkms);
 			//调用日期
 			callJyLog.setDyrq(HXCoreUtil.getNowDataStr(new Date(), "yyyyMMdd"));
 			//调用时间
@@ -198,7 +198,7 @@ public class AopParamUtil {
 		//接口id
 		callJyLog.setJkid(jkid);
 		//接口描述
-		callJyLog.setJkid(jkms);
+		callJyLog.setJkms(jkms);
 		//调用日期
 		callJyLog.setDyrq(HXCoreUtil.getNowDataStr(new Date(), "yyyyMMdd"));
 		//调用时间
