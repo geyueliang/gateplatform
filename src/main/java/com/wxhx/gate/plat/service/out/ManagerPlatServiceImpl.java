@@ -43,6 +43,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String jkid = "17E05"; //接口序列号
 			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			result = HXCallWebServiceUtil.xmlToBean(responsStr, RegisterResponse.class, true);
+			HXLogUtil.info(logger,"考生报道{0}",responsStr);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -60,6 +61,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String jkid = "17E13";	//获取预约信息接口序列号
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 			examinationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
+			HXLogUtil.info(logger,"获取预约信息{0}",responsStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,6 +80,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String jkid = "17E11";	//获取排考信息接口序列号
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 			webServiceResult = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
+			HXLogUtil.info(logger,"排考信息{0}",responsStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -96,6 +99,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String jkid = "17E04";	//获取考生照片接口序列号
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 			examinationInfo = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
+			HXLogUtil.info(logger,"获取考生照片{0}",responsStr);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -113,6 +117,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String jkid = "17E25";	//获取考生照片接口序列号
 			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			result = HXCallWebServiceUtil.xmlToBean(responsStr, RegisterResponse.class, true);
+			HXLogUtil.info(logger,"写入考生门禁照片{0}",responsStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -133,6 +138,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 				return result;
 			}
 			result = HXCallWebServiceUtil.xmlToBean(responsStr, RegisterResponse.class, true);
+			HXLogUtil.info(logger,"写入视频认证{0}",responsStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -152,6 +158,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String jkid = "17E07";	//获取排考信息接口序列号
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 			webServiceResult = HXCallWebServiceUtil.xmlToBean(responsStr, ExaminationInfo.class);
+			HXLogUtil.info(logger,"取考试车当前考生信息+车载端{0}",responsStr);
 			if(webServiceResult.getBodyContent()!=null&&webServiceResult.getBodyContent().getContent()!=null&&webServiceResult.getBodyContent().getContent().size()>0) {
 				//成功 设置预约测试
 				return webServiceResult;
@@ -190,6 +197,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String jkid = "17E01";	//
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 			webServiceResult = HXCallWebServiceUtil.xmlToBean(responsStr, SystemCheckInfo.class);
+			HXLogUtil.info(logger,"获取系统检测信息{0}",responsStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -206,6 +214,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String writeXml = HXCallWebServiceUtil.beanToXml(checkresultVO);
 			String jkid = "17E02";	//
 			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+			HXLogUtil.info(logger," 写入检测结果{0}",responsStr);
 			if(HXCoreUtil.isEmpty(responsStr)) {
 				return result;
 			}
@@ -226,6 +235,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 			String writeXml = HXCallWebServiceUtil.beanToXml(videoCheckQueryVO);
 			String jkid = "17E15";	//获取视频认证开启接口序列号
 			String responsStr = HXCallWebServiceUtil.queryWebService(jkid, writeXml);
+			HXLogUtil.info(logger," 读取视频认证结果{0}",responsStr);
 			if(HXCoreUtil.isEmpty(responsStr)) {
 				return result;
 			}

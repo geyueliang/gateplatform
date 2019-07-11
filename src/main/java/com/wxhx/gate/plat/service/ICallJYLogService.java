@@ -15,6 +15,6 @@ public interface ICallJYLogService {
 	 * 查询调用精英接口日志
 	 * @return
 	 */
-	public List<CallJyLog> callJYLog(String sfzmhm,String day);
+	public List<CallJyLog> callJYLog(String sfzmhm,String day,String jkid);
 
 }
