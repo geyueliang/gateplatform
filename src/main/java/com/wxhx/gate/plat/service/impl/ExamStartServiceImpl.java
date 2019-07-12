@@ -61,7 +61,7 @@ public class ExamStartServiceImpl implements IExamStartService{
 		examineeInfoVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
 		examineeInfoVO.setKskm(kskm);
 		examineeInfoVO.setSfzmhm(recordInfo.getIdNum());
-		examineeInfoVO.setMjzp(HXCallWebServiceUtil.enCodeStr(recordInfo.getScenePhoto()));
+		examineeInfoVO.setMjzp(recordInfo.getScenePhoto());
 		try {
 			examineeInfoVO.setKsrq(HXCoreUtil.getNowDataStr(df.parse(recordInfo.getTime()), "yyyy-MM-dd"));
 		} catch (ParseException e) {
