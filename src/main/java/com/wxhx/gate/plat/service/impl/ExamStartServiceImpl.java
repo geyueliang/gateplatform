@@ -3,6 +3,7 @@ package com.wxhx.gate.plat.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,11 +63,8 @@ public class ExamStartServiceImpl implements IExamStartService{
 		examineeInfoVO.setKskm(kskm);
 		examineeInfoVO.setSfzmhm(recordInfo.getIdNum());
 		examineeInfoVO.setMjzp(recordInfo.getScenePhoto());
-		try {
-			examineeInfoVO.setKsrq(HXCoreUtil.getNowDataStr(df.parse(recordInfo.getTime()), "yyyy-MM-dd"));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		examineeInfoVO.setKsrq(HXCoreUtil.getNowDataStr(new Date(), "yyyy-MM-dd"));
+		
 		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
 		if(photoResponse != null && HXCoreUtil.isEquals(photoResponse.getCode(), "1")) {
 			//更新门禁照片
