@@ -13,6 +13,7 @@ import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
 import com.wxhx.basic_client.config.thread.HXThreadManager;
 import com.wxhx.gate.plat.aop.annotation.ExamProcessLogSaveAnnotation;
+import com.wxhx.gate.plat.bean.exam.process.AuthenticationResult;
 import com.wxhx.gate.plat.bean.exam.process.ExamEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamItemEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamMark;
@@ -250,10 +251,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		//视频认证发启（写入）	
 		case 5:
 			result = this.writeVideo((WirteVideo) getCallBeanFromArray(processArray,typeId));
+			HXLogUtil.info(logger,"视频认证发启{0}",result);
 			break;
 		//读取视频认证结果
 		case 6:
 			result = this.readVideo((ReadVideo) getCallBeanFromArray(processArray,typeId));
+			HXLogUtil.info(logger,"读取视频认证结果{0}",result);
 			break;
 		default:
 			break;
@@ -266,16 +269,23 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			WebServiceResultHead head = serviceResult.getHead();
 			int resultCode = Integer.parseInt(head.getCode());
 			if(typeId==6) {
-				//未处理
-				if(resultCode==0) {
-					head.setCode("2"); //等待继续
-				}
-				//未处理
-				else if(resultCode==1||resultCode==3) {
-					head.setCode("1"); //成功
-				}
-				else{
-					head.setCode("0"); //失败
+				WebServiceResult<AuthenticationResult> authenResult = HXCallWebServiceUtil.xmlToBean(result, AuthenticationResult.class);
+				//读取认证结果
+				if(authenResult.getHead()!=null && Integer.parseInt(authenResult.getHead().getCode())==1) {
+					if(authenResult.getBodyContent().getContent()!=null && authenResult.getBodyContent().getContent().size()>0) {
+						AuthenticationResult  authenticationResult = (AuthenticationResult) authenResult.getBodyContent().getContent().get(0);
+						int rzjg = Integer.parseInt(authenticationResult.getRzjg()!=null?authenticationResult.getRzjg():"0");
+						if(rzjg==1 || rzjg ==3) {
+							head.setCode("1"); //成功
+						}
+						if(rzjg==0) {
+							head.setCode("2"); //等待
+						}
+						else {
+							head.setCode("0"); //失败
+						}
+								
+					}
 				}
 			}
 			else {
