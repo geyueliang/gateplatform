@@ -278,7 +278,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 						if(rzjg==1 || rzjg ==3) {
 							head.setCode("1"); //成功
 						}
-						if(rzjg==0) {
+						else if(rzjg==0) {
 							head.setCode("2"); //等待
 						}
 						else {
@@ -544,7 +544,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 				BeanUtils.copyProperties(itemBegin, comparison);
 				String ksxm = KcsbInit.getNextBeginItem(lxxh, null);
 				itemBegin.setKsxm(ksxm);	//考试项目
-				itemBegin.setSbxh(ksxm); 		//设备序号(备案编号)
+				String sbxh = KcsbInit.getNextSbxh(lxxh, null); //设备序号
+				itemBegin.setSbxh(sbxh); 		
 				itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			}
 			
@@ -563,7 +564,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 					//复制基本属性
 					BeanUtils.copyProperties(itemBegin, examItemEnd);
 					itemBegin.setKsxm(ksxm);	//考试项目
-					itemBegin.setSbxh(ksxm); 		//设备序号(备案编号)
+					String sbxh = KcsbInit.getNextSbxh(lxxh, null); //设备序号
+					itemBegin.setSbxh(sbxh); 
 					itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 				}
 				

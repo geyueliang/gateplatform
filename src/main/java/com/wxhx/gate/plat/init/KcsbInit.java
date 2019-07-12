@@ -40,6 +40,9 @@ public class KcsbInit {
 	private static Map<String, List<String>> ksxmlx = new HashMap<String, List<String>>();
 
 	
+	//考试设备序号序号
+	private static Map<String, List<String>> kssbs = new HashMap<String, List<String>>();
+	
 	@PostConstruct
 	public void initKcsb() {
 		//获取所有的考场设备信息
@@ -56,6 +59,7 @@ public class KcsbInit {
 		if(lxpzs!=null&& lxpzs.size()>0) {
 			for(Lxpz lxpz:lxpzs) {
 				ksxmlx.put(lxpz.getLxxh(), Arrays.asList(lxpz.getSbxms().split(",")));
+				kssbs.put(lxpz.getLxxh(), Arrays.asList(lxpz.getSbxms().split(",")));
 			}
 		}
 		
@@ -89,6 +93,33 @@ public class KcsbInit {
 	public static String getNextBeginItem(String lxxh,String endKsxm) {
 		String result = "";
 		List<String> sbxms = ksxmlx.get(lxxh);
+		if(sbxms!=null) {
+			if(endKsxm==null) {
+				result = sbxms.get(0);
+				return result;
+			}
+			int index = sbxms.indexOf(endKsxm);
+			if((index+1)<sbxms.size()) {
+				result = sbxms.get(index+1);
+			}
+		}
+		//后一项是终点也不用发送
+		if(HXCoreUtil.isEquals(result,"20500")) {
+			result = "";
+		}
+		return result;
+	}
+	
+	
+	/**
+	 *  获取设备序号
+	 * @param lxxh
+	 * @param endKsxm
+	 * @return
+	 */
+	public static String getNextSbxh(String lxxh,String endKsxm) {
+		String result = "";
+		List<String> sbxms = kssbs.get(lxxh);
 		if(sbxms!=null) {
 			if(endKsxm==null) {
 				result = sbxms.get(0);
