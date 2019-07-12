@@ -117,6 +117,7 @@ public class ManagerPlatServiceImpl implements IManagerPlatService{
 		RegisterResponse result = new RegisterResponse();
 		try {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examineeInfoVO);
+			HXLogUtil.info(logger,"写入考生门禁照片XML{0}",writeXml);
 			String jkid = "17E25";	//获取考生照片接口序列号
 			String responsStr = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			result = HXCallWebServiceUtil.xmlToBean(responsStr, RegisterResponse.class, true);
