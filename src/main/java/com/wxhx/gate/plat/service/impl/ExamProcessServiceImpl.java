@@ -73,7 +73,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String idCheck(IdentityComparison comparison) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(comparison);
 		String jkid = "17C51"; //身份比對
-		HXLogUtil.info(logger,"身份对比调用{0},入参{1}",jkid,HXCallWebServiceUtil.enCodeStr(writeXml));
+//		HXLogUtil.info(logger,"身份对比调用{0},入参{1}",jkid,HXCallWebServiceUtil.enCodeStr(writeXml));
 		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		//验证成功开始第一个项目
 		ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
@@ -89,7 +89,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String itemBegin(ItemBegin itemBegin) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(itemBegin);
 		String jkid = "17C52";	//项目开始接口
-		HXLogUtil.info(logger,"项目开始调用{0},入参{1}",jkid,writeXml);
+//		HXLogUtil.info(logger,"项目开始调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 	
@@ -100,7 +100,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String examMarkHappen(ExamMark examMark,ExamItemEnd examItemEnd) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(examMark);
 		String jkid = "17C53"; //考试扣分
-		HXLogUtil.info(logger,"发生扣分调用{0},入参{1}",jkid,writeXml);
+//		HXLogUtil.info(logger,"发生扣分调用{0},入参{1}",jkid,writeXml);
 		//判断当前的分数加上已经扣的分数 是否达到结束考试要求
 		int nowKf = InitKSKFDM.getKf(examMark.getKfxm());
 		//获取当前已经扣除分数
@@ -122,7 +122,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String uploadImage(ProcessImage processImage) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(processImage);
 		String jkid = "17C54"; //图片上传
-		HXLogUtil.info(logger,"上传图片调用{0},入参{1}",jkid,writeXml);
+//		HXLogUtil.info(logger,"上传图片调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 
@@ -136,13 +136,13 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		if(HXCoreUtil.isEquals("20500", examItemEnd.getKsxm())) {
 			//调用科目考试结束
 			ExamEnd examEnd = this.createExamEnd(examItemEnd,0);
-			HXLogUtil.info(logger,"开始科目结束,项目入参{0},科目入参{1}",examItemEnd,examEnd);
+//			HXLogUtil.info(logger,"开始科目结束,项目入参{0},科目入参{1}",examItemEnd,examEnd);
 			result = this.examEnd(examEnd);
 		}
 		else {
 			String writeXml = HXCallWebServiceUtil.beanToXml(examItemEnd);
 			String jkid = "17C55"; //项目结束
-			HXLogUtil.info(logger,"项目结束调用{0},入参{1}",jkid,writeXml);
+//			HXLogUtil.info(logger,"项目结束调用{0},入参{1}",jkid,writeXml);
 			result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			//判断当前扣分是否超过20 	超过20分 结束考试
 			int kfhj = this.getKskf(examItemEnd.getSfzmhm());
@@ -164,7 +164,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String examEnd(ExamEnd examEnd) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(examEnd);
 		String jkid = "17C56"; //科目结束
-		HXLogUtil.info(logger,"科目结束调用{0},入参{1}",jkid,writeXml);
+//		HXLogUtil.info(logger,"科目结束调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	}
 	
@@ -172,7 +172,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String writeVideo(WirteVideo wirteVideo) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(wirteVideo);
 		String jkid = "17E14"; //视频认证发启（写入）
-		HXLogUtil.info(logger,"发起视频认证调用{0},入参{1}",jkid,writeXml);
+//		HXLogUtil.info(logger,"发起视频认证调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 	} 
 	
@@ -180,7 +180,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String readVideo(ReadVideo readVideo) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(readVideo);
 		String jkid = "17E15"; //读取视频认证结果
-		HXLogUtil.info(logger,"读取视频认证结果调用{0},入参{1}",jkid,writeXml);
+//		HXLogUtil.info(logger,"读取视频认证结果调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 	} 
 
