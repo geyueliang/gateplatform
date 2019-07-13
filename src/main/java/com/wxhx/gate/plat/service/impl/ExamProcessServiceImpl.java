@@ -1,5 +1,7 @@
 package com.wxhx.gate.plat.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -398,7 +400,11 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			//照片时间
 			processImage.setZpsj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			//照片
-			processImage.setZp(array[9]);
+			try {
+				processImage.setZp(URLEncoder.encode(array[9], "utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				processImage.setZp(array[9]);
+			}
 			//车速
 			processImage.setCs(array[8]);
 			//考试项目
@@ -473,8 +479,6 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 					examEnd.setZp(kszp.getZp());
 				}
 			}
-			//结束时间
-			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			examEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			/**
 			 * 考试成绩
