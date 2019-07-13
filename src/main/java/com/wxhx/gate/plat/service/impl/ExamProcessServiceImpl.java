@@ -471,6 +471,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 				}
 			}
 			//结束时间
+			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			examEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			/**
 			 * 考试成绩
