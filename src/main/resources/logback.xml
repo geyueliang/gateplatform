@@ -12,6 +12,32 @@
         </encoder>
     </appender>
 -->
+		<appender name="exam"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder charset="utf-8">
+			<pattern>[%-5level] %d{${DATETIME}} [%thread] %logger{36} - %m%n
+			</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${ROOT}%d/exam.%i.log</fileNamePattern>
+			<maxHistory>${MAXHISTORY}</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${FILESIZE}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+		<logger name="examLog" level="info">
+			<appender-ref ref="exam" /> 
+		</logger>
+
         <root level="info">
 	        <appender-ref ref="STDOUT" />
 	        <appender-ref ref="DEBUG" />  
