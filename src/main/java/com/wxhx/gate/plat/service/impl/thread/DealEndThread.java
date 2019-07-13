@@ -1,5 +1,9 @@
 package com.wxhx.gate.plat.service.impl.thread;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.wxhx.basic_client.common.HXLogUtil;
 import com.wxhx.gate.plat.bean.exam.process.ExamEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamItemEnd;
 import com.wxhx.gate.plat.service.IExamProcessService;
@@ -17,7 +21,8 @@ public class DealEndThread implements Runnable{
 	
 	private ExamEnd examEnd;
 	
-	
+	private static Logger logger = LoggerFactory.getLogger(DealEndThread.class);
+
 	public DealEndThread(IExamProcessService iExamProcessService,ExamItemEnd examItemEnd,ExamEnd examEnd) {
 		this.iExamProcessService = iExamProcessService;
 		this.examItemEnd = examItemEnd;
@@ -26,6 +31,7 @@ public class DealEndThread implements Runnable{
 	
 	public void run() {
 		try {
+			HXLogUtil.info(logger, "扣分结束项目和科目,项目内容{0},{1}", examItemEnd,examEnd);
 			//项目结束
 			iExamProcessService.examItemEnd(examItemEnd);
 			//科目结束
