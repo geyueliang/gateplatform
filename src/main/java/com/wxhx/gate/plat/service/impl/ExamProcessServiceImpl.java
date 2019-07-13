@@ -108,6 +108,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		int nowKf = InitKSKFDM.getKf(examMark.getKfxm());
 		//获取当前已经扣除分数
 		int currentSum = this.getKskf(examMark.getSfzmhm());
+		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		/**
 		 *  超过20分 考试不及格 调用项目结束和 科目结束进行处理
 		 */
@@ -120,7 +121,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
 			hxThreadManager.execThread(dealEndThread);
 		}
-		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+		return result;
 	}
 
 	@ExamProcessLogSaveAnnotation
