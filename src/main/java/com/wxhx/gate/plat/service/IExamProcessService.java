@@ -52,7 +52,7 @@ public interface IExamProcessService {
 	 * @param examItemEnd
 	 * @return
 	 */
-	public String examItemEnd(ExamItemEnd examItemEnd) throws Exception;
+	public String examItemEnd(ExamItemEnd examItemEnd,boolean isNormal) throws Exception;
 	
 	/**
 	 * 科目结束
