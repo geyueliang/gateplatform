@@ -545,6 +545,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 				String ksxm = KcsbInit.getNextBeginItem(lxxh, null);
 				itemBegin.setKsxm(ksxm);	//考试项目
 				String sbxh = KcsbInit.getNextSbxh(lxxh, null); //设备序号
+				/*
+				 * String sbbh = KcsbInit.getSbbhBySbxh(sbxh); 
+				 * itemBegin.setSbxh(sbxh);
+				 */ 
 				itemBegin.setSbxh(sbxh); 		
 				itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			}
@@ -565,6 +569,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 					BeanUtils.copyProperties(itemBegin, examItemEnd);
 					itemBegin.setKsxm(ksxm);	//考试项目
 					String sbxh = KcsbInit.getNextSbxh(lxxh, null); //设备序号
+					/*
+					 * String sbbh = KcsbInit.getSbbhBySbxh(sbxh); 
+					 * itemBegin.setSbxh(sbxh);
+					 */ 
 					itemBegin.setSbxh(sbxh); 
 					itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 				}

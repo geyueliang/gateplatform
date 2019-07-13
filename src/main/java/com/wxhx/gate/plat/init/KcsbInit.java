@@ -43,6 +43,10 @@ public class KcsbInit {
 	//考试设备序号序号
 	private static Map<String, List<String>> kssbs = new HashMap<String, List<String>>();
 	
+	//设备编号和设备序号映射
+	private static Map<String, String> sbbhMap = new HashMap<String, String>();
+	
+	
 	@PostConstruct
 	public void initKcsb() {
 		//获取所有的考场设备信息
@@ -51,6 +55,7 @@ public class KcsbInit {
 			for(Kcsb kcsb:kcsbs) {
 				KcsbMap.put(kcsb.getSbxh(), kcsb);
 				itemMap.put(kcsb.getSbxm(), kcsb.getSbbh());
+				sbbhMap.put(kcsb.getSbxh(), kcsb.getSbbh());	//设备序号和设备编号
 			}
 		}
 		
@@ -59,12 +64,20 @@ public class KcsbInit {
 		if(lxpzs!=null&& lxpzs.size()>0) {
 			for(Lxpz lxpz:lxpzs) {
 				ksxmlx.put(lxpz.getLxxh(), Arrays.asList(lxpz.getSbxms().split(",")));
-				kssbs.put(lxpz.getLxxh(), Arrays.asList(lxpz.getSbxms().split(",")));
+				kssbs.put(lxpz.getLxxh(), Arrays.asList(lxpz.getSbxhs().split(",")));
 			}
 		}
-		
-		
 	}
+	
+	/**
+	 * 根据设备序号调用设备编号
+	 * @param sbxh
+	 * @return
+	 */
+	public static String getSbbhBySbxh(String sbxh) {
+		return sbbhMap.get(sbxh);
+	}
+	
 	
 	/**
 	 * 根据车上的设备序号 获取设备信息
