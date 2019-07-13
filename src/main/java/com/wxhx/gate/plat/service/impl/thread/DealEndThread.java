@@ -33,7 +33,7 @@ public class DealEndThread implements Runnable{
 		try {
 			HXLogUtil.info(logger, "扣分结束项目和科目,项目内容{0},{1}", examItemEnd,examEnd);
 			//项目结束
-			iExamProcessService.examItemEnd(examItemEnd);
+			iExamProcessService.examItemEnd(examItemEnd,false);
 			//科目结束
 			iExamProcessService.examEnd(examEnd);
 		} catch (Exception e) {

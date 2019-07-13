@@ -138,7 +138,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	 * 项目结束
 	 */
 	@ExamProcessLogSaveAnnotation
-	public String examItemEnd(ExamItemEnd examItemEnd) throws Exception {
+	public String examItemEnd(ExamItemEnd examItemEnd,boolean isNormal) throws Exception {
 		String result = "";
 		//是最后的项目 调用科目考试结束
 		if(HXCoreUtil.isEquals("20500", examItemEnd.getKsxm())) {
@@ -149,6 +149,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			result = this.examEnd(examEnd);
 		}
 		else {
+			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
 			String writeXml = HXCallWebServiceUtil.beanToXml(examItemEnd);
 			String jkid = "17C55"; //项目结束
 			HXLogUtil.info(logger,"项目结束调用{0},入参{1}",jkid,writeXml);
@@ -165,10 +166,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			HXLogUtil.info(logger,"项目结束结果",result);
 		}
 		//项目结束调用下一个项目的开始
-		HXLogUtil.info(logger,"*********************下一个项目开始调用*********************");
-		ItemBegin itemBegin = this.getItemBegin(examItemEnd.getSfzmhm(), examItemEnd, null);
-		if(itemBegin!=null) {
-			this.itemBegin(itemBegin);
+		if(isNormal) {
+			HXLogUtil.info(logger,"*********************下一个项目开始调用*********************");
+			ItemBegin itemBegin = this.getItemBegin(examItemEnd.getSfzmhm(), examItemEnd, null);
+			if(itemBegin!=null) {
+				this.itemBegin(itemBegin);
+			}
 		}
 		return result;
 	}
@@ -260,7 +263,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			break;
 		//项目结束
 		case 3:
-			result = this.examItemEnd((ExamItemEnd) getCallBeanFromArray(processArray,typeId));
+			result = this.examItemEnd((ExamItemEnd) getCallBeanFromArray(processArray,typeId),true);
 			HXLogUtil.debug(logger,"项目结束返回{0}",result);
 			break;
 		//视频认证发启（写入）	
