@@ -75,10 +75,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String jkid = "17C51"; //身份比對
 		HXLogUtil.info(logger,"身份对比调用{0},入参{1}",jkid,HXCallWebServiceUtil.enCodeStr(writeXml));
 		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+		HXLogUtil.info(logger,"身份对比返回结果{0}",result);
 		//验证成功开始第一个项目
 		ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
 		this.itemBegin(itemBegin);
-		HXLogUtil.info(logger,"身份对比返回结果{0}",result);
 		return result;
 	}
 
@@ -92,7 +92,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String jkid = "17C52";	//项目开始接口
 		HXLogUtil.info(logger,"项目开始调用{0},入参{1}",jkid,writeXml);
 		String result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
-		HXLogUtil.info(logger,"项目调用返回{0}",result);
+		HXLogUtil.info(logger,"项目开始调用返回{0}",result);
 		return result;
 	}
 	

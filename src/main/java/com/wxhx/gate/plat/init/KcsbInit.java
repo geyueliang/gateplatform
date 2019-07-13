@@ -122,6 +122,12 @@ public class KcsbInit {
 		}
 		return result;
 	}
+	/*
+	 * public static void main(String[] args) { List<String> list =
+	 * Arrays.asList("20100,20400,23200,20600,23100,23000,20700,20500".split(","));
+	 * int i = list.indexOf("20100"); System.out.println(i);
+	 * System.out.println(list.get(i+1)); }
+	 */
 	
 	
 	/**
