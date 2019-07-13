@@ -232,7 +232,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		//身份验证
 		case 0:
 			result = this.idCheck((IdentityComparison) getCallBeanFromArray(processArray,typeId));
-			HXLogUtil.info(logger,"身份验证返回{0}",result);
+			HXLogUtil.debug(logger,"身份验证返回{0}",result);
 			/*
 			 * WebServiceResultHead head = new WebServiceResultHead(); head.setCode("1");
 			 * head.setMessage("success"); result = HXCoreUtil.getJsonString(head); return
