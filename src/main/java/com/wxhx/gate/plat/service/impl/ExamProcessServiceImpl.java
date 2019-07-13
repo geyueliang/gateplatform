@@ -47,7 +47,7 @@ import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 @Service
 public class ExamProcessServiceImpl implements IExamProcessService{
 	
-	private static Logger logger = LoggerFactory.getLogger(ExamProcessServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger("examLog");
 
 	
 	@Autowired
@@ -76,7 +76,11 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String writeXml = HXCallWebServiceUtil.beanToXml(comparison);
 		String jkid = "17C51"; //身份比對
 		HXLogUtil.info(logger,"身份对比调用{0},入参{1}",jkid,HXCallWebServiceUtil.enCodeStr(writeXml));
-		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+//		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+		/**
+		 * 身份认证 默认成功 不用调用精英的开始 直接项目开始
+		 */
+		String result = "<?xml version=\"1.0\" encoding=\"GBK\"?><root><head><code>1</code><message>默认成功</message><rownum>1</rownum></head></root>";
 		HXLogUtil.info(logger,"身份对比返回结果{0}",result);
 		//验证成功开始第一个项目
 		ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
@@ -132,7 +136,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String jkid = "17C54"; //图片上传
 		HXLogUtil.info(logger,"上传图片调用{0},入参{1}",jkid,writeXml);
 		String result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
-		HXLogUtil.info(logger,"上传图片调用返回结果",result);
+		HXLogUtil.info(logger,"上传图片调用返回结果{0}",result);
 		return result;
 	}
 
@@ -165,12 +169,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 				HXLogUtil.info(logger,"项目结束中进行科目结束 结果{0}",result);
 				return result;
 			}
-			HXLogUtil.info(logger,"项目结束结果",result);
+			HXLogUtil.info(logger,"项目结束结果{0}",result);
 		}
 		//项目结束调用下一个项目的开始
 		if(isNormal) {
-			HXLogUtil.info(logger,"*********************下一个项目开始调用*********************");
 			ItemBegin itemBegin = this.getItemBegin(examItemEnd.getSfzmhm(), examItemEnd, null);
+			HXLogUtil.info(logger,"#############当前{0}项目结束，下一个项目{1}开始##################",examItemEnd.getKsxm(),itemBegin.getKsxm());
 			if(itemBegin!=null) {
 				this.itemBegin(itemBegin);
 			}
@@ -219,6 +223,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			//获取处理参数
 			processArray = this.decodeInfo(content);
 		}
+		
 		if(processArray==null) {
 			WebServiceResultHead head = new WebServiceResultHead();
 			head.setCode("1");
@@ -226,7 +231,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			result = HXCoreUtil.getJsonString(head);
 			return result;
 		}
-		
+		HXLogUtil.info(logger,"===========车载调用交互中心的入参:{0}==============",processArray);
 		int typeId = Integer.parseInt(processArray[1]);
 		switch (typeId) {
 		//身份验证
@@ -442,18 +447,20 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		default:
 			break;
 		}
-		//通用信息设置
-		t.setLsh(ksyyxx.getLsh());
-		//考试地点
-		t.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
-		//考试科目
-		t.setKskm("2");
-		//单位机构代码
-		t.setDwjgdm(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.XZGLBM));
-		//终端标识
-		t.setZdbs(GatePlatUtil.getLocalhostIp());
-		//身份证号码
-		t.setSfzmhm(sfzmhm);
+		if(t!=null) {
+			//通用信息设置
+			t.setLsh(ksyyxx.getLsh());
+			//考试地点
+			t.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
+			//考试科目
+			t.setKskm("2");
+			//单位机构代码
+			t.setDwjgdm(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.XZGLBM));
+			//终端标识
+			t.setZdbs(GatePlatUtil.getLocalhostIp());
+			//身份证号码
+			t.setSfzmhm(sfzmhm);
+		}
 		return t;
 	}
 	
