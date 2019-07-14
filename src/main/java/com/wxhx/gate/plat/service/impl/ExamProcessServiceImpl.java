@@ -84,7 +84,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String result = "<?xml version=\"1.0\" encoding=\"GBK\"?><root><head><code>1</code><message>默认成功</message><rownum>1</rownum></head></root>";
 		HXLogUtil.info(logger,"身份对比返回结果{0}",result);
 		//验证成功开始第一个项目
-		if(HXCoreUtil.isEquals("2", comparison.getAddressType())) {
+		if(HXCoreUtil.isEquals("xmks", comparison.getAddressType())) {
 			ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
 			this.itemBegin(itemBegin);
 		}
@@ -149,7 +149,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String examItemEnd(ExamItemEnd examItemEnd,boolean isNormal) throws Exception {
 		String result = "";
 		//项目结束地点的结束
-		if (HXCoreUtil.isEquals("1", examItemEnd.getAddressType())) {
+		if (HXCoreUtil.isEquals("xmjs", examItemEnd.getAddressType())) {
 			// 是最后的项目 调用科目考试结束
 			if (HXCoreUtil.isEquals("20500", examItemEnd.getKsxm())) {
 				HXLogUtil.info(logger, "最后一个项目结束 直接科目结束");
@@ -176,7 +176,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			}
 		}
 		//项目结束调用下一个项目的开始
-		if(isNormal && HXCoreUtil.isEquals("2", examItemEnd.getAddressType())) {
+		if(isNormal && HXCoreUtil.isEquals("xmks", examItemEnd.getAddressType())) {
 			ItemBegin itemBegin = this.getItemBegin(examItemEnd.getSfzmhm(), examItemEnd, null);
 			HXLogUtil.info(logger,"#############当前{0}项目结束，下一个项目{1}开始##################",examItemEnd.getKsxm(),itemBegin.getKsxm());
 			if(itemBegin!=null) {
