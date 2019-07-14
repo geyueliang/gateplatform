@@ -114,21 +114,21 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String jkid = "17C53"; //考试扣分
 		HXLogUtil.info(logger,"发生扣分调用{0},入参{1}",jkid,writeXml);
 		//判断当前的分数加上已经扣的分数 是否达到结束考试要求
-		int nowKf = InitKSKFDM.getKf(examMark.getKfxm());
+//		int nowKf = InitKSKFDM.getKf(examMark.getKfxm());
 		//获取当前已经扣除分数
-		int currentSum = this.getKskf(examMark.getSfzmhm());
+//		int currentSum = this.getKskf(examMark.getSfzmhm());
 		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		/**
 		 *  超过20分 考试不及格 调用项目结束和 科目结束进行处理
 		 */
-		if((nowKf+currentSum)>20) {
-			HXLogUtil.info(logger,"=============扣分大于20分执行 结束逻辑============");
+//		if((nowKf+currentSum)>20) {
+//			HXLogUtil.info(logger,"=============扣分大于20分执行 结束逻辑============");
 			//复制基本属性
-			BeanUtils.copyProperties(examItemEnd, examMark);
-			ExamEnd examEnd = this.createExamEnd(examItemEnd,(nowKf+currentSum));
-			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
-			hxThreadManager.execThread(dealEndThread);
-		}
+//			BeanUtils.copyProperties(examItemEnd, examMark);
+//			ExamEnd examEnd = this.createExamEnd(examItemEnd,(nowKf+currentSum));
+//			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
+//			hxThreadManager.execThread(dealEndThread);
+//		}
 		return result;
 	}
 
