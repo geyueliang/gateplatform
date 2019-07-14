@@ -84,8 +84,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String result = "<?xml version=\"1.0\" encoding=\"GBK\"?><root><head><code>1</code><message>默认成功</message><rownum>1</rownum></head></root>";
 		HXLogUtil.info(logger,"身份对比返回结果{0}",result);
 		//验证成功开始第一个项目
-		ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
-		this.itemBegin(itemBegin);
+		if(HXCoreUtil.isEquals("2", comparison.getAddressType())) {
+			ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
+			this.itemBegin(itemBegin);
+		}
 		return result;
 	}
 
@@ -112,21 +114,21 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String jkid = "17C53"; //考试扣分
 		HXLogUtil.info(logger,"发生扣分调用{0},入参{1}",jkid,writeXml);
 		//判断当前的分数加上已经扣的分数 是否达到结束考试要求
-		int nowKf = InitKSKFDM.getKf(examMark.getKfxm());
+//		int nowKf = InitKSKFDM.getKf(examMark.getKfxm());
 		//获取当前已经扣除分数
-		int currentSum = this.getKskf(examMark.getSfzmhm());
+//		int currentSum = this.getKskf(examMark.getSfzmhm());
 		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		/**
 		 *  超过20分 考试不及格 调用项目结束和 科目结束进行处理
 		 */
-		if((nowKf+currentSum)>20) {
+//		if((nowKf+currentSum)>20) {
 //			HXLogUtil.info(logger,"=============扣分大于20分执行 结束逻辑============");
 			//复制基本属性
-			BeanUtils.copyProperties(examItemEnd, examMark);
-			ExamEnd examEnd = this.createExamEnd(examItemEnd,(nowKf+currentSum));
-			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
+//			BeanUtils.copyProperties(examItemEnd, examMark);
+//			ExamEnd examEnd = this.createExamEnd(examItemEnd,(nowKf+currentSum));
+//			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
 //			hxThreadManager.execThread(dealEndThread);
-		}
+//		}
 		return result;
 	}
 
@@ -146,33 +148,35 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	@ExamProcessLogSaveAnnotation
 	public String examItemEnd(ExamItemEnd examItemEnd,boolean isNormal) throws Exception {
 		String result = "";
-		//是最后的项目 调用科目考试结束
-		if(HXCoreUtil.isEquals("20500", examItemEnd.getKsxm())) {
-			HXLogUtil.info(logger,"最后一个项目结束 直接科目结束");
-			//调用科目考试结束
-			ExamEnd examEnd = this.createExamEnd(examItemEnd,0);
-//			HXLogUtil.info(logger,"开始科目结束,项目入参{0},科目入参{1}",examItemEnd,examEnd);
-			result = this.examEnd(examEnd);
-		}
-		else {
-			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
-			String writeXml = HXCallWebServiceUtil.beanToXml(examItemEnd);
-			String jkid = "17C55"; //项目结束
-			HXLogUtil.info(logger,"项目结束调用{0},入参{1}",jkid,writeXml);
-			result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
-			HXLogUtil.info(logger,"项目结束结果{0}",result);
-			//判断当前扣分是否超过20 	超过20分 结束考试
-			int kfhj = this.getKskf(examItemEnd.getSfzmhm());
-			if(kfhj>20) {
-				HXLogUtil.info(logger,"项目结束后分数超过 20 分 科目结束==============");
-				ExamEnd examEnd = this.createExamEnd(examItemEnd,kfhj);
-				String endStr = this.examEnd(examEnd);
-				HXLogUtil.info(logger,"项目结束中进行科目结束 结果{0}",endStr);
-				return result;
+		//项目结束地点的结束
+		if (HXCoreUtil.isEquals("1", examItemEnd.getAddressType())) {
+			// 是最后的项目 调用科目考试结束
+			if (HXCoreUtil.isEquals("20500", examItemEnd.getKsxm())) {
+				HXLogUtil.info(logger, "最后一个项目结束 直接科目结束");
+				// 调用科目考试结束
+				ExamEnd examEnd = this.createExamEnd(examItemEnd, 0);
+//				HXLogUtil.info(logger,"开始科目结束,项目入参{0},科目入参{1}",examItemEnd,examEnd);
+				result = this.examEnd(examEnd);
+			} else {
+				examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
+				String writeXml = HXCallWebServiceUtil.beanToXml(examItemEnd);
+				String jkid = "17C55"; // 项目结束
+				HXLogUtil.info(logger, "项目结束调用{0},入参{1}", jkid, writeXml);
+				result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+				HXLogUtil.info(logger, "项目结束结果{0}", result);
+				// 判断当前扣分是否超过20 超过20分 结束考试
+				int kfhj = this.getKskf(examItemEnd.getSfzmhm());
+				if (kfhj > 20) {
+					HXLogUtil.info(logger, "项目结束后分数超过 20 分 科目结束==============");
+					ExamEnd examEnd = this.createExamEnd(examItemEnd, kfhj);
+					String endStr = this.examEnd(examEnd);
+					HXLogUtil.info(logger, "项目结束中进行科目结束 结果{0}", endStr);
+					return result;
+				}
 			}
 		}
 		//项目结束调用下一个项目的开始
-		if(isNormal) {
+		if(isNormal && HXCoreUtil.isEquals("2", examItemEnd.getAddressType())) {
 			ItemBegin itemBegin = this.getItemBegin(examItemEnd.getSfzmhm(), examItemEnd, null);
 			HXLogUtil.info(logger,"#############当前{0}项目结束，下一个项目{1}开始##################",examItemEnd.getKsxm(),itemBegin.getKsxm());
 			if(itemBegin!=null) {
@@ -370,6 +374,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		//身份验证
 		case 0:
 			IdentityComparison	identityComparison = new IdentityComparison();
+			//结束地点
+			identityComparison.setAddressType(array[array.length-1]);
 			//考试系统编号
 			identityComparison.setKsxtbh(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSXTBH));
 			if(ksyyxx!=null) {
@@ -419,6 +425,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		//项目结束
 		case 3:
 			ExamItemEnd examItemEnd = new ExamItemEnd();
+			//结束地点
+			examItemEnd.setAddressType(array[array.length-1]);
 			//设备序列号
 			Kcsb kcsb = KcsbInit.getKcsb(array[7]);
 			examItemEnd.setSbxh(kcsb!=null?kcsb.getSbbh():array[7]);  //设备序列号

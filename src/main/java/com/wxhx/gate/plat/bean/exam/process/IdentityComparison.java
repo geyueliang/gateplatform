@@ -22,6 +22,8 @@ public class IdentityComparison extends ProcessBase{
 	private String zp;
 	
 	private String kssj;	//开始时间 yyyy-MM-ddhh24:mi:ss
+	
+	private String addressType;	//发起项目结束地点类型 1 结束地点 2 项目开始地点
 
 	public String getKsxtbh() {
 		return ksxtbh;
@@ -57,6 +59,14 @@ public class IdentityComparison extends ProcessBase{
 		this.kssj = kssj;
 	}
 	
+	public String getAddressType() {
+		return addressType;
+	}
+
+	public void setAddressType(String addressType) {
+		this.addressType = addressType;
+	}
+
 	@Override
 	public String toString() {
 		return HXCoreUtil.getJsonString(this);

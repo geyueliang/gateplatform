@@ -22,6 +22,8 @@ public class ExamItemEnd  extends ProcessBase{
 	private String czlx;	//操作类型
 	
 	private String ksxm;	//考试项目
+	
+	private String addressType;	//发起项目结束地点类型 1 结束地点 2 项目开始地点
 
 	public String getSbxh() {
 		return sbxh;
@@ -55,6 +57,15 @@ public class ExamItemEnd  extends ProcessBase{
 
 	public void setKsxm(String ksxm) {
 		this.ksxm = ksxm;
+	}
+
+	
+	public String getAddressType() {
+		return addressType;
+	}
+
+	public void setAddressType(String addressType) {
+		this.addressType = addressType;
 	}
 
 	@Override

@@ -17,7 +17,7 @@ import com.wxhx.gate.plat.dao.CallJyLogMapper;
 import com.wxhx.gate.plat.dao.entity.CallJyLog;
 
 
-//@Aspect
+@Aspect
 //@Configuration
 public class ExamProcessLogAopService {
 
@@ -39,7 +39,7 @@ public class ExamProcessLogAopService {
 	}
 	
 	
-//	@AfterReturning(pointcut = "autoLogPrint()", returning = "res")
+	@AfterReturning(pointcut = "autoLogPrint()", returning = "res")
 	public void printAfterCallMethod(JoinPoint joinPoint, final Object res) {
 		// 当前拦截的方法名字
 		String fullMethod = joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName();
