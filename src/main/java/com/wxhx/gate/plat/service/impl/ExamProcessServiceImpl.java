@@ -155,7 +155,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			result = this.examEnd(examEnd);
 		}
 		else {
-			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
 			String writeXml = HXCallWebServiceUtil.beanToXml(examItemEnd);
 			String jkid = "17C55"; //项目结束
 			HXLogUtil.info(logger,"项目结束调用{0},入参{1}",jkid,writeXml);
@@ -254,7 +254,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			ExamItemEnd examItemEnd = new ExamItemEnd();
 			Kcsb kcsb = KcsbInit.getKcsb(processArray[7]);
 			examItemEnd.setSbxh(kcsb!=null?kcsb.getSbbh():processArray[7]);  //设备序列号
-			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date())); //结束时间
+			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date())); //结束时间
 //			String czlx = HXCoreUtil.isEquals("true",processArray[8])?"1":"0";  //操作类型
 			String czlx = "1";
 			examItemEnd.setCzlx(czlx); 
@@ -384,7 +384,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 					identityComparison.setZp(kszp.getZp());
 				}
 				//开始时间
-				identityComparison.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+				identityComparison.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
 				t = (T) identityComparison;
 			}
 			break;
@@ -396,14 +396,14 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			//扣分项目
 			examMark.setKfxm(array[8]);
 			//扣分时间
-			examMark.setKfsj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+			examMark.setKfsj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
 			t = (T) examMark;
 			break;
 		//图片上传
 		case 2:
 			ProcessImage processImage = new ProcessImage();
 			//照片时间
-			processImage.setZpsj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+			processImage.setZpsj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
 			//照片
 			try {
 				processImage.setZp(URLEncoder.encode(array[9], "utf-8"));
@@ -423,7 +423,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			Kcsb kcsb = KcsbInit.getKcsb(array[7]);
 			examItemEnd.setSbxh(kcsb!=null?kcsb.getSbbh():array[7]);  //设备序列号
 			//结束时间
-			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
 			//操作类型
 //			String czlx = HXCoreUtil.isEquals("true",array[8])?"1":"0"; 
 			String czlx = "1"; 
@@ -487,7 +487,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 					examEnd.setZp(kszp.getZp());
 				}
 			}
-			examEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+			examEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
 			/**
 			 * 考试成绩
 			 */
@@ -579,7 +579,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 				String sbbh = KcsbInit.getSbbhBySbxh(sbxh); 
 				itemBegin.setSbxh(sbbh);
 //				itemBegin.setSbxh(sbxh); 		
-				itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+				itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
 			}
 			
 			//考试项目结束
@@ -600,7 +600,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 					String sbxh = KcsbInit.getNextSbxh(lxxh, null); //设备序号
 					String sbbh = KcsbInit.getSbbhBySbxh(sbxh); 
 					itemBegin.setSbxh(sbbh);
-					itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd hh:mm:ss", new Date()));
+					itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
 				}
 				
 			}
