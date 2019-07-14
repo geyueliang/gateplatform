@@ -17,8 +17,8 @@ import com.wxhx.gate.plat.dao.CallJyLogMapper;
 import com.wxhx.gate.plat.dao.entity.CallJyLog;
 
 
-@Aspect
-@Configuration
+//@Aspect
+//@Configuration
 public class ExamProcessLogAopService {
 
 	// 获取自动记录出入参的日志logger
