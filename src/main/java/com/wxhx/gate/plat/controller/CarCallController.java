@@ -1,5 +1,8 @@
 package com.wxhx.gate.plat.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +23,13 @@ import com.wxhx.gate.plat.service.IExamProcessService;
 @RestController
 public class CarCallController {
 	
+	private static Logger logger2 = LoggerFactory.getLogger("examLog");
+
 	private static Logger logger = LoggerFactory.getLogger(CarCallController.class);
 
+	
+	private static List<String> contents = new ArrayList<String>();
+	
 	@Autowired
 	private IExamProcessService iExamProcessService;
 	
@@ -32,6 +40,8 @@ public class CarCallController {
 		int result = 0;
 		try {
 			HXLogUtil.info(logger,"=============车载调用接口入参{0}=============",callInfoVo.getContent());
+			contents.add(callInfoVo.getContent());
+			HXLogUtil.info(logger2,"=============目前系统中的车载调用内容{0}",contents);
 			String resJson = iExamProcessService.doProcess(callInfoVo.getContent());
 			result =Integer.parseInt(JSONObject.parseObject(resJson).getString("code"));
 		} catch (Exception e) {
