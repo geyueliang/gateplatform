@@ -2,6 +2,7 @@ package com.wxhx.gate.plat.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -207,7 +208,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		HXLogUtil.info(logger,"读取视频认证结果调用{0},入参{1}",jkid,writeXml);
 		return HXCallWebServiceUtil.queryWebService(jkid, writeXml);
 	} 
-
+	
 	/**
 	 * 统一处理过程处理
 	 * @throws Exception 
@@ -231,7 +232,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			result = HXCoreUtil.getJsonString(head);
 			return result;
 		}
-		HXLogUtil.info(logger,"===========车载调用交互中心的入参:{0}==============",processArray);
+		HXLogUtil.info(logger,"===========车载调用交互中心的入参:{0}==============",Arrays.asList(processArray));
 		int typeId = Integer.parseInt(processArray[1]);
 		switch (typeId) {
 		//身份验证
