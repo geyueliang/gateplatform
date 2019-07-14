@@ -218,8 +218,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	 */
 	public String doProcess(String content) throws Exception {
 		String result = "";
-		String[] processArray = null;
-		//包含照片的 不需要解码
+		String[] processArray = content.split(",");
+		/**
+		 * 
+			去除加密
 		if(content.contains(",2,")||content.contains(",5,")||content.contains(",6,")) {
 			processArray = content.split(",");
 		}
@@ -227,15 +229,15 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			//获取处理参数
 			processArray = this.decodeInfo(content);
 		}
-		
-		if(processArray==null) {
+		 */
+		HXLogUtil.info(logger,"===========车载调用交互中心的入参:{0}==============",Arrays.asList(processArray));
+		if(processArray==null || processArray.length<2) {
 			WebServiceResultHead head = new WebServiceResultHead();
 			head.setCode("1");
 			head.setMessage("success");
 			result = HXCoreUtil.getJsonString(head);
 			return result;
 		}
-		HXLogUtil.info(logger,"===========车载调用交互中心的入参:{0}==============",Arrays.asList(processArray));
 		int typeId = Integer.parseInt(processArray[1]);
 		switch (typeId) {
 		//身份验证
