@@ -115,6 +115,7 @@ public class KcsbInit {
 		if(sbxms!=null) {
 			if(endKsxm==null) {
 				result = sbxms.get(0);
+				HXLogUtil.info(logger, "******************当前路线序号{0},结束项目{1},下一个项目是{2}******************", lxxh,endKsxm,result);
 				return result;
 			}
 			int index = sbxms.indexOf(endKsxm);
