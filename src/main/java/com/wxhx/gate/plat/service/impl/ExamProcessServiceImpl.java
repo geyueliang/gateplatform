@@ -120,12 +120,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		 *  超过20分 考试不及格 调用项目结束和 科目结束进行处理
 		 */
 		if((nowKf+currentSum)>20) {
-			HXLogUtil.info(logger,"=============扣分大于20分执行 结束逻辑============");
+//			HXLogUtil.info(logger,"=============扣分大于20分执行 结束逻辑============");
 			//复制基本属性
 			BeanUtils.copyProperties(examItemEnd, examMark);
 			ExamEnd examEnd = this.createExamEnd(examItemEnd,(nowKf+currentSum));
 			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
-			hxThreadManager.execThread(dealEndThread);
+//			hxThreadManager.execThread(dealEndThread);
 		}
 		return result;
 	}
