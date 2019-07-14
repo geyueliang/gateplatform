@@ -35,7 +35,7 @@ public class DealEndThread implements Runnable{
 			//项目结束
 			iExamProcessService.examItemEnd(examItemEnd,false);
 			//科目结束
-			iExamProcessService.examEnd(examEnd);
+//			iExamProcessService.examEnd(examEnd);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

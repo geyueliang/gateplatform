@@ -149,7 +149,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String examItemEnd(ExamItemEnd examItemEnd,boolean isNormal) throws Exception {
 		String result = "";
 		//项目结束地点的结束
-		if (HXCoreUtil.isEquals("xmjs", examItemEnd.getAddressType())) {
+		if (HXCoreUtil.isEquals("xmjs", examItemEnd.getAddressType()) || isNormal) {
 			// 是最后的项目 调用科目考试结束
 			if (HXCoreUtil.isEquals("20500", examItemEnd.getKsxm())) {
 				HXLogUtil.info(logger, "最后一个项目结束 直接科目结束");
@@ -176,7 +176,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			}
 		}
 		//项目结束调用下一个项目的开始
-		if(isNormal && HXCoreUtil.isEquals("xmks", examItemEnd.getAddressType())) {
+		if(HXCoreUtil.isEquals("xmks", examItemEnd.getAddressType())) {
 			ItemBegin itemBegin = this.getItemBegin(examItemEnd.getSfzmhm(), examItemEnd, null);
 			HXLogUtil.info(logger,"#############当前{0}项目结束，下一个项目{1}开始##################",examItemEnd.getKsxm(),itemBegin.getKsxm());
 			if(itemBegin!=null) {
@@ -276,7 +276,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			break;
 		//项目结束
 		case 3:
-			result = this.examItemEnd((ExamItemEnd) getCallBeanFromArray(processArray,typeId),true);
+			result = this.examItemEnd((ExamItemEnd) getCallBeanFromArray(processArray,typeId),false);
 			HXLogUtil.debug(logger,"项目结束返回{0}",result);
 			break;
 		//视频认证发启（写入）	
