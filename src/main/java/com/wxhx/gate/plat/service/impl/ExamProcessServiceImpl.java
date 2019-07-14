@@ -160,16 +160,16 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			String jkid = "17C55"; //项目结束
 			HXLogUtil.info(logger,"项目结束调用{0},入参{1}",jkid,writeXml);
 			result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+			HXLogUtil.info(logger,"项目结束结果{0}",result);
 			//判断当前扣分是否超过20 	超过20分 结束考试
 			int kfhj = this.getKskf(examItemEnd.getSfzmhm());
 			if(kfhj>20) {
 				HXLogUtil.info(logger,"项目结束后分数超过 20 分 科目结束==============");
 				ExamEnd examEnd = this.createExamEnd(examItemEnd,kfhj);
-				result = this.examEnd(examEnd);
-				HXLogUtil.info(logger,"项目结束中进行科目结束 结果{0}",result);
+				String endStr = this.examEnd(examEnd);
+				HXLogUtil.info(logger,"项目结束中进行科目结束 结果{0}",endStr);
 				return result;
 			}
-			HXLogUtil.info(logger,"项目结束结果{0}",result);
 		}
 		//项目结束调用下一个项目的开始
 		if(isNormal) {

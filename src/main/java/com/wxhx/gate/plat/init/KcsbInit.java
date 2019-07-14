@@ -7,10 +7,13 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
+import com.wxhx.basic_client.common.HXLogUtil;
 import com.wxhx.gate.plat.dao.KcsbMapper;
 import com.wxhx.gate.plat.dao.LxpzMapper;
 import com.wxhx.gate.plat.dao.entity.Kcsb;
@@ -24,6 +27,9 @@ import com.wxhx.gate.plat.dao.entity.Lxpz;
 @Component
 public class KcsbInit {
 
+	private static Logger logger = LoggerFactory.getLogger("examLog");
+
+	
 	@Autowired
 	private KcsbMapper kcsbMapper;
 	
@@ -120,6 +126,7 @@ public class KcsbInit {
 		if(HXCoreUtil.isEquals(result,"20500")) {
 			result = "";
 		}
+		HXLogUtil.info(logger, "******************当前路线序号{0},结束项目{1},下一个项目是{2}******************", lxxh,endKsxm,result);
 		return result;
 	}
 	/*
