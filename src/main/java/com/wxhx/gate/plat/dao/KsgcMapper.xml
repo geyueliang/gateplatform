@@ -17,5 +17,10 @@
   	<select id="getKfxm" resultType="com.wxhx.gate.plat.dao.entity.Ksgc">
   		select * from KSGC where SFZMHM = #{carNo} AND JKBZ  = '17C53' AND BCKSCS = #{kscs}  AND  TO_CHAR(SJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
   	</select>
+  	
+  	<select id="exitsEnd" resultType="int">
+  		<!-- select count(1) from KSGC where  SFZMHM = #{carNo} AND (JKBZ  = '17C56' or (JKBZ = '17C54' AND CS1= #{ksxm})) AND BCKSCS = #{kscs}  AND  TO_CHAR(SJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD') -->
+  		select count(1) from KSGC where  SFZMHM = #{carNo} AND JKBZ  = '17C56' AND BCKSCS = #{kscs}  AND  TO_CHAR(SJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+  	</select>
   
 </mapper>

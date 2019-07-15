@@ -24,4 +24,13 @@ public interface KsgcMapper {
 	 */
 	List<Ksgc> getKfxm(@Param("carNo") String carNo,@Param("kscs") int kscs);
 	
+	
+	/**
+	 * 判断当前考试本次考试是否科目结束
+	 * @param carNo
+	 * @param kscs
+	 * @return
+	 */
+	int exitsEnd(@Param("carNo") String carNo,@Param("kscs") int kscs,@Param("ksxm")String ksxm);
+	
 }
