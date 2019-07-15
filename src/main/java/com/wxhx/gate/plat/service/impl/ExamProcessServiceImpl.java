@@ -77,14 +77,14 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String writeXml = HXCallWebServiceUtil.beanToXml(comparison);
 		String jkid = "17C51"; //身份比對
 		HXLogUtil.info(logger,"身份对比调用{0},入参{1}",jkid,HXCallWebServiceUtil.enCodeStr(writeXml));
-//		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		/**
 		 * 身份认证 默认成功 不用调用精英的开始 直接项目开始
 		 */
 		String result = "<?xml version=\"1.0\" encoding=\"GBK\"?><root><head><code>1</code><message>默认成功</message><rownum>1</rownum></head></root>";
 		HXLogUtil.info(logger,"身份对比返回结果{0}",result);
 		//验证成功开始第一个项目
-		if(HXCoreUtil.isEquals("xmks", comparison.getAddressType())) {
+		if(HXCoreUtil.isEquals("kmks", comparison.getAddressType())) {
+			result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 			ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
 			this.itemBegin(itemBegin);
 		}
