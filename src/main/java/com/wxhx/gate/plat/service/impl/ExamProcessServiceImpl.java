@@ -157,7 +157,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			HXLogUtil.info(logger,"当前考生{0},当前考试项目{1}项目或者科目以结束，无需上传图片",processImage.getSfzmhm(),processImage.getKsxm());
 			result ="";
 		}*/
-		if(currentKSXM.containsKey(processImage.getSfzmhm()+"_"+processImage.getKsxm())) {
+		if(!currentKSXM.containsKey(processImage.getSfzmhm()+"_"+processImage.getKsxm())) {
 			HXLogUtil.info(logger,"当前考生{0},当前考试项目{1}项目或者科目以结束，无需上传图片",processImage.getSfzmhm(),processImage.getKsxm());
 			result ="";
 		}
