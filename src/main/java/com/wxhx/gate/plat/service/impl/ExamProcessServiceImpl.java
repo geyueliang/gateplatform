@@ -126,8 +126,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			//复制基本属性
 			BeanUtils.copyProperties(examItemEnd, examMark);
 			ExamEnd examEnd = this.createExamEnd(examItemEnd,(nowKf+currentSum));
-			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
-			hxThreadManager.execThread(dealEndThread);
+			//项目结束
+			this.examItemEnd(examItemEnd,true);
+			//科目结束
+			this.examEnd(examEnd);
+//			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
+//			hxThreadManager.execThread(dealEndThread);
 		}
 		return result;
 	}
