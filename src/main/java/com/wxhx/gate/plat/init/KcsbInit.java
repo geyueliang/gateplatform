@@ -144,17 +144,17 @@ public class KcsbInit {
 	 * @param endKsxm
 	 * @return
 	 */
-	public static String getNextSbxh(String lxxh,String endKsxm) {
+	public static String getNextSbxh(String lxxh,String kskm) {
 		String result = "";
 		List<String> sbxms = kssbs.get(lxxh);
 		List<String> ksxms = ksxmlx.get(lxxh);
-		if(endKsxm==null) {
+		if(kskm==null) {
 			result  = sbxms.get(0);
 		}
 		else {
 			for(int i = 0;i<ksxms.size();i++) {
-				if(HXCoreUtil.isEquals(endKsxm, ksxms.get(i))) {
-					result = sbxms.get(i+1);
+				if(HXCoreUtil.isEquals(kskm, ksxms.get(i))) {
+					result = sbxms.get(i);
 					return result;
 				}
 			}

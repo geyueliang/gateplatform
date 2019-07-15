@@ -607,7 +607,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 					//复制基本属性
 					BeanUtils.copyProperties(itemBegin, examItemEnd);
 					itemBegin.setKsxm(ksxm);	//考试项目
-					String sbxh = KcsbInit.getNextSbxh(lxxh, itemBegin.getKsxm()); //设备序号
+					String sbxh = KcsbInit.getNextSbxh(lxxh, ksxm); //设备序号
 					String sbbh = KcsbInit.getSbbhBySbxh(sbxh); 
 					itemBegin.setSbxh(sbbh);
 					itemBegin.setKssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date()));
