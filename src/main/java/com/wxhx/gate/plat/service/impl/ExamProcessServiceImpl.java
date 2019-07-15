@@ -123,6 +123,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		//获取当前已经扣除分数
 		//int currentSum = this.getKskf(examMark.getSfzmhm());
 		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+		HXLogUtil.info(logger,"发生扣分调用返回{0}",result);
 		/**
 		 *  超过20分 考试不及格 调用项目结束和 科目结束进行处理
 		 */
@@ -139,7 +140,6 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 //			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
 //			hxThreadManager.execThread(dealEndThread);
 		}
-		HXLogUtil.info(logger,"发生扣分调用返回{0}",result);
 		return result;
 	}
 
@@ -221,6 +221,9 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		HXLogUtil.info(logger,"科目结束调用{0},入参{1}",jkid,writeXml);
 		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		HXLogUtil.info(logger,"科目结束调用返回{0}",result);
+		//删除记录当前考试分数的缓存
+		currentKFInfo.remove(examEnd.getSfzmhm()+"_1");
+		currentKFInfo.remove(examEnd.getSfzmhm()+"_2");
 		return result;
 	}
 	
