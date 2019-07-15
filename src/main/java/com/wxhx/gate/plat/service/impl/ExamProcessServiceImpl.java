@@ -1,11 +1,12 @@
 package com.wxhx.gate.plat.service.impl;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
@@ -42,7 +43,6 @@ import com.wxhx.gate.plat.init.KcsbInit;
 import com.wxhx.gate.plat.service.IExamProcessService;
 import com.wxhx.gate.plat.service.bean.WebServiceResult;
 import com.wxhx.gate.plat.service.bean.WebServiceResultHead;
-import com.wxhx.gate.plat.service.impl.thread.DealEndThread;
 import com.wxhx.gate.plat.util.GatePlatUtil;
 import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 
@@ -51,6 +51,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	
 	private static Logger logger = LoggerFactory.getLogger("examLog");
 
+	//记录当前学员的扣分信息  身份证_次数	分数
+	Map<String, Integer> currentKFInfo = new HashMap<String, Integer>();
 	
 	@Autowired
 	private HXThreadManager hxThreadManager;
@@ -112,26 +114,28 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	 */
 	@ExamProcessLogSaveAnnotation
 	public String examMarkHappen(ExamMark examMark,ExamItemEnd examItemEnd) throws Exception {
+		int nowkf = getNowKf(examMark.getSfzmhm(),examMark.getKfxm());
 		String writeXml = HXCallWebServiceUtil.beanToXml(examMark);
 		String jkid = "17C53"; //考试扣分
 		HXLogUtil.info(logger,"发生扣分调用{0},入参{1}",jkid,writeXml);
 		//判断当前的分数加上已经扣的分数 是否达到结束考试要求
-		int nowKf = InitKSKFDM.getKf(examMark.getKfxm());
+		//int nowKf = InitKSKFDM.getKf(examMark.getKfxm());
 		//获取当前已经扣除分数
-		int currentSum = this.getKskf(examMark.getSfzmhm());
+		//int currentSum = this.getKskf(examMark.getSfzmhm());
 		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		/**
 		 *  超过20分 考试不及格 调用项目结束和 科目结束进行处理
 		 */
-		if((nowKf+currentSum)>20) {
+//		if((nowKf+currentSum)>20) {
+		if(nowkf>20) {
 			HXLogUtil.info(logger,"=============扣分大于20分执行 结束逻辑============");
 			//复制基本属性
 			BeanUtils.copyProperties(examItemEnd, examMark);
-			ExamEnd examEnd = this.createExamEnd(examItemEnd,(nowKf+currentSum));
+//			ExamEnd examEnd = this.createExamEnd(examItemEnd,nowkf);
 			//项目结束
 			this.examItemEnd(examItemEnd,true);
 			//科目结束
-			this.examEnd(examEnd);
+//			this.examEnd(examEnd);
 //			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
 //			hxThreadManager.execThread(dealEndThread);
 		}
@@ -188,8 +192,9 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 				result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 				HXLogUtil.info(logger, "项目结束结果{0}", result);
 				// 判断当前扣分是否超过20 超过20分 结束考试
-				int kfhj = this.getKskf(examItemEnd.getSfzmhm());
-				if (kfhj > 20) {
+//				int kfhj = this.getKskf(examItemEnd.getSfzmhm());
+				int kfhj = this.getNowKf(examItemEnd.getSfzmhm(), null);
+				if (kfhj>20) {
 					HXLogUtil.info(logger, "项目结束后分数超过 20 分 科目结束==============");
 					ExamEnd examEnd = this.createExamEnd(examItemEnd, kfhj);
 					String endStr = this.examEnd(examEnd);
@@ -677,6 +682,34 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			
 		}
 		return itemBegin;
+	}
+	
+	
+	/**
+	 * 当前考员本次考试已经的扣分情况
+	 * @param sfzmhm
+	 * @param kfdm
+	 * @return
+	 */
+	private int getNowKf(String sfzmhm,String kfdm) {
+		//当前考试次数
+		int kscs = ksgcMapper.getNowKscs(sfzmhm);
+		if(kscs>1) {
+			kscs = 2;
+		}
+		else {
+			kscs = 1;
+		}
+		//扣分情况下调用
+		if(kfdm!=null) {
+			if(!currentKFInfo.containsKey(sfzmhm+"_"+kscs)) {
+				currentKFInfo.put(sfzmhm+"_"+kscs, InitKSKFDM.getKf(kfdm));
+			}
+			else {
+				currentKFInfo.put(sfzmhm+"_"+kscs,currentKFInfo.get(sfzmhm+"_"+kscs)+InitKSKFDM.getKf(kfdm));
+			}
+		}
+		return currentKFInfo.get(sfzmhm+"_"+kscs);
 	}
 
 }
