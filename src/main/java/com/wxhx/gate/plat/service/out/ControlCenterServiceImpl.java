@@ -90,6 +90,10 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		kszp.setSfzmhm(examinationInfo.getSfzmhm());
 		kszp.setZp(examinationInfo.getZp());
 		kszp.setGxsj(new Date());
+		
+		//插入照片前删除以前的照片
+		kszpMapper.deletekszp(kszp);
+		
 		//插入报名照片
 		int zjRes = kszpMapper.insertSelective(kszp);
 		if(zjRes == 1) {

@@ -25,4 +25,11 @@ public interface KszpMapper extends Mapper<Kszp>{
 	 * @return
 	 */
 	int updateLsh(Kszp kszp);
+	
+	/**
+	 * 插入照片之前先删除报道门禁照片
+	 * @param sfzmhm
+	 * @return
+	 */
+	int deletekszp(Kszp kszp);
 }
