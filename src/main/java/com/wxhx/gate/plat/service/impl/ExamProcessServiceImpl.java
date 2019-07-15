@@ -54,6 +54,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	//记录当前学员的扣分信息  身份证_次数	分数
 	Map<String, Integer> currentKFInfo = new HashMap<String, Integer>();
 	
+	
+	//当前考试项目
+	Map<String, Boolean> currentKSXM = new HashMap<String, Boolean>();
+	
 	@Autowired
 	private HXThreadManager hxThreadManager;
 
@@ -101,6 +105,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	 */
 	@ExamProcessLogSaveAnnotation
 	public String itemBegin(ItemBegin itemBegin) throws Exception {
+		//当前考试项目开始
+		currentKSXM.put(itemBegin.getSfzmhm()+"_"+itemBegin.getKsxm(), true);
 		String writeXml = HXCallWebServiceUtil.beanToXml(itemBegin);
 		String jkid = "17C52";	//项目开始接口
 		HXLogUtil.info(logger,"项目开始调用{0},入参{1}",jkid,writeXml);
@@ -147,7 +153,11 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String uploadImage(ProcessImage processImage) throws Exception {
 		String result = "";
 		//当前科目结束 不用上传了
-		if(isEnd(processImage.getSfzmhm(),processImage.getKsxm())) {
+		/*if(isEnd(processImage.getSfzmhm(),processImage.getKsxm())) {
+			HXLogUtil.info(logger,"当前考生{0},当前考试项目{1}项目或者科目以结束，无需上传图片",processImage.getSfzmhm(),processImage.getKsxm());
+			result ="";
+		}*/
+		if(currentKSXM.containsKey(processImage.getSfzmhm()+"_"+processImage.getKsxm())) {
 			HXLogUtil.info(logger,"当前考生{0},当前考试项目{1}项目或者科目以结束，无需上传图片",processImage.getSfzmhm(),processImage.getKsxm());
 			result ="";
 		}
@@ -211,6 +221,8 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 				this.itemBegin(itemBegin);
 			}
 		}
+		//清楚当前考试项目结束标记
+		currentKSXM.remove(examItemEnd.getSfzmhm()+"_"+examItemEnd.getKsxm());
 		return result;
 	}
 	
@@ -613,7 +625,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	 * 判断当前考试科目 或者 项目是否结束
 	 * @param sfzmhm
 	 * @return
-	 */
+	
 	private boolean isEnd(String sfzmhm,String ksxm) {
 		int kscs = ksgcMapper.getNowKscs(sfzmhm);
 		if(kscs>1) {
@@ -629,7 +641,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		}
 		return result;
 	}
-	
+	 */
 	
 	
 	/**
