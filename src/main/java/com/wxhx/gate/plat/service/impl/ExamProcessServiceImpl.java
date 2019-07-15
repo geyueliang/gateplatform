@@ -141,19 +141,27 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 
 	@ExamProcessLogSaveAnnotation
 	public String uploadImage(ProcessImage processImage) throws Exception {
-		String writeXml = HXCallWebServiceUtil.beanToXml(processImage);
-		String jkid = "17C54"; //图片上传
-		String logStr = "";
-		if(writeXml.contains("<zp>")&&writeXml.contains("</zp>")) {
-			int zpStart = writeXml.indexOf("<zp>");
-			int zpEnd = writeXml.indexOf("</zp>");
-			String firstStr = writeXml.substring(0,zpStart);
-			String endStr = writeXml.substring(zpEnd+5,writeXml.length());
-			logStr = firstStr+"<zp></zp>"+endStr;
+		String result = "";
+		//当前科目结束 不用上传了
+		if(isEnd(processImage.getSfzmhm(),processImage.getKsxm())) {
+			HXLogUtil.info(logger,"当前考生{0},当前考试项目{1}项目或者科目以结束，无需上传图片",processImage.getSfzmhm(),processImage.getKsxm());
+			result ="";
 		}
-		HXLogUtil.info(logger,"上传图片调用{0},入参{1}",jkid,logStr);
-		String result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
-		HXLogUtil.info(logger,"上传图片调用返回结果{0}",result);
+		else {
+			String writeXml = HXCallWebServiceUtil.beanToXml(processImage);
+			String jkid = "17C54"; //图片上传
+			String logStr = "";
+			if(writeXml.contains("<zp>")&&writeXml.contains("</zp>")) {
+				int zpStart = writeXml.indexOf("<zp>");
+				int zpEnd = writeXml.indexOf("</zp>");
+				String firstStr = writeXml.substring(0,zpStart);
+				String endStr = writeXml.substring(zpEnd+5,writeXml.length());
+				logStr = firstStr+"<zp></zp>"+endStr;
+			}
+			HXLogUtil.info(logger,"上传图片调用{0},入参{1}",jkid,logStr);
+			result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+			HXLogUtil.info(logger,"上传图片调用返回结果{0}",result);
+		}
 		return result;
 	}
 
@@ -313,6 +321,14 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		default:
 			break;
 		}
+		//返结果空 直接返回错误
+		if(HXCoreUtil.isEmpty(result)) {
+			WebServiceResultHead head = new WebServiceResultHead();
+			head.setCode("0");
+			head.setMessage("error");
+			result = HXCoreUtil.getJsonString(head);
+			return result;
+		}
 		//解析返回对象
 		WebServiceResult serviceResult =  HXCallWebServiceUtil.xmlToBean(result, WebServiceResult.class);
 		HXLogUtil.debug(logger,"process处理 typeId{0}返回的json{1}",typeId,serviceResult);
@@ -354,7 +370,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			WebServiceResultHead head = new WebServiceResultHead();
 			head.setCode("0");
 			head.setMessage("error");
-			result = HXCoreUtil.getJsonString(serviceResult.getHead());
+			result = HXCoreUtil.getJsonString(head);
 		}
 		return result;
 	}
@@ -581,6 +597,29 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			}
 		}
 		return kfhj;
+	}
+	
+	
+	
+	/**
+	 * 判断当前考试科目 或者 项目是否结束
+	 * @param sfzmhm
+	 * @return
+	 */
+	private boolean isEnd(String sfzmhm,String ksxm) {
+		int kscs = ksgcMapper.getNowKscs(sfzmhm);
+		if(kscs>1) {
+			kscs = 2;
+		}
+		else {
+			kscs = 1;
+		}
+		//查看当前是否有科目结束
+		boolean result = false;
+		if(ksgcMapper.exitsEnd(sfzmhm, kscs,ksxm)>0) {
+			result = true;
+		}
+		return result;
 	}
 	
 	
