@@ -147,19 +147,17 @@ public class KcsbInit {
 	public static String getNextSbxh(String lxxh,String endKsxm) {
 		String result = "";
 		List<String> sbxms = kssbs.get(lxxh);
-		if(sbxms!=null) {
-			if(endKsxm==null) {
-				result = sbxms.get(0);
-				return result;
-			}
-			int index = sbxms.indexOf(endKsxm);
-			if((index+1)<sbxms.size()) {
-				result = sbxms.get(index+1);
-			}
+		List<String> ksxms = ksxmlx.get(lxxh);
+		if(endKsxm==null) {
+			result  = sbxms.get(0);
 		}
-		//后一项是终点也不用发送
-		if(HXCoreUtil.isEquals(result,"20500")) {
-			result = "";
+		else {
+			for(int i = 0;i<ksxms.size();i++) {
+				if(HXCoreUtil.isEquals(endKsxm, ksxms.get(i))) {
+					result = sbxms.get(i+1);
+					return result;
+				}
+			}
 		}
 		return result;
 	}
