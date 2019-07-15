@@ -1,6 +1,7 @@
 package com.wxhx.gate.plat.service.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Date;
@@ -88,6 +89,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
 			this.itemBegin(itemBegin);
 		}
+		HXLogUtil.info(logger,"身份对比返回结果{0}",result);
 		return result;
 	}
 
@@ -133,6 +135,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 //			DealEndThread dealEndThread = new DealEndThread(this, examItemEnd, examEnd);
 //			hxThreadManager.execThread(dealEndThread);
 		}
+		HXLogUtil.info(logger,"发生扣分调用返回{0}",result);
 		return result;
 	}
 
@@ -140,7 +143,15 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	public String uploadImage(ProcessImage processImage) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(processImage);
 		String jkid = "17C54"; //图片上传
-		HXLogUtil.info(logger,"上传图片调用{0},入参{1}",jkid,writeXml);
+		String logStr = "";
+		if(writeXml.contains("<zp>")&&writeXml.contains("</zp>")) {
+			int zpStart = writeXml.indexOf("<zp>");
+			int zpEnd = writeXml.indexOf("</zp>");
+			String firstStr = writeXml.substring(0,zpStart);
+			String endStr = writeXml.substring(zpEnd+5,writeXml.length());
+			logStr = firstStr+"<zp></zp>"+endStr;
+		}
+		HXLogUtil.info(logger,"上传图片调用{0},入参{1}",jkid,logStr);
 		String result =  HXCallWebServiceUtil.writeWebService(jkid, writeXml);
 		HXLogUtil.info(logger,"上传图片调用返回结果{0}",result);
 		return result;
@@ -205,7 +216,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String writeXml = HXCallWebServiceUtil.beanToXml(wirteVideo);
 		String jkid = "17E14"; //视频认证发启（写入）
 		HXLogUtil.info(logger,"发起视频认证调用{0},入参{1}",jkid,writeXml);
-		return HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+		String result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
+		HXLogUtil.info(logger,"发起视频认证返回{0}",result);
+		return result;
+
 	} 
 	
 	@ExamProcessLogSaveAnnotation
@@ -213,7 +227,10 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		String writeXml = HXCallWebServiceUtil.beanToXml(readVideo);
 		String jkid = "17E15"; //读取视频认证结果
 		HXLogUtil.info(logger,"读取视频认证结果调用{0},入参{1}",jkid,writeXml);
-		return HXCallWebServiceUtil.queryWebService(jkid, writeXml);
+		String result =  HXCallWebServiceUtil.queryWebService(jkid, writeXml);
+		HXLogUtil.info(logger,"读取视频认证结果调用返回{0}",result);
+		return result;
+
 	} 
 	
 	/**
