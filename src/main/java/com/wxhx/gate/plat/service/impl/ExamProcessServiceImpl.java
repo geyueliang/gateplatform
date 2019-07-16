@@ -91,12 +91,16 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		 */
 		String result = "<?xml version=\"1.0\" encoding=\"GBK\"?><root><head><code>1</code><message>默认成功</message><rownum>1</rownum></head></root>";
 		HXLogUtil.info(logger,"身份对比返回结果{0}",result);
-		//验证成功开始第一个项目
+		//科目开始
 		if(HXCoreUtil.isEquals("kmks", comparison.getAddressType())) {
+			HXLogUtil.info(logger,"科目考试开始");
 			result = HXCallWebServiceUtil.writeWebService(jkid, writeXml);
-			ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
-			this.itemBegin(itemBegin);
 		}
+		//項目開始
+	    if(HXCoreUtil.isEquals("xmks", comparison.getAddressType())) {
+	        ItemBegin itemBegin = this.getItemBegin(comparison.getSfzmhm(), null, comparison);
+	        this.itemBegin(itemBegin);
+	    }
 		HXLogUtil.info(logger,"身份对比返回结果{0}",result);
 		return result;
 	}
@@ -230,6 +234,9 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	
 	@ExamProcessLogSaveAnnotation
 	public String examEnd(ExamEnd examEnd) throws Exception {
+		if(Integer.parseInt(examEnd.getKscj())<0){
+			   examEnd.setKscj("0");
+			  }
 		String writeXml = HXCallWebServiceUtil.beanToXml(examEnd);
 		String jkid = "17C56"; //科目结束
 		HXLogUtil.info(logger,"科目结束调用{0},入参{1}",jkid,writeXml);

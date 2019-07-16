@@ -92,7 +92,7 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		kszp.setGxsj(new Date());
 		
 		//插入照片前删除以前的照片
-		kszpMapper.deleteKszp(kszp);
+//		kszpMapper.deleteKszp(kszp);
 		
 		//插入报名照片
 		int zjRes = kszpMapper.insertSelective(kszp);
