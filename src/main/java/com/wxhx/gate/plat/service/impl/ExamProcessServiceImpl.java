@@ -316,10 +316,11 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			String czlx = "1";
 			examItemEnd.setCzlx(czlx);
 			String ksxm = processArray[6];
+			examItemEnd.setKsxm(ksxm); //考试项目
 			if(!KSXMS.contains(ksxm)) {
 				ksxm = "10000";
 			}
-			examItemEnd.setKsxm(ksxm); //考试项目
+			examMark.setKsxm(ksxm);
 			//开始调用扣分
 			result = this.examMarkHappen(examMark,examItemEnd);
 			HXLogUtil.debug(logger,"考试扣分返回{0}",result);
