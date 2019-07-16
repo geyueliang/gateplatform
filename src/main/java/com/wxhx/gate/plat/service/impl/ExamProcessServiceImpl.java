@@ -315,12 +315,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 //			String czlx = HXCoreUtil.isEquals("true",processArray[8])?"1":"0";  //操作类型
 			String czlx = "1";
 			examItemEnd.setCzlx(czlx);
-			String ksxm = processArray[6];
-			examItemEnd.setKsxm(ksxm); //考试项目
-			if(!KSXMS.contains(ksxm)) {
-				ksxm = "10000";
-			}
-			examMark.setKsxm(ksxm);
+			examItemEnd.setKsxm(processArray[6]); //考试项目
 			//开始调用扣分
 			result = this.examMarkHappen(examMark,examItemEnd);
 			HXLogUtil.debug(logger,"考试扣分返回{0}",result);
@@ -463,8 +458,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 		//考试扣分
 		case 1:
 			ExamMark examMark = new ExamMark();
+			String ksxm = array[6];
+			if(!KSXMS.contains(array[6])) {
+				ksxm = "10000";
+			}
 			//考试项目
-			examMark.setKsxm(array[6]);
+			examMark.setKsxm(ksxm);
 			//扣分项目
 			examMark.setKfxm(array[8]);
 			//扣分时间
