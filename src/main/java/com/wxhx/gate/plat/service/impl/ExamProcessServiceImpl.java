@@ -2,6 +2,7 @@ package com.wxhx.gate.plat.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,6 +55,7 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 	//记录当前学员的扣分信息  身份证_次数	分数
 	Map<String, Integer> currentKFInfo = new HashMap<String, Integer>();
 	
+	private List<String> KSXMS = Arrays.asList("20100","20300","20400","20600","20700","23100","23200");
 	
 	//当前考试项目
 	Map<String, Boolean> currentKSXM = new HashMap<String, Boolean>();
@@ -312,8 +314,12 @@ public class ExamProcessServiceImpl implements IExamProcessService{
 			examItemEnd.setJssj(GatePlatUtil.getFormatDate("yyyy-MM-dd HH:mm:ss", new Date())); //结束时间
 //			String czlx = HXCoreUtil.isEquals("true",processArray[8])?"1":"0";  //操作类型
 			String czlx = "1";
-			examItemEnd.setCzlx(czlx); 
-			examItemEnd.setKsxm(processArray[6]); //考试项目
+			examItemEnd.setCzlx(czlx);
+			String ksxm = processArray[6];
+			if(!KSXMS.contains(ksxm)) {
+				ksxm = "10000";
+			}
+			examItemEnd.setKsxm(ksxm); //考试项目
 			//开始调用扣分
 			result = this.examMarkHappen(examMark,examItemEnd);
 			HXLogUtil.debug(logger,"考试扣分返回{0}",result);
