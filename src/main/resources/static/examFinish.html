@@ -57,6 +57,40 @@ h3{
 	</div>
 
 
+
+
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="col-md-12 column">
+					<h4>考试暂停</h4>
+					<form class="navbar-form navbar-left" role="search" onsubmit="return false">
+							<div class="form-group">
+								<input type="text" class="form-control" id = "stopSFZ" placeholder="请输入证件号码："/>
+							</div>
+							<div class="form-group">	
+								<select class="form-control" id="qxlx">
+									<option value="1">暂停考试</option>
+									<option value="2">设备异常重考</option>
+									<option value="3">成绩不合格</option>
+									<option value="4">考试恢复</option>
+								</select>
+							</div>
+							<div class="form-group">	
+								<input type="text" class="form-control" id = "ztyy" placeholder="暂停原因"/>
+							</div> 
+							<div class="form-group">
+								<button class="btn btn-default" onclick="stopExam()">考试结束</button>
+							</div>
+					</form>
+				</div>
+				<hr>
+				<hr class="hidden-sm hidden-md hidden-lg">
+			</div>
+		</div>
+	</div>
 	<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">Brand</a>
@@ -78,6 +112,31 @@ h3{
 					type : "post",
 					contentType : "application/json; charset=utf-8",
 					url : "/gateplat/examFinish",
+					dataType : "json",
+					data : JSON.stringify(obj),
+					success : function(data) {
+						if (data.resCode == "1") {
+							alert(data.resMsg);
+						}else{
+							alert(data.resMsg);
+						}
+					},
+					error : function(data) {
+						alert(data.resMsg);
+					}
+				});
+			}
+			
+			
+			var stopExam = function(){
+				var obj = new Object();
+				obj.ztyy = $("#ztyy").val();
+				obj.qxlx = $("#qxlx").val();
+				obj.sfzmhm = $("#stopSFZ").val()
+				$.ajax({
+					type : "post",
+					contentType : "application/json; charset=utf-8",
+					url : "/gateplat/examStop",
 					dataType : "json",
 					data : JSON.stringify(obj),
 					success : function(data) {

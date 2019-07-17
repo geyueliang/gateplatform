@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.cxf.endpoint.Client;
 
+import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.gate.plat.bean.cxf.HXJaxWsDynamicClientFactory;
 import com.wxhx.gate.plat.constent.EvnVarConstentInfo;
 import com.wxhx.gate.plat.service.bean.WebServiceBean;
@@ -68,6 +69,9 @@ public class HXCallWebServiceUtil {
 	 * @throws Exception
 	 */
 	public static  WebServiceResult xmlToBean(String xmlStr,Class type) throws Exception {
+		if(HXCoreUtil.isEmpty(xmlStr)) {
+			return null;
+		}
 		JAXBContext context = JAXBContext.newInstance(WebServiceResult.class,type);
 		Unmarshaller unmarshaller = context.createUnmarshaller(); 
 		//照片不用解码

@@ -39,9 +39,6 @@ public class KcsbInit {
 	//根据设备序号 缓存设备信息
 	private static Map<String, Kcsb> KcsbMap = new HashMap<String, Kcsb>();
 	
-	//项目编号和设备编号对应map
-	private static Map<String, String> itemMap = new HashMap<String, String>();
-	
 	//考试项目路线序号
 	private static Map<String, List<String>> ksxmlx = new HashMap<String, List<String>>();
 
@@ -60,7 +57,6 @@ public class KcsbInit {
 		if(kcsbs!=null&&kcsbs.size()>0) {
 			for(Kcsb kcsb:kcsbs) {
 				KcsbMap.put(kcsb.getSbxh(), kcsb);
-				itemMap.put(kcsb.getSbxm(), kcsb.getSbbh());
 				sbbhMap.put(kcsb.getSbxh(), kcsb.getSbbh());	//设备序号和设备编号
 			}
 		}
@@ -69,12 +65,12 @@ public class KcsbInit {
 		List<Lxpz> lxpzs = lxpzMapper.selectAll();
 		if(lxpzs!=null&& lxpzs.size()>0) {
 			for(Lxpz lxpz:lxpzs) {
-				ksxmlx.put(lxpz.getLxxh(), Arrays.asList(lxpz.getSbxms().split(",")));
+				ksxmlx.put(lxpz.getLxxh(), Arrays.asList(lxpz.getSbxms().replace("23000", "20300").split(",")));
 				kssbs.put(lxpz.getLxxh(), Arrays.asList(lxpz.getSbxhs().split(",")));
 			}
 		}
 	}
-	
+
 	/**
 	 * 根据设备序号调用设备编号
 	 * @param sbxh
@@ -94,14 +90,6 @@ public class KcsbInit {
 		return KcsbMap.get(sbxh);
 	}
 	
-	/**
-	 * 根据当前的考试项目获取项目设备对应的备案编号
-	 * @param sbxm
-	 * @return
-	 */
-	public static String getSBBH(String sbxm) {
-		return itemMap.get(sbxm);
-	}
 	
 	/**
 	 * 根据当前路线序号和结束项目 获取下一个开始项目
@@ -115,7 +103,6 @@ public class KcsbInit {
 		if(sbxms!=null) {
 			if(endKsxm==null) {
 				result = sbxms.get(0);
-				HXLogUtil.info(logger, "******************当前路线序号{0},结束项目{1},下一个项目是{2}******************", lxxh,endKsxm,result);
 				return result;
 			}
 			int index = sbxms.indexOf(endKsxm);
@@ -124,10 +111,9 @@ public class KcsbInit {
 			}
 		}
 		//后一项是终点也不用发送
-		if(HXCoreUtil.isEquals(result,"20500")) {
-			result = "";
-		}
-		HXLogUtil.info(logger, "******************当前路线序号{0},结束项目{1},下一个项目是{2}******************", lxxh,endKsxm,result);
+		/*
+		 * if(HXCoreUtil.isEquals(result,"20500")) { result = ""; }
+		 */
 		return result;
 	}
 	/*
