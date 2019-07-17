@@ -41,7 +41,7 @@ public class AopParamUtil {
 	 * @param param
 	 * @return
 	 */
-	public static CallJyLog getJKInfo(Object param,String res) {
+	public static CallJyLog getJKInfo(Object param,WebServiceResult serviceResult) {
 		CallJyLog callJyLog = new CallJyLog();
 		String jkid = "";
 		String jkms = "";
@@ -88,16 +88,9 @@ public class AopParamUtil {
 			
 			ProcessBase processBase = (ProcessBase) param;
 			callJyLog.setSfzmhm(processBase.getSfzmhm());	//身份证号码
-			//调用结果
-			WebServiceResult serviceResult =  HXCallWebServiceUtil.xmlToBean(res.toString(), WebServiceResult.class);
-			if(serviceResult!=null && serviceResult.getHead()!=null && HXCoreUtil.isEquals("1", serviceResult.getHead().getCode())) {
-				callJyLog.setDyjg("1");
-			}
-			else {
-				callJyLog.setDyjg("0");
-			}
+			callJyLog.setDyjg(serviceResult.getHead().getCode());
 			//结果内容
-			callJyLog.setJgnr(res.toString());
+			callJyLog.setJgnr(serviceResult.getHead().getMessage());
 			//接口id
 			callJyLog.setJkid(jkid);
 			//接口描述
@@ -106,6 +99,8 @@ public class AopParamUtil {
 			callJyLog.setDyrq(HXCoreUtil.getNowDataStr(new Date(), "yyyyMMdd"));
 			//调用时间
 			callJyLog.setDysj(new Date());
+			//调用类型
+			callJyLog.setLogType("1");	//考试过程
 		} catch (Exception e) {
 			callJyLog = null;
 			HXLogUtil.error(logger, "执行保存调用精英日志异常{0}", e);
@@ -121,12 +116,14 @@ public class AopParamUtil {
 		String jkms = "";
 		String dyjg = "";
 		String sfzmhm = "";
+		String jgnr = "";
 		if(param instanceof RegisterInfoVo) {
 			RegisterInfoVo registerInfoVo = (RegisterInfoVo)param;
 			jkid = "17E05";
 			jkms = "考生报道";
 			sfzmhm = registerInfoVo.getSfzmhm();
 			dyjg = getDyjg(res);
+			jgnr = getJgnr(res);
 		}
 		
 		if(param instanceof ExamineeInfoQueryVO) {
@@ -150,6 +147,7 @@ public class AopParamUtil {
 				sfzmhm = examineeInfoQueryVO.getSfzmhm();
 			}
 			dyjg = getDyjg(res);
+			jgnr = getJgnr(res);
 			
 		}
 		
@@ -166,27 +164,29 @@ public class AopParamUtil {
 				sfzmhm = examineeInfoVO.getSfzmhm();
 			}
 			dyjg = getDyjg(res);
+			jgnr = getJgnr(res);
 		}
 		
 		if(param instanceof String) {
 			jkid = "17E07";
 			jkms = "获取当前可用车牌信息";
 			dyjg = getDyjg(res);
+			jgnr = getJgnr(res);
 		}
 		
 		if(param instanceof CheckresultVO) {
 			jkid = "17E02";
 			jkms = "写入检测结果";
 			dyjg = getDyjg(res);
+			jgnr = getJgnr(res);
 		}
 		
 		if(param instanceof VideoCheckQueryVO) {
 			jkid = "17E15";
 			jkms = "读取视频认证结果";
 			dyjg = getDyjg(res);
+			jgnr = getJgnr(res);
 		}
-		
-		
 		//id
 		callJyLog.setId(HXCoreUtil.getUuId());
 		//身份证号码
@@ -194,7 +194,7 @@ public class AopParamUtil {
 		//调用结果
 		callJyLog.setDyjg(dyjg);
 		//结果内容
-		callJyLog.setJgnr(res.toString());
+		callJyLog.setJgnr(jgnr);
 		//接口id
 		callJyLog.setJkid(jkid);
 		//接口描述
@@ -203,32 +203,33 @@ public class AopParamUtil {
 		callJyLog.setDyrq(HXCoreUtil.getNowDataStr(new Date(), "yyyyMMdd"));
 		//调用时间
 		callJyLog.setDysj(new Date());
-		
+		callJyLog.setLogType("0"); //一般过程
 		return callJyLog;
 	}
 	
+	private static String getJgnr(Object res) {
+		String jgnr = "";
+		if(res instanceof WebServiceResult) {
+			WebServiceResult serviceResult = (WebServiceResult)res;
+			jgnr = serviceResult.getHead().getMessage();
+		}else {
+			RegisterResponse registerResponse = (RegisterResponse)res;
+			jgnr = registerResponse.getMessage();
+		}
+		return jgnr;
+	}
+
 	//获取调用结果
 	private static String getDyjg(Object res) {
 		String dyjg = "0";
 		if(res instanceof WebServiceResult) {
 			WebServiceResult serviceResult = (WebServiceResult)res;
-			if(serviceResult!=null && serviceResult.getHead()!=null && HXCoreUtil.isEquals("1", serviceResult.getHead().getCode())) {
-				dyjg = "1";
-			}
-			else {
-				dyjg = "0";
-			}
+			dyjg = serviceResult.getHead().getCode();
 		}else {
 			RegisterResponse registerResponse = (RegisterResponse)res;
-			if(registerResponse!=null && registerResponse.getCode() != null && HXCoreUtil.isEquals("1",registerResponse.getCode())) {
-				dyjg = "1";
-			}else {
-				dyjg = "0";
-			}
+			dyjg = registerResponse.getCode();
 		}
-		
 		return dyjg;
-		
 	}
 	
 }

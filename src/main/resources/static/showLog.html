@@ -26,10 +26,19 @@
 				    <label for="jkid" class="col-form-label">查询接口</label>
 				    <input type="text" class="form-control-plaintext" id="jkid" data-date-format="yyyy-mm-dd">
 				  </div>
-				  	
+				  
+				  <div class="form-group">
+				    <label for="log_type" class="col-form-label">查询类型</label>
+				    <select class="form-control" id="log_type">
+				    	<option value="1">考试过程</option>
+				    	<option value="0">其他类型</option>
+				    </select>
+				  </div>
+				  
 				  <div class="form-group">
 				  	<button type="button" class="btn btn-primary" onclick="searchLog()">开始查询</button>
 				  </div>
+
 				  
 				  <div class="form-group">
 				  	<button type="button" class="btn btn-primary" onclick="getMjPic()">查询照片</button>
@@ -78,6 +87,7 @@
 		obj.sfzmhm = $("#sfzmhm_log").val();
 		obj.day = $("#datetimepicker").val();
 		obj.jkid = $("#jkid").val();
+		obj.logType= $("#log_type").val();
 		
 		$.ajax({
 			type : "post",

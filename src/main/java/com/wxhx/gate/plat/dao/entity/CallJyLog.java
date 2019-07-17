@@ -20,8 +20,11 @@ public class CallJyLog {
     private String dyrq;
 
     private Date dysj;
+    
+    private String logType;
+    
 
-    public String getId() {
+	public String getId() {
         return id;
     }
 
@@ -85,10 +88,19 @@ public class CallJyLog {
         this.dysj = dysj;
     }
 
+    
+    
+	public String getLogType() {
+		return logType;
+	}
+
+	public void setLogType(String logType) {
+		this.logType = logType;
+	}
+
 	@Override
 	public String toString() {
 		return HXCoreUtil.getJsonString(this);
 	}
-    
     
 }

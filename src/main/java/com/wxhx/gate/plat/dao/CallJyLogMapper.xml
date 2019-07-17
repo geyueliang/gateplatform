@@ -13,6 +13,9 @@
       	<if test="jkid != null and jkid != ''">
         	AND JKID = #{jkid}
       	</if>
+      	<if test="logType != null and logType != ''">
+        	AND log_type = #{logType}
+      	</if>
 	    ORDER BY DYRQ DESC
 	    
  	</select>

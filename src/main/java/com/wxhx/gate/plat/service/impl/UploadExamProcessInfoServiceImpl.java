@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
+import com.wxhx.gate.plat.aop.annotation.ExamProcessLogSaveAnnotation;
 import com.wxhx.gate.plat.bean.exam.process.AuthenticationResult;
 import com.wxhx.gate.plat.bean.exam.process.ExamEnd;
 import com.wxhx.gate.plat.bean.exam.process.ExamItemEnd;
@@ -285,6 +286,7 @@ public class UploadExamProcessInfoServiceImpl implements  IUploadExamProcessInfo
 	/**
 	 * 发起视频认证
 	 */
+	@ExamProcessLogSaveAnnotation
 	public WebServiceResult writeVideo(WirteVideo wirteVideo) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(wirteVideo);
 		String jkid = "17E14"; //视频认证发启（写入）
@@ -297,6 +299,7 @@ public class UploadExamProcessInfoServiceImpl implements  IUploadExamProcessInfo
 	/**
 	 * 获取视频认证返回结果
 	 */
+	@ExamProcessLogSaveAnnotation
 	public WebServiceResult readVideo(ReadVideo readVideo) throws Exception {
 		String writeXml = HXCallWebServiceUtil.beanToXml(readVideo);
 		String jkid = "17E15"; //读取视频认证结果
@@ -330,6 +333,7 @@ public class UploadExamProcessInfoServiceImpl implements  IUploadExamProcessInfo
 	/**
 	 * 身份认证  或者第一项目开始
 	 */
+	@ExamProcessLogSaveAnnotation
 	public WebServiceResult idCheck(IdentityComparison comparison) throws Exception {
 		WebServiceResult result = null;
 		//身份认证
@@ -408,6 +412,7 @@ public class UploadExamProcessInfoServiceImpl implements  IUploadExamProcessInfo
 	/**
 	 * 项目开始
 	 */
+	@ExamProcessLogSaveAnnotation
 	public WebServiceResult itemBegin(ItemBegin itemBegin) throws Exception {
 		examineeInfoCacheManager.setKsxm(itemBegin.getSfzmhm(), itemBegin.getKsxm());
 		if(HXCoreUtil.isEquals("20500", itemBegin.getKsxm())) {
@@ -425,6 +430,7 @@ public class UploadExamProcessInfoServiceImpl implements  IUploadExamProcessInfo
 	/**
 	 * 上传图片信息
 	 */
+	@ExamProcessLogSaveAnnotation
 	public WebServiceResult uploadImage(ProcessImage processImage) throws Exception {
 		//设置当前图片缓存
 		examineeInfoCacheManager.setNowZp(processImage.getSfzmhm(), processImage.getZp());
@@ -452,6 +458,7 @@ public class UploadExamProcessInfoServiceImpl implements  IUploadExamProcessInfo
 	/**
 	 * 发生扣分
 	 */
+	@ExamProcessLogSaveAnnotation
 	public WebServiceResult examMarkHappen(ExamMark examMark) throws Exception {
 		//获取当前考试所在项目
 		String nowKsxm = examineeInfoCacheManager.getKsxm(examMark.getSfzmhm());
@@ -508,6 +515,7 @@ public class UploadExamProcessInfoServiceImpl implements  IUploadExamProcessInfo
 	/**
 	 * 项目结束
 	 */
+	@ExamProcessLogSaveAnnotation
 	public WebServiceResult examItemEnd(ExamItemEnd examItemEnd) throws Exception {
 		//考试结束 调用科目结束
 		if(HXCoreUtil.isEquals("20500", examItemEnd.getKsxm())) {
@@ -560,6 +568,7 @@ public class UploadExamProcessInfoServiceImpl implements  IUploadExamProcessInfo
 	/**
 	 * 科目结束
 	 */
+	@ExamProcessLogSaveAnnotation
 	public WebServiceResult examEnd(ExamEnd examEnd) throws Exception {
 		if(Integer.parseInt(examEnd.getKscj())<0) {
 			examEnd.setKscj("0");

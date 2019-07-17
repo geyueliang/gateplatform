@@ -15,6 +15,7 @@ import com.wxhx.basic_client.common.HXLogUtil;
 import com.wxhx.basic_client.config.thread.HXThreadManager;
 import com.wxhx.gate.plat.dao.CallJyLogMapper;
 import com.wxhx.gate.plat.dao.entity.CallJyLog;
+import com.wxhx.gate.plat.service.bean.WebServiceResult;
 
 
 @Aspect
@@ -51,7 +52,7 @@ public class ExamProcessLogAopService {
 				try {
 					hxThreadManager.createPool("save_log").execute(new Runnable() {
 						public void run() {
-							CallJyLog callJkInfo = AopParamUtil.getJKInfo(param,res.toString());
+							CallJyLog callJkInfo = AopParamUtil.getJKInfo(param,(WebServiceResult) res);
 							if(callJkInfo!=null){
 								if(callJyLogMapper.insertSelective(callJkInfo)<1) {
 									HXLogUtil.error(logger, "保存日志调用日志错误{0}", callJkInfo);

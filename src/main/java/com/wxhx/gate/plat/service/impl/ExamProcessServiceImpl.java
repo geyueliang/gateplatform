@@ -47,7 +47,7 @@ import com.wxhx.gate.plat.service.bean.WebServiceResultHead;
 import com.wxhx.gate.plat.util.GatePlatUtil;
 import com.wxhx.gate.plat.util.HXCallWebServiceUtil;
 
-@Service
+//@Service
 public class ExamProcessServiceImpl implements IExamProcessService{
 	
 	private static Logger logger = LoggerFactory.getLogger("examLog");

@@ -37,7 +37,6 @@ public class CallJYLogServiceImpl implements ICallJYLogService{
 	@Autowired
 	private CallJyLogMapper callJyLogMapper;
 	
-	static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
 	
 	@PostConstruct
@@ -70,17 +69,7 @@ public class CallJYLogServiceImpl implements ICallJYLogService{
 	/**
 	 * 查询调用精英接口返回日志
 	 */
-	public List<CallJyLog> callJYLog(String sfzmhm,String day,String jkid) {
-		CallJyLog callJyLog = new CallJyLog();
-		callJyLog.setSfzmhm(sfzmhm);
-		callJyLog.setJkid(jkid);
-		if(!HXCoreUtil.isEmpty(day)) {
-			try {
-				callJyLog.setDyrq(HXCoreUtil.getNowDataStr(df.parse(day), "yyyyMMdd"));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
+	public List<CallJyLog> callJYLog(CallJyLog callJyLog) {
 		List<CallJyLog> logList = callJyLogMapper.fuzzySelect(callJyLog);
 		return logList;
 	}
