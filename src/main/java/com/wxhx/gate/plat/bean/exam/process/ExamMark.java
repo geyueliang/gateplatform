@@ -21,6 +21,8 @@ public class ExamMark extends ProcessBase{
 	private String kfxm;
 	
 	private String kfsj;
+	
+	private String kcsb;
 
 	public String getKsxm() {
 		return ksxm;
@@ -38,8 +40,14 @@ public class ExamMark extends ProcessBase{
 		this.kfxm = kfxm;
 	}
 
+	
+	public String getKcsb() {
+		return kcsb;
+	}
 
-
+	public void setKcsb(String kcsb) {
+		this.kcsb = kcsb;
+	}
 
 	public String getKfsj() {
 		return kfsj;
