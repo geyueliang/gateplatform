@@ -36,4 +36,11 @@ public interface IControlCenterService {
 	 * @return
 	 */
 	int updatePhotoInfo(RecordInfo recordInfo);
+	
+	/**
+	 * 删除报道照片
+	 * @param sfzmhm
+	 * @return
+	 */
+	public int deletePhotoInfo(String sfzmhm);
 }

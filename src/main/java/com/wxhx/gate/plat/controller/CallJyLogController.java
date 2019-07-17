@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.common.HXLogUtil;
 import com.wxhx.gate.plat.service.ICallJYLogService;
+import com.wxhx.gate.plat.service.out.IControlCenterService;
 import com.wxhx.gate.plat.service.out.IManagerPlatService;
 
 @RestController
@@ -25,6 +26,9 @@ public class CallJyLogController {
 
 	@Autowired
 	private IManagerPlatService managerService;
+	
+	@Autowired
+	private IControlCenterService iControlCenterService; // 控制中心
 	
 	/**
 	 * 返回调用精英日志查询
@@ -54,6 +58,23 @@ public class CallJyLogController {
 	      res = e.getStackTrace().toString();
 	    } 
 	    HXLogUtil.info(logger, "controller获取考生照片{0}", new Object[] { res });
+	    resMap.put("result", res);
+	    return HXCoreUtil.getJsonString(resMap);
+	}
+	
+	@RequestMapping(value = "/resetState", method= RequestMethod.POST)
+	public String resetState(@RequestBody Map<String,String> reqMap) throws Exception{
+		String sfzmhm = (String)reqMap.get("sfzmhm");
+	    Map<String, Object> resMap = new HashMap<String, Object>();
+	    String res = "恢复失败";
+	    try {
+	      if(this.iControlCenterService.deletePhotoInfo(sfzmhm) == 1) {
+	    	  res = "恢复成功";
+	      };
+	    } catch (Exception e) {
+	      res = e.getStackTrace().toString();
+	    } 
+	    HXLogUtil.info(logger, "controller删除BD照片{0}", new Object[] { res });
 	    resMap.put("result", res);
 	    return HXCoreUtil.getJsonString(resMap);
 	}

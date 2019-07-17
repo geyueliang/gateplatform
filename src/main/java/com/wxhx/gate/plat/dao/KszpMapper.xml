@@ -17,8 +17,8 @@
     update KSZP set LSH = #{lsh} where sfzmhm = #{sfzmhm} AND  TO_CHAR(GXSJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
   </update>
   
-  <delete id="deleteKszp" parameterType="com.wxhx.gate.plat.dao.entity.Kszp">
-	DELETE FROM KSZP WHERE SFZMHM = #{sfzmhm} and ZPLX in ('BD','XZ') and TO_CHAR(GXSJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+  <delete id="deletePhotoInfo" parameterType="com.wxhx.gate.plat.dao.entity.Kszp">
+	DELETE FROM KSZP WHERE SFZMHM = #{sfzmhm} and ZPLX = #{zplx} and TO_CHAR(GXSJ,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
   </delete>
   
  	

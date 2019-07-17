@@ -31,5 +31,5 @@ public interface KszpMapper extends Mapper<Kszp>{
 	 * @param sfzmhm
 	 * @return
 	 */
-	int deleteKszp(Kszp kszp);
+	int deletePhotoInfo(Kszp kszp);
 }

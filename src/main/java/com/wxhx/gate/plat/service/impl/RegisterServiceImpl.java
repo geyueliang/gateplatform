@@ -41,66 +41,49 @@ public class RegisterServiceImpl implements IRegisterService {
 		RegisterResponse result = null;
 		WhiteListVO whiteListVO = new WhiteListVO();
 
-		//先插入预约信息
-		appointmentInfo = new ExaminationInfo();
-		appointmentInfo.setSfzmhm(registerInfoVo.getSfzmhm());
-		appointmentInfo.setKsdd(registerInfoVo.getKsdd());
-		appointmentInfo.setKskm(registerInfoVo.getKskm());
-		appointmentInfo.setLsh(HXCoreUtil.getNowDataStr(new Date(), "yyMMddhhMMss"));
-		appointmentInfo.setZkzmbh("0000");
-		appointmentInfo.setXm(registerInfoVo.getName());
-		appointmentInfo.setYycs(0);
-		appointmentInfo.setKsxm("0000");
+		//报道
+		registerInfoVo.setName(null);
+		result = iManagerPlatService.register(registerInfoVo);
 		
-		if(iControlCenterService.getExaminationInfo(appointmentInfo)!=null) {
-			finalResult = new HXRespons<RegisterResponse>("0", "今天已报道，请与管理员联系", null);
-			return finalResult;
-		}
-		
-		int res = iControlCenterService.insertSortInfo(appointmentInfo);
-		
-		if(res == 1) {
-			//报道
-			registerInfoVo.setName(null);
-			result = iManagerPlatService.register(registerInfoVo);
+		if(HXCoreUtil.isEquals(result.getCode(), "1")) {
 			
-			//返回精英报道返回信息
-			finalResult = new HXRespons<RegisterResponse>(result.getCode(), result.getMessage(), null);
-			
-//			result = new RegisterResponse();
-//			result.setCode("1");
-			
-			if(HXCoreUtil.isEquals(result.getCode(), "1")) {
+			ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
+			examineeInfoQueryVO.setSfzmhm(registerInfoVo.getSfzmhm());
+			examineeInfoQueryVO.setKsdd(registerInfoVo.getKsdd());
 				
-				ExamineeInfoQueryVO examineeInfoQueryVO = new ExamineeInfoQueryVO();
-				examineeInfoQueryVO.setSfzmhm(registerInfoVo.getSfzmhm());
-				examineeInfoQueryVO.setKsdd(registerInfoVo.getKsdd());
+			//获取预约照片信息
+			WebServiceResult<ExaminationInfo> zpResult = iManagerPlatService.getZP(examineeInfoQueryVO);
+			if(zpResult != null && zpResult.getBodyContent() != null) {
+				zpInfo = (ExaminationInfo)zpResult.getBodyContent().getContent().get(0);
 					
-				//获取预约照片信息
-				WebServiceResult<ExaminationInfo> zpResult = iManagerPlatService.getZP(examineeInfoQueryVO);
-				if(zpResult != null && zpResult.getBodyContent() != null) {
-					zpInfo = (ExaminationInfo)zpResult.getBodyContent().getContent().get(0);
-						
-					// 插入人脸机白名单
-					whiteListVO.setName(appointmentInfo.getXm());
-					whiteListVO.setIdnum(registerInfoVo.getSfzmhm());
-					whiteListVO.setPhoto(zpInfo.getZp());
-					
-					whiteListVO.setValidStart(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 起
-					whiteListVO.setValidEnd(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 止
-					faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
-					
-					if (faceResponse.getCode() == 0) {
-						appointmentInfo.setZp(zpInfo.getZp());
-						// 插入照片信息
-						int photoRes = iControlCenterService.insertPhotoInfo(appointmentInfo);
-					
-						if (photoRes > 0) {
-							finalResult = new HXRespons<RegisterResponse>("1", "报道成功", result);
-						}
+				// 插入人脸机白名单
+				whiteListVO.setName(appointmentInfo.getXm());
+				whiteListVO.setIdnum(registerInfoVo.getSfzmhm());
+				whiteListVO.setPhoto(zpInfo.getZp());
+				
+				whiteListVO.setValidStart(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 起
+				whiteListVO.setValidEnd(HXCoreUtil.getNowDataStr(new Date(), "yyyy.MM.dd")); // 止
+				faceResponse = iDongwoPlatService.insertWhiteList(whiteListVO);
+				
+				if (faceResponse.getCode() == 0) {
+					appointmentInfo.setZp(zpInfo.getZp());
+					// 插入照片信息
+					int photoRes = iControlCenterService.insertPhotoInfo(appointmentInfo);
+					if (photoRes > 0) {
+						finalResult = new HXRespons<RegisterResponse>("1", "报道成功", result);
+					}else {
+						finalResult = new HXRespons<RegisterResponse>("0", "插入报道照片失败", null);
 					}
+				}else {
+					finalResult = new HXRespons<RegisterResponse>("0", "插入人脸机白名单失败", null);
 				}
+			}else {
+				finalResult = new HXRespons<RegisterResponse>("0", "获取精英返回照片失败", null);
 			}
+			
+		}else {
+			//返回精英报道返回信息
+			finalResult = new HXRespons<RegisterResponse>("0", "精英返回信息："+result.getMessage(), null);
 		}
 		return finalResult;
 	}

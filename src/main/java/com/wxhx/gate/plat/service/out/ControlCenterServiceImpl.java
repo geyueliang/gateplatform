@@ -86,22 +86,31 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		kszp.setRid(getRandomCharts());
 		kszp.setLsh(examinationInfo.getLsh());
 		kszp.setBckscs("0");
-		kszp.setZplx("XZ");
+		kszp.setZplx("BD");
 		kszp.setSfzmhm(examinationInfo.getSfzmhm());
 		kszp.setZp(examinationInfo.getZp());
 		kszp.setGxsj(new Date());
 		
-		//插入照片前删除以前的照片
-//		kszpMapper.deleteKszp(kszp);
-		
-		//插入报名照片
-		int zjRes = kszpMapper.insertSelective(kszp);
-		if(zjRes == 1) {
-			//插入采集照片
-			kszp.setZplx("BD");
-			result = kszpMapper.insertSelective(kszp);
+		//插入采集照片
+		result = kszpMapper.insertSelective(kszp);
+		return result;
+	}
+	
+	/**
+	 * 删除报道（BD）照片
+	 */
+	public int deletePhotoInfo(String sfzmhm) {
+		int result = 0;
+		if(HXCoreUtil.isEmpty(sfzmhm)) {
 			return result;
 		}
+		Kszp kszp = new Kszp();
+		kszp.setZplx("BD");
+		kszp.setSfzmhm(sfzmhm);
+		kszp.setGxsj(new Date());
+		
+		//删除BD照片
+		result = kszpMapper.deletePhotoInfo(kszp);
 		return result;
 	}
 	
