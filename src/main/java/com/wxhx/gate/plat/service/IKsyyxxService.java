@@ -21,4 +21,18 @@ public interface IKsyyxxService {
 	 */
 	public boolean updateKszpLsh(ExaminationInfo examinationInfo);
 	
+	/**
+	 * 根据身份证号码查询是否存在预约信息
+	 * @param sfzmhm
+	 * @return
+	 */
+	public boolean selectByIdNum(String sfzmhm);
+	
+	/**
+	 * 插入预约信息
+	 * @param examinationInfo
+	 * @return
+	 */
+	public int insertKsyyxx(ExaminationInfo examinationInfo);
+	
 }

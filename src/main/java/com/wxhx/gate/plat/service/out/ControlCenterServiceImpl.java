@@ -96,23 +96,26 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		return result;
 	}
 	
+	
 	/**
-	 * 删除报道（BD）照片
+	 * 查询证件照片
 	 */
-	public int deletePhotoInfo(String sfzmhm) {
+	public int getPhotoInfo(ExaminationInfo examinationInfo) {
 		int result = 0;
-		if(HXCoreUtil.isEmpty(sfzmhm)) {
+		if(examinationInfo==null) {
 			return result;
 		}
 		Kszp kszp = new Kszp();
-		kszp.setZplx("BD");
-		kszp.setSfzmhm(sfzmhm);
+		kszp.setZplx("XZ");
+		kszp.setSfzmhm(examinationInfo.getSfzmhm());
+		kszp.setZp(examinationInfo.getZp());
 		kszp.setGxsj(new Date());
 		
-		//删除BD照片
-		result = kszpMapper.deletePhotoInfo(kszp);
+		//插入采集照片
+		result = kszpMapper.insertSelective(kszp);
 		return result;
 	}
+	
 	
 	/**
 	 * 更新采集照片
@@ -127,6 +130,24 @@ public class ControlCenterServiceImpl implements IControlCenterService{
 		kszp.setZp(recordInfo.getScenePhoto());
 		kszp.setZplx("BD");
 		return kszpMapper.updatePhoto(kszp);
+	}
+	
+	/**
+	* 删除报道（BD）照片
+	*/
+	public int deletePhotoInfo(String sfzmhm) {
+	int result = 0;
+	if(HXCoreUtil.isEmpty(sfzmhm)) {
+		return result;
+	}
+	Kszp kszp = new Kszp();
+	kszp.setZplx("BD");
+	kszp.setSfzmhm(sfzmhm);
+	kszp.setGxsj(new Date());
+	
+	//删除BD照片
+	result = kszpMapper.deletePhotoInfo(kszp);
+	return result;
 	}
 	
 	

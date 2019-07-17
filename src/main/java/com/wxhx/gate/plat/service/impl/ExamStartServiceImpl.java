@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wxhx.basic_client.common.HXCoreUtil;
 import com.wxhx.basic_client.web.HXRespons;
@@ -45,6 +46,7 @@ public class ExamStartServiceImpl implements IExamStartService{
 	
 	static SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 	
+	@Transactional(rollbackFor = Exception.class)
 	public HXRespons<FaceResponse> examing(RecordInfo recordInfo) {
 		HXRespons<FaceResponse> finalResult = new HXRespons<FaceResponse>("ERROR","操作失败",null);
 		
@@ -58,18 +60,18 @@ public class ExamStartServiceImpl implements IExamStartService{
 			return finalResult;
 		}
 		
-		//比对成功，上传采集照片
-		examineeInfoVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
-		examineeInfoVO.setKskm(kskm);
-		examineeInfoVO.setSfzmhm(recordInfo.getIdNum());
-		examineeInfoVO.setMjzp(recordInfo.getScenePhoto());
-		examineeInfoVO.setKsrq(HXCoreUtil.getNowDataStr(new Date(), "yyyy-MM-dd"));
+		//更新门禁照片
+		int updateRes = iControlCenterService.updatePhotoInfo(recordInfo);
 		
-		RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
-		if(photoResponse != null && HXCoreUtil.isEquals(photoResponse.getCode(), "1")) {
-			//更新门禁照片
-			int updateRes = iControlCenterService.updatePhotoInfo(recordInfo);
-			if(updateRes > 0) {	
+		if(updateRes > 0) {
+			//比对成功，上传采集照片
+			examineeInfoVO.setKsdd(EvnVarConstentInfo.getSystemInfo(EvnVarConstentInfo.KSDD));
+			examineeInfoVO.setKskm(kskm);
+			examineeInfoVO.setSfzmhm(recordInfo.getIdNum());
+			examineeInfoVO.setMjzp(recordInfo.getScenePhoto());
+			examineeInfoVO.setKsrq(HXCoreUtil.getNowDataStr(new Date(), "yyyy-MM-dd"));
+			RegisterResponse photoResponse = iManagerPlatService.uploadFacePhoto(examineeInfoVO);
+			if(photoResponse != null && HXCoreUtil.isEquals(photoResponse.getCode(), "1")) {	
 				finalResult = new HXRespons<FaceResponse>("SUCCESS","操作成功",null);
 			}
 		}

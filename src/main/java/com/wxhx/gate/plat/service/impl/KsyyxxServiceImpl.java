@@ -52,6 +52,44 @@ public class KsyyxxServiceImpl implements IKsyyxxService{
 		}
 		return false;
 	}
+	
+	public int insertKsyyxx(ExaminationInfo examinationInfo) {
+		/**
+		 * 更新考试预约信息  更新条件是身份证信息和当前日期
+		 */
+		Ksyyxx ksyyxx = new Ksyyxx();
+		ksyyxx.setSfzmhm(examinationInfo.getSfzmhm());
+		ksyyxx.setXm(examinationInfo.getXm());
+		ksyyxx.setLsh(examinationInfo.getLsh());
+		ksyyxx.setZkzmbh(examinationInfo.getZkzmbh());
+		ksyyxx.setKsyy(examinationInfo.getKsyy());
+		ksyyxx.setKscx(examinationInfo.getKscx());
+		ksyyxx.setKscc(examinationInfo.getYycs()+"");
+		ksyyxx.setDlr(examinationInfo.getDlr());
+		ksyyxx.setKsy1(examinationInfo.getKsy1());
+		ksyyxx.setKsy2(examinationInfo.getKsy2());
+		ksyyxx.setKsxm(examinationInfo.getKsxm());
+		ksyyxx.setLxxh(examinationInfo.getLxxh());
+		if(!HXCoreUtil.isEmpty(examinationInfo.getKcbh())) {
+			ksyyxx.setCtlbit1(examinationInfo.getKcbh().substring(0,2));
+		}
+		ksyyxx.setCtlbit3(examinationInfo.getKssxh()+"");
+		ksyyxx.setYycs(examinationInfo.getYycs()+"");
+		ksyyxx.setYkrq(new Date());
+		int res = ksyyxxMapper.updateByCardId(ksyyxx);
+		if(res == 1) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	public boolean selectByIdNum(String sfzmhm) {
+		Ksyyxx res = ksyyxxMapper.selectByIdNum(sfzmhm);
+		if(res != null) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * 更新考试照片流水号
