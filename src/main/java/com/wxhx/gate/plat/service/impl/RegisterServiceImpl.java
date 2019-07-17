@@ -40,6 +40,8 @@ public class RegisterServiceImpl implements IRegisterService {
 		FaceResponse faceResponse = null;
 		RegisterResponse result = null;
 		WhiteListVO whiteListVO = new WhiteListVO();
+		
+		//先查询
 
 		//报道
 		registerInfoVo.setName(null);
