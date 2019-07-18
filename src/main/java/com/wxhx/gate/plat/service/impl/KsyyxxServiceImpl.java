@@ -55,7 +55,7 @@ public class KsyyxxServiceImpl implements IKsyyxxService{
 	
 	public int insertKsyyxx(ExaminationInfo examinationInfo) {
 		/**
-		 * 更新考试预约信息  更新条件是身份证信息和当前日期
+		 * 插入预约信息
 		 */
 		Ksyyxx ksyyxx = new Ksyyxx();
 		ksyyxx.setSfzmhm(examinationInfo.getSfzmhm());
@@ -76,7 +76,7 @@ public class KsyyxxServiceImpl implements IKsyyxxService{
 		ksyyxx.setCtlbit3(examinationInfo.getKssxh()+"");
 		ksyyxx.setYycs(examinationInfo.getYycs()+"");
 		ksyyxx.setYkrq(new Date());
-		int res = ksyyxxMapper.updateByCardId(ksyyxx);
+		int res = ksyyxxMapper.insert(ksyyxx);
 		if(res == 1) {
 			return 1;
 		}
